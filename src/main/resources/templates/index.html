@@ -1,17 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ENI-ENCHERES</title>
+    <link rel="stylesheet" th:href="@{./static/css/style.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <h1>ENI-enchere</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore dolores maxime possimus ratione recusandae reiciendis,
-        repellat! Ratione, veritatis, vitae. Architecto assumenda delectus dolorem doloribus laudantium necessitatibus nihil quaerat quidem quos?</p>
+    <header data-th-insert="layout/navigation.html :: header"></header>
+    <!--Condition pour se connecter / deconnecter-->
+    <!--<div th:replace="layout/navigation :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'">
+        &copy; 2016 The Static Templates
+    </div>-->
 
-<p>Second push</p>
+    <script>
+        tailwind.config = {
+            container: {
+                padding: {
+                    DEFAULT: '1rem',
+                    sm: '2rem',
+                    lg: '4rem',
+                    xl: '5rem',
+                    '2xl': '6rem',
+                },
+            },
+            /*module.exports = {
 
-<p>test modif</p>
+                plugins: [
+                    require('flowbite/plugin')
+                ]
+
+            }*/
+        }
+    </script>
+
+   <!-- <main layout:decorate=""></main>-->
+    <div class="container mx-auto">
+
+            <div class="title mt-6">
+                <h1 class="text-3xl font-bold text-center">ENI-enchere</h1>
+            </div>
+
+        <!--Bloc filtre-->
+            <div class="filter w-1/4">
+                <div class="filter__search">
+                    <p class="text-normal">Filtre : </p>
+                    <div>
+                        <!-- <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Rechercher</label>-->
+                        <div class="relative mt-2 rounded-md shadow-sm">
+                            <input type="text" name="search" id="price" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Ex: Audi A3"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter__categories">
+
+                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+                    <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected>Choose a country</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="FR">France</option>
+                        <option value="DE">Germany</option>
+                    </select>
+
+                    <div class="grid grid-cols-2">
+                        <div class="flex flex-col">
+                            <div class="filter__categories-group">
+
+                            </div>
+                            <label class="inline-flex items-center mt-3">
+                                <input type="radio" class="form-radio h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Achat</span>
+                            </label>
+
+                            <div class="filter_categories-item flex flex-col ml-5">
+                                <label class="inline-flex items-center mt-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Enchères ouvertes</span>
+                                </label>
+                                <label class="inline-flex items-center mt-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-orange-600" checked><span class="ml-2 text-gray-700">Mes enchères en cours</span>
+                                </label>
+                                <label class="inline-flex items-center mt-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" checked><span class="ml-2 text-gray-700">Mes enchères remportés</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <div class="filter__categories-group">
+
+                            </div>
+                            <label class="inline-flex items-center mt-3">
+                                <input type="radio" class="form-radio h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Mes ventes</span>
+                            </label>
+
+                            <div class="filter_categories-item flex flex-col ml-5">
+                                <label class="inline-flex items-center mt-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Mes ventes en cours</span>
+                                </label>
+                                <label class="inline-flex items-center mt-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-orange-600" checked><span class="ml-2 text-gray-700">ventes non débutés</span>
+                                </label>
+                                <label class="inline-flex items-center mt-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" checked><span class="ml-2 text-gray-700">ventes terminées</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="article mt-8">
+            <div class="grid grid-cols-4 gap-4">
+
+                <a href="#" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Pc Gamer Asus</h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Prix : <span class="text-normal font-bold"> 210 points</span></p>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Fin de l'enchere : <span class="text-normal font-bold"> 26/06/2023</span></p>
+                    <p class="mt-5 font-normal text-gray-700 dark:text-gray-400">Vendeur : <span class="text-normal font-bold"> User1</span></p>
+                </a>
+
+                <a href="#" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Macbook M2 Pro</h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Prix : <span class="text-normal font-bold"> 350 points</span></p>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Fin de l'enchere : <span class="text-normal font-bold"> 26/06/2023</span></p>
+                    <p class="mt-5 font-normal text-gray-700 dark:text-gray-400">Vendeur : <span class="text-normal font-bold"> User2</span></p>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
+<!--tttttttttttttttttttttttttttttttttttttttttttttttttttttt-->
+           <!-- <div>
+                <label id="listbox-label" class="block text-sm font-medium leading-6 text-gray-900">Assigned to</label>
+                <div class="relative mt-2">
+                    <button type="button" class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+          <span class="flex items-center">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-5 w-5 flex-shrink-0 rounded-full">
+            <span class="ml-3 block truncate">Tom Cook</span>
+          </span>
+                        <span class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+            <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+            </svg>
+          </span>
+                    </button>
+                    <ul class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label">
+                        <li class="text-gray-900 relative cursor-default select-none py-2 pl-3 pr-9" id="listbox-option-0" role="option">
+                            <div class="flex items-center">
+                                <img src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-5 w-5 flex-shrink-0 rounded-full">
+                                &lt;!&ndash; Selected: "font-semibold", Not Selected: "font-normal" &ndash;&gt;
+                                <span class="font-normal ml-3 block truncate">Wade Cooper</span>
+                            </div>
+                            <span class="text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4">
+              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+              </svg>
+            </span>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+
+            <label for="site-search">Search the site:</label>
+            <input type="search" id="site-search" name="q">
+
+            <button>Rechercher</button>
+
+            <fieldset>
+                <legend>Select a maintenance drone:</legend>
+
+                <div>
+                    <input type="radio" id="huey" name="drone" value="huey"
+                           checked>
+                    <label for="huey">Huey</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="dewey" name="drone" value="dewey">
+                    <label for="dewey">Dewey</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="louie" name="drone" value="louie">
+                    <label for="louie">Louie</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                    <label for="scales">Scales</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="horns" name="horns">
+                    <label for="horns">Horns</label>
+                </div>
+            </fieldset>
+
+
+
+
+
+
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore dolores maxime possimus ratione recusandae reiciendis,
+                repellat! Ratione, veritatis, vitae. Architecto assumenda delectus dolorem doloribus laudantium necessitatibus nihil quaerat quidem quos?</p>
+
+            <p>Second push</p>
+
+            <p>test modif</p>
+      -->
+
 
 </body>
 </html>
