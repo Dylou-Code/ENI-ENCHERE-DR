@@ -12,7 +12,7 @@ public class Utilisateurs {
     private String ville;
     private String code_postal;
     private Integer credit;
-    private boolean administrateur;
+    private boolean administrateur = false;
 
     public Utilisateurs(){
 
@@ -154,5 +154,23 @@ public class Utilisateurs {
 
     public void setAdministrateur(boolean administrateur) {
         this.administrateur = administrateur;
+    }
+
+    @Override
+    public String toString() {
+        return "Utilisateurs{" +
+                "no_utilisateur=" + no_utilisateur +
+                ", pseudo='" + pseudo + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", mot_de_passe='" + mot_de_passe + '\'' +
+                ", rue='" + rue + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", ville='" + ville + '\'' +
+                ", code_postal='" + code_postal + '\'' +
+                ", credit=" + credit +
+                ", administrateur=" + administrateur +
+                '}';
     }
 }

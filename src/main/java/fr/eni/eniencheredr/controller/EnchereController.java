@@ -18,12 +18,11 @@ import java.util.List;
 public class EnchereController {
     private EnchereService enchereService;
     private CategorieService categorieService;
-    private UtilisateurService utilisateurService;
+
 
     public EnchereController(EnchereService enchereService, CategorieService categorieService, UtilisateurService utilisateurService) {
         this.enchereService = enchereService;
         this.categorieService = categorieService;
-        this.utilisateurService = utilisateurService;
     }
     @GetMapping
     public String homePage(Model modele) {
