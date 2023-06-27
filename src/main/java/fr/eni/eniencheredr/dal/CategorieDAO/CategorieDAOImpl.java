@@ -15,9 +15,9 @@ import java.util.Map;
 
 @Repository
 public class CategorieDAOImpl implements CategorieDAO {
-    private final static String SELECT_ALL = "SELECT libelle FROM Categories";
-    private final static String SELECT_BY_ID = "SELECT libelle FROM Categories where no_categorie = :no_categorie";
-    private final static String SELECT_BY_LIBELLE = "SELECT libelle FROM Categories where libelle LIKE :libelle";
+    private final static String SELECT_ALL = "SELECT no_categorie, libelle FROM Categories";
+    private final static String SELECT_BY_ID = "SELECT no_categorie, libelle FROM Categories where no_categorie = :no_categorie";
+    private final static String SELECT_BY_LIBELLE = "SELECT no_categorie, libelle FROM Categories where libelle LIKE :libelle";
     private final static String CREATE = "INSERT INTO Categories (lilbele) VALUES (:libelle)";
     private final static String UPDATE = "UPDATE Categories SET libelle = :libelle WHERE no_categorie = :no_categorie";
     private final static String DELETE = "DELETE FROM Categories WHERE no_categorie = :no_categorie";
