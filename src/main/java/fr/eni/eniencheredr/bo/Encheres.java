@@ -14,6 +14,14 @@ public class Encheres {
         this.date_enchere = date_enchere;
         this.montant_enchere = montant_enchere;
     }
+    public Utilisateurs getNo_utilisateur() {
+        return no_utilisateur;
+    }
+
+    public void setNo_utilisateur(Utilisateurs no_utilisateur) {
+        this.no_utilisateur = no_utilisateur;
+    }
+
 
     public LocalDateTime getDate_enchere() {
         return date_enchere;

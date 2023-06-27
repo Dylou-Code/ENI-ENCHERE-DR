@@ -1,7 +1,7 @@
 package fr.eni.eniencheredr.service.EnchereService;
 
 import fr.eni.eniencheredr.bo.Encheres;
-import fr.eni.eniencheredr.dal.Enchere.EnchereDAO;
+import fr.eni.eniencheredr.dal.EnchereDAO.EnchereDAO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

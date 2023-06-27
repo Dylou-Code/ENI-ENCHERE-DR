@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service("categorieService")
 public class CategorieServiceImpl implements CategorieService{
-    private CategorieDAO categorieDAO;
+    private final CategorieDAO categorieDAO;
     @Autowired
     public CategorieServiceImpl(CategorieDAO categorieDAO) {
         this.categorieDAO = categorieDAO;
@@ -18,5 +18,11 @@ public class CategorieServiceImpl implements CategorieService{
     public List<Categories> getCategories() {
         System.out.println(categorieDAO.findAllCategories());
         return categorieDAO.findAllCategories();
+    }
+
+    @Override
+    public Categories getCategory(Integer no_categorie) {
+        System.out.println(categorieDAO.findCategoryById(no_categorie));
+        return categorieDAO.findCategoryById(no_categorie);
     }
 }
