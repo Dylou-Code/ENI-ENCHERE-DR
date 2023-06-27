@@ -28,9 +28,7 @@ public class EnchereController {
     @GetMapping
     public String homePage(Model modele) {
         List<Categories> categories =  categorieService.getCategories();
-        List<Utilisateurs> utilisateurs = utilisateurService.getUtilisateurs();
         modele.addAttribute("categories", categories);
-        modele.addAttribute("utilisateurs", utilisateurs);
         return "index";
     }
 

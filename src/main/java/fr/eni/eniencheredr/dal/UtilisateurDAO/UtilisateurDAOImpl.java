@@ -23,8 +23,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     private final static String SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur" +
             " FROM Utilisateurs WHERE no_utilisateur = :no_utilisateur";
     private final static String CREATE = "INSERT INTO Utilisateurs " +
-            "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit) " +
-            "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit)";
+            "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe) " +
+            "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
     private final static String UPDATE = "UPDATE Categories SET no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit = " +
             ":pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit " +
             "WHERE no_categorie = :no_categorie";
@@ -64,8 +64,6 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         map.put("code_postal", utilisateur.getCode_postal());
         map.put("ville", utilisateur.getVille());
         map.put("mot_de_passe", utilisateur.getMot_de_passe());
-        map.put("credit", utilisateur.getCredit());
-        map.put("administrateur", utilisateur.isAdministrateur());
         namedParameterJdbcTemplate.update(CREATE, map);
     }
 

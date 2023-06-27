@@ -18,6 +18,33 @@ public class Utilisateurs {
 
     }
 
+    public Utilisateurs(Integer no_utilisateur, String pseudo, String nom, String prenom, String email, String mot_de_passe, String rue, String telephone, String ville, String code_postal) {
+        this.no_utilisateur = no_utilisateur;
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mot_de_passe = mot_de_passe;
+        this.rue = rue;
+        this.telephone = telephone;
+        this.ville = ville;
+        this.code_postal = code_postal;
+    }
+
+    public Utilisateurs(Integer no_utilisateur, String pseudo, String nom, String prenom, String email, String mot_de_passe, String rue, String telephone, String ville, String code_postal, Integer credit) {
+        this.no_utilisateur = no_utilisateur;
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mot_de_passe = mot_de_passe;
+        this.rue = rue;
+        this.telephone = telephone;
+        this.ville = ville;
+        this.code_postal = code_postal;
+        this.credit = credit;
+    }
+
     public Utilisateurs(Integer no_utilisateur, String pseudo, String nom, String prenom, String email, String mot_de_passe, String rue, String telephone, String ville, String code_postal, Integer credit, boolean administrateur) {
         this.no_utilisateur = no_utilisateur;
         this.pseudo = pseudo;
@@ -30,7 +57,7 @@ public class Utilisateurs {
         this.ville = ville;
         this.code_postal = code_postal;
         this.credit = credit;
-        this.administrateur = false;
+        this.administrateur = administrateur;
     }
 
     public Integer getNo_utilisateur() {
