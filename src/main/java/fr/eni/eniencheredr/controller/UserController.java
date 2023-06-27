@@ -55,7 +55,7 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/loginSave")
     /*Pour l'envoi du formulaire*/
     public String Connexion() {
 

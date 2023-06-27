@@ -32,4 +32,11 @@ public class EnchereController {
         return "index";
     }
 
+    @GetMapping("/addArticle")
+    public String addArticle() {
+
+
+        return "addArticle";
+    }
+
 }
