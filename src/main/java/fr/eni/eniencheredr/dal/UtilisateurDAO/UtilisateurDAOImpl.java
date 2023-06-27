@@ -5,7 +5,9 @@ import fr.eni.eniencheredr.bo.Utilisateurs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -69,7 +71,18 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
     @Override
     public void updateUtilisateur(Utilisateurs utilisateur) {
-
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("pseudo", utilisateur.getPseudo())
+                .addValue("nom", utilisateur.getNom())
+                .addValue("prenom", utilisateur.getPrenom())
+                .addValue("email", utilisateur.getEmail())
+                .addValue("telephone", utilisateur.getTelephone())
+                .addValue("rue", utilisateur.getRue())
+                .addValue("code_postal", utilisateur.getCode_postal())
+                .addValue("ville", utilisateur.getVille())
+                .addValue("mot_de_passe", utilisateur.getMot_de_passe())
+                .addValue("administrateur", utilisateur.isAdministrateur());
+        namedParameterJdbcTemplate.update(UPDATE, params);
     }
 
     @Override

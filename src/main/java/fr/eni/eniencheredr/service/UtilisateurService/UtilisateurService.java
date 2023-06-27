@@ -8,4 +8,10 @@ public interface UtilisateurService {
     List<Utilisateurs> getUtilisateurs();
 
     Utilisateurs getUtilisateur(Integer no_utilisateur);
+
+    void addUtilisateur(Utilisateurs utilisateurs);
+
+    void updateUtilisateur(Utilisateurs utilisateurs);
+
+    void deleteUtilisateur(Integer no_utilisateur);
 }

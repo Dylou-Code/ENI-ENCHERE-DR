@@ -16,6 +16,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public List<Utilisateurs> getUtilisateurs() {
+        System.out.println(utilisateurDAO.findAllUtilisateurs());
         return utilisateurDAO.findAllUtilisateurs();
     }
 
@@ -24,8 +25,18 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurDAO.findUtilisateurById(no_utilisateur);
     }
 
-    /*@Override
-    public Utilisateurs addUtilisateur(Utilisateurs utilisateurs) {
-        return null;
-    }*/
+    @Override
+    public void addUtilisateur(Utilisateurs utilisateurs) {
+        utilisateurDAO.saveUtilisateur(utilisateurs);
+    }
+
+    @Override
+    public void updateUtilisateur(Utilisateurs utilisateurs) {
+        utilisateurDAO.updateUtilisateur(utilisateurs);
+    }
+
+    @Override
+    public void deleteUtilisateur(Integer no_utilisateur) {
+        utilisateurDAO.deleteUtilisateur(no_utilisateur);
+    }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping({"/", "/encheres"})
 public class EnchereController {
     private EnchereService enchereService;
     private CategorieService categorieService;

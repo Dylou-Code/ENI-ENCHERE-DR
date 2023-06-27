@@ -25,4 +25,19 @@ public class CategorieServiceImpl implements CategorieService{
         System.out.println(categorieDAO.findCategoryById(no_categorie));
         return categorieDAO.findCategoryById(no_categorie);
     }
+
+    @Override
+    public void addCategory(Categories categories) {
+        categorieDAO.saveCategories(categories);
+    }
+
+    @Override
+    public void updateCategory(Categories categories) {
+        categorieDAO.updateCategories(categories);
+    }
+
+    @Override
+    public void deleteCategory(Integer no_categorie) {
+        categorieDAO.deleteCategories(no_categorie);
+    }
 }
