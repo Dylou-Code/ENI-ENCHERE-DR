@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public class CategorieDAOImpl implements CategorieDAO {
-    private final static String SELECT_ALL = "SELECT * FROM Categories";
+    private final static String SELECT_ALL = "SELECT no_categorie, libelle FROM Categories";
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
