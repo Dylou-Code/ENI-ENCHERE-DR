@@ -23,15 +23,14 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             "prenom, email, telephone, rue, code_postal, ville, mot_de_passe, " +
             "credit,administrateur" +
             " FROM Utilisateurs";
-    private final static String SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur" +
-            " FROM Utilisateurs WHERE no_utilisateur = :no_utilisateur";
+    private final static String SELECT_BY_ID = "SELECT * FROM Utilisateurs WHERE no_utilisateur= ?";
     private final static String CREATE = "INSERT INTO Utilisateurs " +
             "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe) " +
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
-    private final static String UPDATE = "UPDATE Categories SET no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit = " +
+    private final static String UPDATE = "UPDATE Categories SET pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit = " +
             ":pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit " +
-            "WHERE no_categorie = :no_categorie";
-    private final static String DELETE = "DELETE FROM Utilisateurs WHERE no_utilisateur = :no_uilisateur";
+            "WHERE no_utilisateur= :no_utilisateur";
+    private final static String DELETE = "DELETE FROM Utilisateurs WHERE no_utilisateur = :no_utilisateur";
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
@@ -54,6 +53,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             u.setVille(rs.getString(9));
             u.setMot_de_passe(rs.getString(10));
             u.setCredit(rs.getInt(11));
+            u.setAdministrateur(rs.getBoolean(12));
+
             return u;
         }
     }
@@ -64,14 +65,16 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
                 new UtilisateurRowMapper()
         );
     }
-
-
+    /*MapSqlParameterSource paramSrc = new MapSqlParameterSource("no_utilisateur", no_utilisateur);
+    Utilisateurs utilisateurs = namedParameterJdbcTemplate.queryForObject(SELECT_BY_ID, paramSrc,new UtilisateurRowMapper());
+*/
     @Override
     public Utilisateurs findUtilisateurById(Integer no_utilisateur) {
-        return namedParameterJdbcTemplate.queryForObject(
+
+        return namedParameterJdbcTemplate.getJdbcOperations().queryForObject(
                 SELECT_BY_ID,
-                new BeanPropertySqlParameterSource(no_utilisateur),
-                new BeanPropertyRowMapper<>(Utilisateurs.class));
+               new UtilisateurRowMapper(),
+               no_utilisateur);
     }
 
     @Override
@@ -106,7 +109,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     }
 
     @Override
-    public void deleteUtilisateur(Integer no_utilisateur) {
-        namedParameterJdbcTemplate.update(DELETE, new BeanPropertySqlParameterSource(no_utilisateur));
+    public void deleteUtilisateur(Utilisateurs utilisateurs) {
+        namedParameterJdbcTemplate.update(DELETE, new BeanPropertySqlParameterSource(utilisateurs));
     }
 }

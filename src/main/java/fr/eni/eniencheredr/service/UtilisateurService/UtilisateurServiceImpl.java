@@ -31,12 +31,17 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
+    public Utilisateurs findById(Integer no_utilisateur) {
+        return utilisateurDAO.findUtilisateurById(no_utilisateur);
+    }
+
+    @Override
     public void updateUtilisateur(Utilisateurs utilisateurs) {
         utilisateurDAO.updateUtilisateur(utilisateurs);
     }
 
     @Override
-    public void deleteUtilisateur(Integer no_utilisateur) {
-        utilisateurDAO.deleteUtilisateur(no_utilisateur);
+    public void deleteUtilisateur(Utilisateurs utilisateurs) {
+        utilisateurDAO.deleteUtilisateur(utilisateurs);
     }
 }

@@ -11,7 +11,9 @@ public interface UtilisateurService {
 
     void addUtilisateur(Utilisateurs utilisateurs);
 
+    Utilisateurs findById(Integer no_utilisateur);
+
     void updateUtilisateur(Utilisateurs utilisateurs);
 
-    void deleteUtilisateur(Integer no_utilisateur);
+    void deleteUtilisateur(Utilisateurs utilisateurs);
 }

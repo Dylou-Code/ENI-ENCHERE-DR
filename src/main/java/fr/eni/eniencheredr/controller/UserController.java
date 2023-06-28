@@ -61,4 +61,19 @@ public class UserController {
 
         return "login";
     }
+
+    @GetMapping("/profil")
+    public String profil() {
+        return "profil";
+    }
+
+    @GetMapping("/mon-profil")
+    public String monprofil() {
+        return "monProfil";
+    }
+
+    @GetMapping("/edit-profil")
+    public String updateProfil() {
+        return "modifierProfil";
+    }
 }

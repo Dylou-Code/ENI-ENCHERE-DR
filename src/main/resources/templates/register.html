@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <main>
+  <main layout:fragment="main">
     <div class="formRegister">
 
      <!-- <input type="text" th:field="*{annee}" id="anneeInput" />
