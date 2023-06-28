@@ -46,7 +46,7 @@ public class AdminController {
         /*int genreId = Integer.parseInt(film.getGenre().getId());*/
 
         System.out.println("Mon user ajouter" + utilisateur);
-        return "redirect:/admin/dashboard";
+        return "redirect:/Admin/dashboard";
     }
 
     @GetMapping("/detail-user")

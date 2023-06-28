@@ -1,7 +1,12 @@
 package fr.eni.eniencheredr.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class Utilisateurs {
     private Integer no_utilisateur;
+
+    @NotBlank
     private String pseudo;
     private String nom;
     private String prenom;

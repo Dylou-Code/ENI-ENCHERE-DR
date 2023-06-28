@@ -76,7 +76,7 @@
                     </a>
 
                     <!--Bouton modifier-->
-                    <a x-data="{ tooltip: 'Edite' }" th:href="@{/admin/edit-user}">
+                    <a x-data="{ tooltip: 'Edite' }" th:href="@{/admin/edit-user(no_utilisateur=${item.no_utilisateur})}">
                       <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -95,7 +95,7 @@
                     </a>
                       <!--Bouton Supprimer-->
 
-                      <a x-data="{ tooltip: 'Delete' }" data-th-href="@{/admin/delete(id=${item.no_utilisateur})}">
+                      <a x-data="{ tooltip: 'Delete' }" data-th-href="@{/admin/delete(no_utilisateur=${item.no_utilisateur})}">
 
                         <svg
                                 xmlns="http://www.w3.org/2000/svg"

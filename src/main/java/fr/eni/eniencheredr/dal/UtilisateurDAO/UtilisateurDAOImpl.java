@@ -27,10 +27,10 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     private final static String CREATE = "INSERT INTO Utilisateurs " +
             "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe) " +
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
-    private final static String UPDATE = "UPDATE Categories SET pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit = " +
+    private final static String UPDATE = "UPDATE Utilisateurs SET pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit = " +
             ":pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit " +
-            "WHERE no_utilisateur= :no_utilisateur";
-    private final static String DELETE = "DELETE FROM Utilisateurs WHERE no_utilisateur = :no_utilisateur";
+            "WHERE no_utilisateur= ?";
+    private final static String DELETE = "DELETE Utilisateurs WHERE no_utilisateur= :no_utilisateur";
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
@@ -95,6 +95,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     @Override
     public void updateUtilisateur(Utilisateurs utilisateur) {
         SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("no_utillisateur", utilisateur.getNo_utilisateur())
                 .addValue("pseudo", utilisateur.getPseudo())
                 .addValue("nom", utilisateur.getNom())
                 .addValue("prenom", utilisateur.getPrenom())
@@ -104,6 +105,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
                 .addValue("code_postal", utilisateur.getCode_postal())
                 .addValue("ville", utilisateur.getVille())
                 .addValue("mot_de_passe", utilisateur.getMot_de_passe())
+                .addValue("credit", utilisateur.getCredit())
                 .addValue("administrateur", utilisateur.isAdministrateur());
         namedParameterJdbcTemplate.update(UPDATE, params);
     }

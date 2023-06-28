@@ -38,4 +38,9 @@ public class EnchereController {
         return "addArticle";
     }
 
+    @GetMapping("/mon-enchere")
+    public String enchere() {
+        return "enchere";
+    }
+
 }
