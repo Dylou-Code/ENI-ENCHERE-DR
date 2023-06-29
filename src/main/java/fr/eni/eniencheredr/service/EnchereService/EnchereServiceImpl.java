@@ -18,4 +18,29 @@ public class EnchereServiceImpl implements EnchereService{
         return enchereDAO.findAllEncheres();
     }
 
+    @Override
+    public Encheres getEnchere(Integer no_article) {
+        return null;
+    }
+
+    @Override
+    public void addEnchere(Encheres encheres) {
+
+    }
+
+    @Override
+    public Encheres findById(Integer no_article) {
+        return null;
+    }
+
+    @Override
+    public void updateUtilisateur(Encheres encheres) {
+
+    }
+
+    @Override
+    public void deleteUtilisateur(Encheres encheres) {
+
+    }
+
 }

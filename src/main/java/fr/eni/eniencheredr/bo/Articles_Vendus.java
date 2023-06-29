@@ -10,8 +10,8 @@ public class Articles_Vendus {
     private Date date_fin_encheres;
     private Integer prix_initial;
     private Integer prix_vente;
-    private Utilisateurs no_utilisateur;
-    private Categories no_categorie;
+    private Utilisateurs utilisateurs;
+    private Categories categories;
 
     public Articles_Vendus() {}
 
@@ -25,15 +25,17 @@ public class Articles_Vendus {
         this.prix_vente = prix_vente;
     }
 
-    public Articles_Vendus(Integer no_article, String nom_article, String description, Date date_debut_encheres, Date date_fin_encheres, Integer prix_vente, Utilisateurs no_utilisateur, Categories no_categorie) {
+    public Articles_Vendus(Integer no_article, String nom_article, String description, Date date_debut_encheres, Date date_fin_encheres, Integer prix_vente, Integer prix_initial,Utilisateurs utilisateurs, Categories categories) {
         this.no_article = no_article;
         this.nom_article = nom_article;
         this.description = description;
         this.date_debut_encheres = date_debut_encheres;
         this.date_fin_encheres = date_fin_encheres;
+        this.prix_initial = prix_initial;
         this.prix_vente = prix_vente;
-        this.no_utilisateur = no_utilisateur;
-        this.no_categorie = no_categorie;
+        this.utilisateurs = utilisateurs;
+        this.categories = categories;
+
     }
 
     public Integer getNo_article() {
@@ -92,7 +94,24 @@ public class Articles_Vendus {
         this.prix_vente = prix_vente;
     }
 
-    public Utilisateurs getNo_utilisateur() {
+    public Utilisateurs getUtilisateurs() {
+        return utilisateurs;
+    }
+
+    public void setUtilisateurs(Utilisateurs utilisateurs) {
+        this.utilisateurs = utilisateurs;
+    }
+
+
+    public Categories getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Categories categories) {
+        this.categories = categories;
+    }
+
+    /* public Utilisateurs getNo_utilisateur() {
         return no_utilisateur;
     }
 
@@ -106,7 +125,7 @@ public class Articles_Vendus {
 
     public void setNo_categorie(Categories no_categorie) {
         this.no_categorie = no_categorie;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -118,8 +137,8 @@ public class Articles_Vendus {
                 ", date_fin_encheres=" + date_fin_encheres +
                 ", prix_initial=" + prix_initial +
                 ", prix_vente=" + prix_vente +
-                ", no_utilisateur=" + no_utilisateur +
-                ", no_categorie=" + no_categorie +
+                ", utilisateurs=" + utilisateurs +
+                ", categories=" + categories +
                 '}';
     }
 }

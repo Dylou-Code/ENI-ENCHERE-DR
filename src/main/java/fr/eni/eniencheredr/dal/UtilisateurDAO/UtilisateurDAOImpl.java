@@ -3,6 +3,7 @@ package fr.eni.eniencheredr.dal.UtilisateurDAO;
 import fr.eni.eniencheredr.bo.Categories;
 import fr.eni.eniencheredr.bo.Utilisateurs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -72,10 +73,21 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     @Override
     public Utilisateurs findUtilisateurById(Integer no_utilisateur) {
 
-        return namedParameterJdbcTemplate.getJdbcOperations().queryForObject(
+        /*return namedParameterJdbcTemplate.getJdbcOperations().queryForObject(
                 SELECT_BY_ID,
                new UtilisateurRowMapper(),
-               no_utilisateur);
+               no_utilisateur);*/
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("id",no_utilisateur);
+
+        Utilisateurs utilisateurs = null;
+
+        utilisateurs = namedParameterJdbcTemplate.getJdbcOperations().queryForObject(
+                SELECT_BY_ID,
+                new UtilisateurRowMapper(),
+                no_utilisateur);
+        return utilisateurs;
     }
 
     @Override
