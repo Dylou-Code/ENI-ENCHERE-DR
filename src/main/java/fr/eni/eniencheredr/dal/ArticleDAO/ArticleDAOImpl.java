@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ArticleDAOImpl implements ArticleDAO {
@@ -117,7 +119,23 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
     @Override
     public void saveArticle(Articles_Vendus article) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("pseudo", article.getNom_article());
+        map.put("nom", article.getDescription());
+        map.put("prenom", article.getDate_debut_encheres());
+        map.put("email", article.getDate_fin_encheres());
+        map.put("telephone", article.getPrix_initial());
+       /* namedParameterJdbcTemplate.update(INSERT, map);*/
 
+       /* MapSqlParameterSource paramSrc = new MapSqlParameterSource("titre", film.getTitre() );
+        paramSrc.addValue("annee", film.getAnnee());
+        paramSrc.addValue("duree", 0);
+        paramSrc.addValue("synopsis", film.getSynopsis());
+        paramSrc.addValue("lien_image", film.getLienImage());
+        paramSrc.addValue("genre_id", film.getGenre()==null?null:film.getGenre().getId());
+        *//* paramSrc.addValue("realisateur_id", film.getRealisateur()==null?null:film.getRealisateur().getId());*//*
+
+        namedParameterJdbcTemplate.update(INSERT, paramSrc);*/
     }
     @Override
     public void updateArticle(Articles_Vendus article) {
