@@ -1,6 +1,8 @@
 package fr.eni.eniencheredr.dal.CategorieDAO;
 
 import fr.eni.eniencheredr.bo.Categories;
+import fr.eni.eniencheredr.bo.Utilisateurs;
+import fr.eni.eniencheredr.dal.UtilisateurDAO.UtilisateurDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -35,8 +37,20 @@ public class CategorieDAOImpl implements CategorieDAO {
     }
 
     @Override
+
     public Categories findCategoryById(Integer no_categorie) {
-        return namedParameterJdbcTemplate.queryForObject(SELECT_BY_ID, new BeanPropertySqlParameterSource(no_categorie), new BeanPropertyRowMapper<>(Categories.class));
+        /*Map<String, Object> params = new HashMap<>();
+        params.put("id",no_utilisateur);
+
+        Utilisateurs utilisateurs = null;
+
+        utilisateurs = namedParameterJdbcTemplate.getJdbcOperations().queryForObject(
+                SELECT_BY_ID,
+                new UtilisateurDAOImpl.UtilisateurRowMapper(),
+                no_utilisateur);
+        return utilisateurs;*/
+        SqlParameterSource paramSource = new MapSqlParameterSource("no_categorie", no_categorie);
+        return namedParameterJdbcTemplate.queryForObject(SELECT_BY_ID, paramSource, new BeanPropertyRowMapper<>(Categories.class));
     }
 
     @Override

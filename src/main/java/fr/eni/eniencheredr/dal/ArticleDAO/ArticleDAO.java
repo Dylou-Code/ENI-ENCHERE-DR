@@ -16,5 +16,5 @@ public interface ArticleDAO {
 
     void updateArticle(Articles_Vendus article);
 
-    void deleteArticle(Integer no_article);
+    void deleteArticle(Articles_Vendus article);
 }
