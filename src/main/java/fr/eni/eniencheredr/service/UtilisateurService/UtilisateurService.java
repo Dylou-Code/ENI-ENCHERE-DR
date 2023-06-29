@@ -7,11 +7,10 @@ import java.util.List;
 public interface UtilisateurService {
     List<Utilisateurs> getUtilisateurs();
 
-    Utilisateurs getUtilisateur(Integer no_utilisateur);
-
     void addUtilisateur(Utilisateurs utilisateurs);
 
     Utilisateurs findById(Integer no_utilisateur);
+    Utilisateurs findByPseudo(String pseudo);
 
     void updateUtilisateur(Utilisateurs utilisateurs);
 

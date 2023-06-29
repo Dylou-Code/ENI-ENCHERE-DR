@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model modele) {
+    public String dashboard(Model modele, Principal user) {
         //Afficher des utilisateurs
         List<Utilisateurs> listUsers = utilisateurService.getUtilisateurs();
         modele.addAttribute("utilisateurs", listUsers);
@@ -46,7 +47,7 @@ public class AdminController {
         /*int genreId = Integer.parseInt(film.getGenre().getId());*/
 
         System.out.println("Mon user ajouter" + utilisateur);
-        return "redirect:/Admin/dashboard";
+        return "redirect:/admin/dashboard";
     }
 
     @GetMapping("/detail-user")

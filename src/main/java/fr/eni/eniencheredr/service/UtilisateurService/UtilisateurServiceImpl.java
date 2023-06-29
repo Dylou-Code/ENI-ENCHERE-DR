@@ -21,18 +21,19 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public Utilisateurs getUtilisateur(Integer no_utilisateur) {
-        return utilisateurDAO.findUtilisateurById(no_utilisateur);
-    }
-
-    @Override
     public void addUtilisateur(Utilisateurs utilisateurs) {
         utilisateurDAO.saveUtilisateur(utilisateurs);
     }
 
     @Override
     public Utilisateurs findById(Integer no_utilisateur) {
+
         return utilisateurDAO.findUtilisateurById(no_utilisateur);
+    }
+
+    @Override
+    public Utilisateurs findByPseudo(String pseudo) {
+        return utilisateurDAO.findUtilisateurByPseudo(pseudo);
     }
 
     @Override

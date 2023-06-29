@@ -24,6 +24,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             "credit,administrateur" +
             " FROM Utilisateurs";
     private final static String SELECT_BY_ID = "SELECT * FROM Utilisateurs WHERE no_utilisateur= ?";
+    private final static String SELECT_BY_PSEUDO = "SELECT * FROM Utilisateurs WHERE pseudo= ?";
     private final static String CREATE = "INSERT INTO Utilisateurs " +
             "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe) " +
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
@@ -75,6 +76,14 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
                 SELECT_BY_ID,
                new UtilisateurRowMapper(),
                no_utilisateur);
+    }
+
+    @Override
+    public Utilisateurs findUtilisateurByPseudo(String pseudo) {
+        return namedParameterJdbcTemplate.getJdbcOperations().queryForObject(
+                SELECT_BY_PSEUDO,
+                new UtilisateurRowMapper(),
+                pseudo);
     }
 
     @Override

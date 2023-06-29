@@ -20,48 +20,6 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    private UtilisateurService utilisateurService;
-
-    public UserController(UtilisateurService utilisateurService) {
-        this.utilisateurService = utilisateurService;
-    }
-
-    /*@GetMapping
-    public String user() {
-
-        return "test";
-    }*/
-    @GetMapping("/register")
-    public String register(@ModelAttribute("utilisateurs") Utilisateurs utilisateurs) {
-
-        return "register";
-    }
-
-    @PostMapping("/save")
-    public String ajouterFilm(@ModelAttribute("utilisateurs") Utilisateurs utilisateur) {
-       /* if(validationResult.hasErrors()) {
-            return "form";
-        }*/
-        utilisateurService.addUtilisateur(utilisateur);
-        /*int genreId = Integer.parseInt(film.getGenre().getId());*/
-
-        System.out.println("Mon user ajouter" + utilisateur);
-        return "redirect:/encheres";
-    }
-
-    @GetMapping("/login")
-    public String login(@ModelAttribute ("utilisateurs") Utilisateurs utilisateurs) {
-       /* modele.addAttribute("utilisateurs", new Utilisateurs());*/
-        return "login";
-    }
-
-    @PostMapping("/loginSave")
-    /*Pour l'envoi du formulaire*/
-    public String Connexion() {
-
-        return "login";
-    }
-
     @GetMapping("/profil")
     public String profil() {
         return "profil";

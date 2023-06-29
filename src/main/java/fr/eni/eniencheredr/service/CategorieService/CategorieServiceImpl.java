@@ -16,13 +16,11 @@ public class CategorieServiceImpl implements CategorieService{
     }
     @Override
     public List<Categories> getCategories() {
-        System.out.println(categorieDAO.findAllCategories());
         return categorieDAO.findAllCategories();
     }
 
     @Override
     public Categories getCategory(Integer no_categorie) {
-        System.out.println(categorieDAO.findCategoryById(no_categorie));
         return categorieDAO.findCategoryById(no_categorie);
     }
 
