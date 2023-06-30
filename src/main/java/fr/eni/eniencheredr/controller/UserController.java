@@ -34,4 +34,13 @@ public class UserController {
     public String updateProfil() {
         return "modifierProfil";
     }
+
+    @GetMapping("/logout")
+    public String deco() {
+        return "/";
+    }
+    @PostMapping("/logout")
+    public String logout() {
+        return "/";
+    }
 }

@@ -3,10 +3,12 @@ package fr.eni.eniencheredr.controller;
 import fr.eni.eniencheredr.bo.Articles_Vendus;
 import fr.eni.eniencheredr.bo.Categories;
 import fr.eni.eniencheredr.bo.Utilisateurs;
+import fr.eni.eniencheredr.dal.UtilisateurDAO.UtilisateurDAO;
 import fr.eni.eniencheredr.service.ArticleService.ArticleService;
 import fr.eni.eniencheredr.service.CategorieService.CategorieService;
 import fr.eni.eniencheredr.service.EnchereService.EnchereService;
 import fr.eni.eniencheredr.service.UtilisateurService.UtilisateurService;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -23,12 +26,14 @@ public class EnchereController {
     private CategorieService categorieService;
 
     private ArticleService articleService;
+    private UtilisateurDAO utilisateurDAO;
 
 
-    public EnchereController(EnchereService enchereService, CategorieService categorieService, ArticleService articleService) {
+    public EnchereController(EnchereService enchereService, CategorieService categorieService, ArticleService articleService, UtilisateurDAO utilisateurDAO) {
         this.enchereService = enchereService;
         this.categorieService = categorieService;
         this.articleService = articleService;
+        this.utilisateurDAO = utilisateurDAO;
     }
     @GetMapping
     public String homePage(Model modele) {
@@ -49,12 +54,21 @@ public class EnchereController {
     }
 
     @PostMapping("/save")
-    public String saveArticle(@ModelAttribute("utilisateurs") Articles_Vendus articlesVendus) {
+    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, Principal principal, Authentication authentication) {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/
-      /*  utilisateurService.addUtilisateur(utilisateur);*/
-        articleService.saveArticle(articlesVendus);
+        if (authentication.isAuthenticated()){
+            String name = principal.getName();
+            Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
+            Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
+            articlesVendus.setUtilisateurs(user1);
+            articlesVendus.setCategories(cat1);
+            articleService.saveArticle(articlesVendus);
+
+        }else  {
+            return "redirect:/403";
+        }
         /*int genreId = Integer.parseInt(film.getGenre().getId());*/
 
         System.out.println("Mon article ajouter" + articlesVendus);

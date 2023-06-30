@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>ENI-ENCHERES</title>
-    <link rel="stylesheet" th:href="@{./static/css/style.css}">
 
 </head>
 <body>
@@ -105,7 +104,7 @@
                        <span hidden="hidden" data-th-text="${article.no_article}"></span>
                         <a href="#" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" data-th-text="${article.nom_article}"></h5>
-                            <p class="font-normal text-gray-700 dark:text-gray-400">Prix : <span class="text-normal font-bold" data-th-text="${article.prix_vente}">  </span></p>
+                            <p class="font-normal text-gray-700 dark:text-gray-400">Prix : <span class="text-normal font-bold" data-th-text="${article.prix_initial}">  </span></p>
                             <p class="font-normal text-gray-700 dark:text-gray-400">Fin de l'enchere : <span class="text-normal font-bold" data-th-text="${article.date_fin_encheres}"> </span></p>
                             <p class="mt-5 font-normal text-gray-700 dark:text-gray-400">Vendeur : <span class="text-normal font-bold" data-th-text="${article.utilisateurs.pseudo}"> </span></p>
                         </a>

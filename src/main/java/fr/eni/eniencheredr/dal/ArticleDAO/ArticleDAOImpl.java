@@ -19,10 +19,9 @@ import java.util.Map;
 
 @Repository
 public class ArticleDAOImpl implements ArticleDAO {
-    private final static String SELECT_ALL = "select no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, u.no_utilisateur," +
-            " c.no_categorie FROM ARTICLES_VENDUS " +
-            "INNER JOIN UTILISATEURS u ON u.no_utilisateur = ARTICLES_VENDUS.no_article " +
-            "INNER JOIN CATEGORIES c ON c.no_categorie = ARTICLES_VENDUS.no_article";
+    private final static String SELECT_ALL = "select * FROM ARTICLES_VENDUS " +
+            "INNER JOIN UTILISATEURS u ON u.no_utilisateur = ARTICLES_VENDUS.no_utilisateur " +
+            "INNER JOIN CATEGORIES c ON c.no_categorie = ARTICLES_VENDUS.no_categorie";
 
     /*SELECT nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, U.no_utilisateur, C.no_categorie
     FROM ARTICLES_VENDUS AV
@@ -41,6 +40,10 @@ public class ArticleDAOImpl implements ArticleDAO {
             "\tINNER JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_article\n" +
             "\tINNER JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_article" +
             "WHERE nom_article = :nom_article";
+
+    private final static String INSERT = "INSERT INTO ARTICLES_VENDUS " +
+            "(nom_article, description, prix_initial,date_debut_encheres, date_fin_encheres, no_utilisateur, no_categorie) " +
+            "VALUES (:nom_article, :description, :prix_initial, :date_debut_encheres, :date_fin_encheres, :no_utilisateur, :no_categorie)";
 
 
     @Autowired
@@ -63,6 +66,7 @@ public class ArticleDAOImpl implements ArticleDAO {
     public class ArticleRowMapper implements RowMapper<Articles_Vendus> {
         @Override
         public Articles_Vendus mapRow(ResultSet rs, int row) throws SQLException {
+
             Articles_Vendus a = new Articles_Vendus();
             a.setNo_article(rs.getInt(1));
             a.setNom_article(rs.getString(2));
@@ -70,7 +74,8 @@ public class ArticleDAOImpl implements ArticleDAO {
             a.setDate_debut_encheres(rs.getDate(4));
             a.setDate_fin_encheres(rs.getDate(5));
             a.setPrix_initial(rs.getInt(6));
-            a.setPrix_vente(rs.getInt(7));
+            //a.setPrix_vente(rs.getInt(7));
+            //a.setUtilisateurs(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
             a.setUtilisateurs(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
             a.setCategories(categorieDAO.findCategoryById(rs.getInt("no_categorie")));
 
@@ -119,13 +124,18 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
     @Override
     public void saveArticle(Articles_Vendus article) {
+        System.out.println(article);
         Map<String, Object> map = new HashMap<>();
-        map.put("pseudo", article.getNom_article());
-        map.put("nom", article.getDescription());
-        map.put("prenom", article.getDate_debut_encheres());
-        map.put("email", article.getDate_fin_encheres());
-        map.put("telephone", article.getPrix_initial());
-       /* namedParameterJdbcTemplate.update(INSERT, map);*/
+        map.put("nom_article", article.getNom_article());
+        map.put("description", article.getDescription());
+        map.put("date_debut_encheres", article.getDate_debut_encheres());
+        map.put("date_fin_encheres", article.getDate_fin_encheres());
+        map.put("prix_initial", article.getPrix_initial());
+        map.put("no_utilisateur", article.getUtilisateurs().getNo_utilisateur());
+        map.put("no_categorie", article.getCategories().getNo_categorie());
+        /*map.put("no_utilisateur",article.getUtilisateurs()==null?null:article.getUtilisateurs().getNo_utilisateur());
+        map.put("no_categorie", article.getCategories()==null?null:article.getCategories().getNo_categorie());*/
+        namedParameterJdbcTemplate.update(INSERT, map);
 
        /* MapSqlParameterSource paramSrc = new MapSqlParameterSource("titre", film.getTitre() );
         paramSrc.addValue("annee", film.getAnnee());
@@ -136,6 +146,7 @@ public class ArticleDAOImpl implements ArticleDAO {
         *//* paramSrc.addValue("realisateur_id", film.getRealisateur()==null?null:film.getRealisateur().getId());*//*
 
         namedParameterJdbcTemplate.update(INSERT, paramSrc);*/
+
     }
     @Override
     public void updateArticle(Articles_Vendus article) {
