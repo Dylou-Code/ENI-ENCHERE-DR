@@ -27,12 +27,12 @@ public class ArticleDAOImpl implements ArticleDAO {
     FROM ARTICLES_VENDUS AV
     INNER JOIN UTILISATEURS U ON U.no_utilisateur = AV.no_utilisateur
     INNER JOIN CATEGORIES C ON C.no_categorie = AV.no_categorie*/
-    private final static String SELECT_BY_ID = "select nom_article, description, date_debut_encheres, date_fin_encheres, \n" +
-            "\t\tprix_initial, prix_vente, UTILISATEURS.no_utilisateur, CATEGORIES.no_categorie \n" +
-            "\tFROM ARTICLES_VENDUS\n" +
-            "\tINNER JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_article\n" +
-            "\tINNER JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_article" +
-            "WHERE no_article = :no_article";
+    private final static String SELECT_BY_ID = "select no_article, nom_article, description, date_debut_encheres, date_fin_encheres, " +
+            "prix_initial, prix_vente, u.no_utilisateur, c.no_categorie " +
+            "FROM ARTICLES_VENDUS " +
+            "INNER JOIN UTILISATEURS u ON u.no_utilisateur = ARTICLES_VENDUS.no_utilisateur " +
+            "INNER JOIN CATEGORIES c ON c.no_categorie = ARTICLES_VENDUS.no_categorie " +
+            "WHERE no_article= ?";
 
     private final static String SELECT_BY_NOM = "select nom_article, description, date_debut_encheres, date_fin_encheres, \n" +
             "\t\tprix_initial, prix_vente, UTILISATEURS.no_utilisateur, CATEGORIES.no_categorie \n" +
@@ -108,11 +108,16 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
     @Override
     public Articles_Vendus findArticleById(Integer no_article) {
-        return namedParameterJdbcTemplate.queryForObject(
+        Map<String, Object> params = new HashMap<>();
+        params.put("id",no_article);
+
+        Articles_Vendus article = null;
+        article = namedParameterJdbcTemplate.getJdbcOperations().queryForObject(
                 SELECT_BY_ID,
-                new MapSqlParameterSource("no_article", no_article),
-                new ArticleRowMapper()
+                new ArticleRowMapper(),
+                no_article
         );
+        return article;
     }
     @Override
     public Articles_Vendus findArticleByLibelle(String nom_article) {

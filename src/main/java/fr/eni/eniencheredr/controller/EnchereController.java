@@ -72,14 +72,23 @@ public class EnchereController {
         return "redirect:/";
     }
 
-    @GetMapping("/vente/{no_article}")
-    public String enchere(@RequestParam(name="no_article") Integer no_article,Model modeleArticle) {
+    @GetMapping("/vente")
+    public String enchere(@RequestParam(name="no_article") Integer no_article, Model modeleArticle) {
 
-        modeleArticle.addAttribute(enchereService.getEnchere(no_article));
-        return "enchere";
+        Articles_Vendus article= articleService.findArticleById(no_article);
+        modeleArticle.addAttribute("articles", article);
+        return "encherir";
     }
 
-    @GetMapping("acquisition")
+  /*  @GetMapping("/detail-user")
+    public String detailUser(@RequestParam(name="no_utilisateur") Integer no_utilisateur, Model model) {
+
+        Utilisateurs user = utilisateurService.findById(no_utilisateur);
+        model.addAttribute("utilisateurs",user);
+        return "Admin/detailUserAdmin";
+    }*/
+
+    @GetMapping("/acquisition")
     public String acquisition() {
         return "acquisition";
     }
