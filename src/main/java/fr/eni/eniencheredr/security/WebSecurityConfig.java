@@ -61,7 +61,7 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/encheres", "/register").permitAll()
-                        /*.requestMatchers("/admin/dashboard").hasRole("admin")*/ // A reprendre ici vendredi matin. Gerer les roles sans la table role de spring.
+                        .requestMatchers("/admin/dashboard").hasRole("admin")
                         .anyRequest().authenticated()
                 ).exceptionHandling().accessDeniedPage("/403")
                 ;
