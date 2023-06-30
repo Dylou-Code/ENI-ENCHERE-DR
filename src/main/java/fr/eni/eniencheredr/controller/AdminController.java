@@ -3,6 +3,10 @@ package fr.eni.eniencheredr.controller;
 import fr.eni.eniencheredr.bo.Utilisateurs;
 import fr.eni.eniencheredr.service.UtilisateurService.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +27,8 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model modele, Principal user) {
+    public String dashboard(Model modele, @AuthenticationPrincipal UserDetails user) {
+        System.out.println(user.getAuthorities());
         //Afficher des utilisateurs
         List<Utilisateurs> listUsers = utilisateurService.getUtilisateurs();
         modele.addAttribute("utilisateurs", listUsers);

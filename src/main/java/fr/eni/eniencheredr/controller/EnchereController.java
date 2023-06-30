@@ -51,12 +51,12 @@ public class EnchereController {
     }
 
     @PostMapping("/save")
-    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, Principal principal, Authentication authentication) {
+    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, Authentication authentication) {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/
         if (authentication.isAuthenticated()){
-            String name = principal.getName();
+            String name = authentication.getName();
             Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
             Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
             articlesVendus.setUtilisateurs(user1);

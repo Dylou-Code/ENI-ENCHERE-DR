@@ -34,7 +34,7 @@ public class AuthController {
         return "register";
     }
 
-    @PostMapping("/save")
+    @PostMapping("/registerUser")
     public String ajouterUser(@ModelAttribute("utilisateurs") Utilisateurs utilisateur) {
        /* if(validationResult.hasErrors()) {
             return "form";
@@ -66,26 +66,4 @@ public class AuthController {
         }
         return "redirect:/";
     }
-
-   /* @GetMapping("/logout")
-    public String deco() {
-        return "redirect:/";
-    }
-    @PostMapping("/logout")
-    public String logout() {
-
-        return "redirect:/";
-    }*/
 }
-
-
-/*System.out.println(utilisateurService.getUtilisateur(email));
-        if (utilisateurService.getUtilisateur(email)!= null) {
-            if (utilisateurService.getUtilisateur(email).getMot_de_passe().equals(mot_de_passe)) {
-                return "redirect:/";
-            } else {
-                return "login";
-            }
-        } else {
-            return "login";
-        }*/

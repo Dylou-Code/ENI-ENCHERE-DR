@@ -26,8 +26,8 @@ public class WebSecurityConfig {
     @Autowired
     private DataSource dataSource ;
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return passwordEncoder;
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
     }
     @Autowired
     public void configureGlobal( AuthenticationManagerBuilder auth ) throws Exception {
@@ -61,10 +61,10 @@ public class WebSecurityConfig {
                 )*/
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/encheres", "/register").permitAll()
-                        .requestMatchers("/admin/dashboard").hasRole("admin")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                //.exceptionHandling().accessDeniedPage("/403")
+                .exceptionHandling().accessDeniedPage("/403")
                 ;
 
         return http.build();
