@@ -80,4 +80,9 @@ public class EnchereController {
         return "enchere";
     }
 
+    @GetMapping("acquisition")
+    public String acquisition() {
+        return "acquisition";
+    }
+
 }

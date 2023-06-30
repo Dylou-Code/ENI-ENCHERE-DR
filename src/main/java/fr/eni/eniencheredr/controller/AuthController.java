@@ -30,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/save")
-    public String ajouterFilm(@ModelAttribute("utilisateurs") Utilisateurs utilisateur) {
+    public String ajouterUser(@ModelAttribute("utilisateurs") Utilisateurs utilisateur) {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/
