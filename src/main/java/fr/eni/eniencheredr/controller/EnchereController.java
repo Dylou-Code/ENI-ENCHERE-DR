@@ -75,8 +75,7 @@ public class EnchereController {
         return "redirect:/";
     }
 
-
-    @GetMapping("/mon-enchere")
+    @GetMapping("/vente")
     public String enchere() {
         return "enchere";
     }

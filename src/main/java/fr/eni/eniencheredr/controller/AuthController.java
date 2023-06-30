@@ -52,6 +52,16 @@ public class AuthController {
     public String connexion(@ModelAttribute("utilisateurs") Utilisateurs utilisateurs) {
         return "redirect:/";
     }
+
+    @GetMapping("/logout")
+    public String deco() {
+        return "/";
+    }
+    @PostMapping("/logout")
+    public String logout() {
+
+        return "/";
+    }
 }
 
 
