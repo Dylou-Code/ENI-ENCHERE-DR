@@ -64,11 +64,9 @@
                               <a th:href="@{/addArticle}" th:if="${#authentication.isAuthenticated()}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Ajouter Article</a>
                               <!--<a th:href="@{/addArticle}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Vendre un article</a>-->
                               <a th:href="@{/admin/dashboard}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Dashboard</a>
-                              <a th:href="@{/register}" th:if="${not #authentication.isAuthenticated()}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">S'inscrire</a>
-                              <a th:href="@{/login}" th:if="${not #authentication.isAuthenticated()}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Se connecter</a>
-                              <form th:if="${#authentication.isAuthenticated()}" th:action="@{/logout}">
-                                <a th:href="@{/logout}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Se déconnecter</a>
-                              </form>
+                              <a th:href="@{/register}"  class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">S'inscrire</a>
+                              <a th:href="@{/login}"  class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Se connecter</a>
+
                           </div>
                       </div>
                   </div>
@@ -86,11 +84,6 @@
               </div>
           </div>
       </nav>
-
-
   </header>
-
-
-
 </body>
 </html>

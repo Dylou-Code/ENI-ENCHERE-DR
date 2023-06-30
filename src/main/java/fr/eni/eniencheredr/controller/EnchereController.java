@@ -10,11 +10,8 @@ import fr.eni.eniencheredr.service.EnchereService.EnchereService;
 import fr.eni.eniencheredr.service.UtilisateurService.UtilisateurService;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -75,8 +72,10 @@ public class EnchereController {
         return "redirect:/";
     }
 
-    @GetMapping("/vente")
-    public String enchere() {
+    @GetMapping("/vente/{no_article}")
+    public String enchere(@RequestParam(name="no_article") Integer no_article,Model modeleArticle) {
+
+        modeleArticle.addAttribute(enchereService.getEnchere(no_article));
         return "enchere";
     }
 
