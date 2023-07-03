@@ -17,12 +17,15 @@ public class Encheres {
     public Utilisateurs getNo_utilisateur() {
         return no_utilisateur;
     }
-
     public void setNo_utilisateur(Utilisateurs no_utilisateur) {
         this.no_utilisateur = no_utilisateur;
     }
-
-
+    public Articles_Vendus getNo_article() {
+        return no_article;
+    }
+    public void setNo_article(Articles_Vendus no_article) {
+        this.no_article = no_article;
+    }
     public LocalDateTime getDate_enchere() {
         return date_enchere;
     }
