@@ -1,6 +1,7 @@
 package fr.eni.eniencheredr.bo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Encheres {
     private Utilisateurs no_utilisateur;

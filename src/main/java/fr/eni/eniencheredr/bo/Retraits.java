@@ -9,6 +9,12 @@ public class Retraits {
     public Retraits() {
     }
 
+    public Retraits(String rue, Integer code_postal, String ville) {
+        this.rue = rue;
+        this.code_postal = code_postal;
+        this.ville = ville;
+    }
+
     public Retraits(Articles_Vendus no_article, String rue, Integer code_postal, String ville) {
         this.no_article = no_article;
         this.rue = rue;
