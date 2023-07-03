@@ -5,27 +5,29 @@ import java.util.Date;
 import java.util.List;
 
 public class Encheres {
-    private Utilisateurs no_utilisateur;
-    private Articles_Vendus no_article;
+    private Integer no_utilisateur;
+    private Integer no_article;
     private Date date_enchere;
     private Integer montant_enchere;
 
     public Encheres() {
     }
-    public Encheres(Date date_enchere, Integer montant_enchere) {
+    public Encheres(Integer no_utilisateur, Integer no_article, Date date_enchere, Integer montant_enchere) {
+        this.no_utilisateur = no_utilisateur;
+        this.no_article = no_article;
         this.date_enchere = date_enchere;
         this.montant_enchere = montant_enchere;
     }
-    public Utilisateurs getNo_utilisateur() {
+    public Integer getNo_utilisateur() {
         return no_utilisateur;
     }
-    public void setNo_utilisateur(Utilisateurs no_utilisateur) {
+    public void setNo_utilisateur(Integer no_utilisateur) {
         this.no_utilisateur = no_utilisateur;
     }
-    public Articles_Vendus getNo_article() {
+    public Integer getNo_article() {
         return no_article;
     }
-    public void setNo_article(Articles_Vendus no_article) {
+    public void setNo_article(Integer no_article) {
         this.no_article = no_article;
     }
     public Date getDate_enchere() {
