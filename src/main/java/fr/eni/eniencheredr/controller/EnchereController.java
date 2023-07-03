@@ -55,6 +55,8 @@ public class EnchereController {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/
+
+        //Récupère le nom de l'utilisateur, fait une requete par nom et passe l'id de la caregorie et de l'utilisateur associé a l'article
         if (authentication.isAuthenticated()){
             String name = authentication.getName();
             Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
