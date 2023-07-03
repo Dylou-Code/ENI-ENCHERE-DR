@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ENI-ENCHERES</title>
+
+</head>
+<body>
+<main layout:fragment="main">
+  <div class="container mx-auto">
+    <div class="profil mt-8 w-6/12 mx-auto" >
+      <div class="profil_detail">
+
+      <!-----------------  Condition thymleaf à ajouter pour l'affichage en fonctin du user ---------------->
+      <!--  <div class="px-4 sm:px-0">
+          <h3 class="text-base text-center text-xl font-semibold leading-7 text-gray-900">Jojo 44 à remporter la vente</h3>
+        </div>-->
+
+        <div class="px-4 sm:px-0">
+          <h3 class="text-base text-center text-xl font-semibold leading-7 text-gray-900">Vous avez remporté la vente</h3>
+        </div>
+
+        <div class="mt-6 border-t border-gray-100">
+          <dl class="">
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Titre</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Apple MacBook Pro M2</dd>
+            </div>
+
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Description</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci assumenda consequatur
+                culpa deleniti error excepturi fugit, illum impedit iste iusto minima optio porro quaerat reiciendis rem tempora voluptate voluptates</dd>
+            </div>
+
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Meilleur offre</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">215 points</dd>
+            </div>
+
+            <!--  Condition à mettre pour un autre utilisateur qui à gagné la vente-->
+            <!--<div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Meilleur offre</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">215 points par User44</dd>
+            </div>-->
+
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Mise à prix</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">test@test.com</dd>
+            </div>
+
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Retrait</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">2 Rue de Franklin 44000</dd>
+            </div>
+
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Vendeur</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Dylan le Goat</dd>
+            </div>
+
+          <!--  Condition à mettre -->
+           <!-- <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Fin de l'enchere</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">30/06/2023</dd>
+            </div>
+            -->
+
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Télephone</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">0603304400</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <!--Condition à ajouter sur les bouton-->
+
+      <div class="btn-action mx-auto mt-5">
+        <a th:href="@{/}">
+          <button type="button" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Retour</button>
+        </a>
+      </div>
+
+    <!--  <div class="btn-action mx-auto mt-5">
+        <a th:href="@{/}">
+          <button type="button" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Retrait effectué</button>
+        </a>
+      </div>-->
+    </div>
+  </div>
+
+
+</main>
+
+
+
+</body>
+</html>
