@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -44,6 +45,11 @@ public class ArticleDAOImpl implements ArticleDAO {
     private final static String INSERT = "INSERT INTO ARTICLES_VENDUS " +
             "(nom_article, description, prix_initial,date_debut_encheres, date_fin_encheres, no_utilisateur, no_categorie) " +
             "VALUES (:nom_article, :description, :prix_initial, :date_debut_encheres, :date_fin_encheres, :no_utilisateur, :no_categorie)";
+
+    private final static String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente,no_categorie = " +
+            ":nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :prix_vente,:no_categorie " +
+            "WHERE no_article= ?";
+
 
 
     @Autowired
@@ -136,6 +142,7 @@ public class ArticleDAOImpl implements ArticleDAO {
         map.put("date_debut_encheres", article.getDate_debut_encheres());
         map.put("date_fin_encheres", article.getDate_fin_encheres());
         map.put("prix_initial", article.getPrix_initial());
+        map.put("prix_vente", article.getPrix_vente());
         map.put("no_utilisateur", article.getUtilisateurs().getNo_utilisateur());
         map.put("no_categorie", article.getCategories().getNo_categorie());
         /*map.put("no_utilisateur",article.getUtilisateurs()==null?null:article.getUtilisateurs().getNo_utilisateur());
@@ -155,7 +162,17 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
     @Override
     public void updateArticle(Articles_Vendus article) {
-
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("no_article", article.getNo_article())
+                .addValue("nom_article", article.getNom_article())
+                .addValue("description", article.getDescription())
+                .addValue("date_debut_encheres", article.getDate_debut_encheres())
+                .addValue("date_fin_encheres", article.getDate_fin_encheres())
+                .addValue("prix_initial", article.getPrix_initial())
+                .addValue("prix_vente", article.getPrix_vente())
+                .addValue("no_utilisateur", article.getUtilisateurs().getNo_utilisateur())
+                .addValue("no_categorie", article.getCategories().getNo_categorie());
+        namedParameterJdbcTemplate.update(UPDATE, params);
     }
     @Override
     public void deleteArticle(Articles_Vendus article) {

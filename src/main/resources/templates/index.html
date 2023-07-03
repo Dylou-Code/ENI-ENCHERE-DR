@@ -19,9 +19,9 @@
 
         <div class="container mx-auto">
 
-            <div class="title mt-6">
+          <!--  <div class="title mt-6">
                 <h1 class="text-3xl font-bold text-center">ENI-enchere</h1>
-            </div>
+            </div>-->
 
             <div class="title mt-6">
                 <h1 class="text-3xl font-bold text-center"  th:text ="${#authentication.getName()}"></h1>
@@ -29,84 +29,87 @@
             </div>
 
             <!--Bloc filtre-->
-            <div class="filter w-1/4">
-                <div class="filter__search">
-                    <p class="text-normal">Filtre : </p>
-                    <form th:action="@{/403}">
-                        <div class=" flex ">
-                            <!-- <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Rechercher</label>-->
-                            <div class="relative mt-2 rounded-md shadow-sm">
-                                <input type="text" name="search" id="price" class="block w-full rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Ex: Audi A3"/>
-                            </div>
-                            <button type="submit" class=" ml-1 text-blue-700 text-sm border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-1 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                                </svg>
+            <div class="filtre-container flex justify-between">
+                <div class="filter">
+                    <div class="filter__search">
+                        <p class="text-normal">Filtre : </p>
+                        <form th:action="@{/403}">
+                            <div class=" flex ">
+                                <!-- <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Rechercher</label>-->
+                                <div class="relative mt-2 rounded-md shadow-sm">
+                                    <input type="text" name="search" id="price" class="block w-full rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Ex: Audi A3"/>
+                                </div>
+                                <button type="submit" class=" ml-1 text-blue-700 text-sm border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-1 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                                    </svg>
 
-                                <span class="sr-only">Icon search</span>
-                            </button>
-
-                        </div>
-                    </form>
-
-                </div>
-                <form th:action="@{/403}" th:object="${categories}" action="POST">
-                    <label for="categories" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Catégorires</label>
-                    <select id="categories" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option th:each="categorie: ${@categorieService.getCategories()}"  th:value="${categorie.no_categorie}" th:text="${categorie.libelle}">
-                        </option>
-
-                    </select>
-                </form>
-                <div class="filter__categories">
-
-
-                    <div class="grid grid-cols-2">
-
-                        <div class="flex flex-col ">
-                            <div class="filter__categories-group">
+                                    <span class="sr-only">Icon search</span>
+                                </button>
 
                             </div>
-                            <label class="inline-flex items-center mt-3">
-                                <input type="radio" class="form-radio h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Achat</span>
-                            </label>
+                        </form>
 
-                            <div class="filter_categories-item flex flex-col ml-5">
+                    </div>
+                    <div class="filter__categories" sec:authorize="isAuthenticated()">
+                        <div class="grid grid-cols-2 mt-5" >
+                            <div class="flex flex-col ">
+                                <div class="filter__categories-group">
+
+                                </div>
                                 <label class="inline-flex items-center mt-3">
-                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Enchères ouvertes</span>
+                                    <input type="radio" class="form-radio h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Achat</span>
                                 </label>
-                                <label class="inline-flex items-center mt-3">
-                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-orange-600" ><span class="ml-2 text-gray-700">Mes enchères en cours</span>
-                                </label>
-                                <label class="inline-flex items-center mt-3">
-                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" ><span class="ml-2 text-gray-700">Mes enchères remportés</span>
-                                </label>
+
+                                <div class="filter_categories-item flex flex-col ml-5">
+                                    <label class="inline-flex items-center mt-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Enchères ouvertes</span>
+                                    </label>
+                                    <label class="inline-flex items-center mt-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-orange-600" ><span class="ml-2 text-gray-700">Mes enchères en cours</span>
+                                    </label>
+                                    <label class="inline-flex items-center mt-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" ><span class="ml-2 text-gray-700">Mes enchères remportés</span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="flex flex-col">
-                            <div class="filter__categories-group">
+                            <div class="flex flex-col">
+                                <div class="filter__categories-group">
 
-                            </div>
-                            <label class="inline-flex items-center mt-3">
-                                <input type="radio" class="form-radio h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Mes ventes</span>
-                            </label>
+                                </div>
+                                <label class="inline-flex items-center mt-3">
+                                    <input type="radio" class="form-radio h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Mes ventes</span>
+                                </label>
 
-                            <div class="filter_categories-item flex flex-col ml-5">
-                                <label class="inline-flex items-center mt-3">
-                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Mes ventes en cours</span>
-                                </label>
-                                <label class="inline-flex items-center mt-3">
-                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-orange-600" ><span class="ml-2 text-gray-700">ventes non débutés</span>
-                                </label>
-                                <label class="inline-flex items-center mt-3">
-                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" ><span class="ml-2 text-gray-700">ventes terminées</span>
-                                </label>
+                                <div class="filter_categories-item flex flex-col ml-5">
+                                    <label class="inline-flex items-center mt-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Mes ventes en cours</span>
+                                    </label>
+                                    <label class="inline-flex items-center mt-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-orange-600" ><span class="ml-2 text-gray-700">ventes non débutés</span>
+                                    </label>
+                                    <label class="inline-flex items-center mt-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" ><span class="ml-2 text-gray-700">ventes terminées</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="filter__categories-select">
+                    <form th:action="@{/403}" th:object="${categories}" action="POST">
+                        <label for="categories" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Catégorires</label>
+                        <select id="categories" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option th:each="categorie: ${@categorieService.getCategories()}"  th:value="${categorie.no_categorie}" th:text="${categorie.libelle}">
+                            </option>
+
+                        </select>
+                    </form>
+                </div>
             </div>
+
+
 
             <div class="article mt-8">
                 <div class="grid grid-cols-4 gap-4">
