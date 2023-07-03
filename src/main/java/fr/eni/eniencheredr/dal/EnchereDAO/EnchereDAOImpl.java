@@ -49,7 +49,8 @@ public class EnchereDAOImpl implements EnchereDAO{
     private static final String UPDATE = "UPDATE ENCHERES SET no_utilisateur, no_article, date_enchere, montant_enchere = :no_utilisateur, :no_article, :date_enchere, :montant_enchere WHERE no_article = :no_article";
     private static final String UPDATE_ENCHERE = "UPDATE ENCHERES SET no_utilisateur = :no_utilisateur, no_article = :no_article,  " +
             "date_enchere = :date_enchere, montant_enchere = :montant_enchere " +
-            "WHERE no_article = :no_article AND date_montant BETWEEN ";
+            "WHERE no_article = :no_article ";
+            //" + AND date_montant BETWEEN "
 
     private final static String DELETE = "DELETE ENCHERES WHERE no_article = :no_article";
     private NamedParameterJdbcTemplate npjt;
