@@ -34,6 +34,16 @@
               <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci assumenda consequatur
                 culpa deleniti error excepturi fugit, illum impedit iste iusto minima optio porro quaerat reiciendis rem tempora voluptate voluptates</dd>
             </div>
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Catégorie</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.categories.libelle}">Apple MacBook Pro M2</dd>
+            </div>
+
+
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Mise à prix</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_initial}">/dd>
+            </div>
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900" >Meilleur offre</dt>
@@ -45,11 +55,6 @@
               <dt class="text-sm font-medium leading-6 text-gray-900">Meilleur offre</dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">215 points par User44</dd>
             </div>-->
-
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Mise à prix</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_initial}">/dd>
-            </div>
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Retrait</dt>
@@ -80,6 +85,7 @@
               </div>
             </div>
             <form class="space-y-6 " th:object="${articles}" th:action="@{/auction}" method="POST">
+              <input type="text" hidden="hidden" th:field="${articles.no_article}">
               <a th:href="@{/vente(no_article=${articles.no_article})}">
                 <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Encherir</button>
               </a>

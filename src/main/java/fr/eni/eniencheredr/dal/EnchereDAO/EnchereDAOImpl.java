@@ -1,14 +1,14 @@
 package fr.eni.eniencheredr.dal.EnchereDAO;
 
-import fr.eni.eniencheredr.bo.Articles_Vendus;
 import fr.eni.eniencheredr.bo.Encheres;
 import fr.eni.eniencheredr.dal.ArticleDAO.ArticleDAO;
-import fr.eni.eniencheredr.dal.ArticleDAO.ArticleDAOImpl;
 import fr.eni.eniencheredr.dal.UtilisateurDAO.UtilisateurDAO;
-import fr.eni.eniencheredr.dal.UtilisateurDAO.UtilisateurDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -46,9 +46,12 @@ public class EnchereDAOImpl implements EnchereDAO{
 
     private static final String INSERT = "INSERT INTO ENCHERES no_utilisateur, no_article, date_enchere,montant_enchere VALUES :no_utilisateur, :no_article, :date_enchere, :montant_enchere";
     /*private static final String UPDATE = "update ENCHERES set no_utilisateur = ?, no_Article = ?, date_enchere = ?, montant_enchere = ? where no_article = ?";*/
-    private static final String UPDATE = "UPDATE ENCHERES SET no_utilisateur, no_article, date_enchere, montant_enchere = :no_utilisateur, :no_article, :date_enchere, :montant_enchere WHERE no_article= no_article";
+    private static final String UPDATE = "UPDATE ENCHERES SET no_utilisateur, no_article, date_enchere, montant_enchere = :no_utilisateur, :no_article, :date_enchere, :montant_enchere WHERE no_article = :no_article";
+    private static final String UPDATE_ENCHERE = "UPDATE ENCHERES SET no_utilisateur = :no_utilisateur, no_article = :no_article,  " +
+            "date_enchere = :date_enchere, montant_enchere = :montant_enchere " +
+            "WHERE no_article = :no_article AND date_montant BETWEEN ";
 
-
+    private final static String DELETE = "DELETE ENCHERES WHERE no_article = :no_article";
     private NamedParameterJdbcTemplate npjt;
 
     @Autowired
@@ -56,21 +59,15 @@ public class EnchereDAOImpl implements EnchereDAO{
         this.npjt = npjt;
     }
 
-    private EnchereDAO enchereDAO;
-
-    @Autowired
-    private UtilisateurDAO utilisateurDAO;
-
-    @Autowired
-    private ArticleDAO articleDAO;
-
     public class EnchereRowMapper  implements RowMapper<Encheres> {
         public Encheres mapRow(ResultSet rs, int rowNum) throws SQLException {
             Encheres encheres = new Encheres();
+            encheres.setNo_utilisateur(rs.getInt("no_utilisateur"));
+            encheres.setNo_article(rs.getInt("no_article"));
             encheres.setDate_enchere(rs.getDate("date_enchere"));
             encheres.setMontant_enchere(rs.getInt("montant_enchere"));
-            encheres.setNo_utilisateur(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
-            encheres.setNo_article(articleDAO.findArticleById(rs.getInt("no_article")));
+            /*encheres.setNo_utilisateur(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
+            encheres.setNo_article(articleDAO.findArticleById(rs.getInt("no_article")));*/
 
             return encheres;
         }
@@ -95,5 +92,20 @@ public class EnchereDAOImpl implements EnchereDAO{
                 no_utilisateur
         );
         return enchere;
+    }
+
+    @Override
+    public void updateEnchere(Encheres enchere) {
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("no_utilisateur", enchere.getNo_utilisateur())
+                .addValue("no_article", enchere.getNo_article())
+                .addValue("date_enchere", enchere.getDate_enchere())
+                .addValue("montant_enchere", enchere.getMontant_enchere());
+        npjt.update(UPDATE_ENCHERE, params);
+    }
+
+    @Override
+    public void deleteEnchere(Encheres enchere) {
+        npjt.update(DELETE, new BeanPropertySqlParameterSource(enchere));
     }
 }

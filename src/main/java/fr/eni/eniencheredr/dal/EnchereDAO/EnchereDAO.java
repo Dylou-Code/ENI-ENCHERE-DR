@@ -8,4 +8,8 @@ public interface EnchereDAO {
     List<Encheres> findAllEncheres();
 
     Encheres findEncheresById(Integer id);
+
+    void updateEnchere(Encheres enchere);
+
+    void deleteEnchere(Encheres enchere);
 }

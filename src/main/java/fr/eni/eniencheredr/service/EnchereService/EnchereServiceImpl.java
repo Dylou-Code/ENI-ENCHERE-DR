@@ -2,6 +2,8 @@ package fr.eni.eniencheredr.service.EnchereService;
 
 import fr.eni.eniencheredr.bo.Encheres;
 import fr.eni.eniencheredr.dal.EnchereDAO.EnchereDAO;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +27,6 @@ public class EnchereServiceImpl implements EnchereService{
 
     @Override
     public void addEnchere(Encheres encheres) {
-
     }
 
     @Override
@@ -34,13 +35,12 @@ public class EnchereServiceImpl implements EnchereService{
     }
 
     @Override
-    public void updateUtilisateur(Encheres encheres) {
-
+    public void updateEnchere(Encheres encheres) {
+        enchereDAO.updateEnchere(encheres);
     }
 
     @Override
-    public void deleteUtilisateur(Encheres encheres) {
+    public void deleteEnchere(Encheres encheres) {
 
     }
-
 }

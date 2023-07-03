@@ -82,32 +82,17 @@ public class EnchereController {
     }
 
     @PostMapping("/auction")
-    public String encherir(Encheres encheres, @ModelAttribute("articles") Articles_Vendus articlesVendus,
+    public String encherir(@ModelAttribute("articles") Articles_Vendus articlesVendus,
                            Authentication authentication) {
-        System.out.println(encheres.getNo_article());
+        System.out.println(articlesVendus.getNo_article());
+        Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(authentication.getName());
+        System.out.println(user);
+        System.out.println(articlesVendus.getPrix_vente());
         Date date = new Date();
-        if (authentication.isAuthenticated()){
-            String name = authentication.getName();
-            Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
-            Encheres auction = new Encheres();
-            auction.setNo_utilisateur(user1);
-            auction.setNo_article(articlesVendus);
-            auction.setDate_enchere(date);
-
-        }else  {
-            return "redirect:/403";
-        }
-        //articleService.updateArticle();
-        return "redirect:/vente?no_article=" + encheres.getNo_article();
+        Encheres offre = new Encheres(user.getNo_utilisateur(), articlesVendus.getNo_article(), date, articlesVendus.getPrix_vente());
+        enchereService.updateEnchere(offre);
+        return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
     }
-
-  /*  @GetMapping("/detail-user")
-    public String detailUser(@RequestParam(name="no_utilisateur") Integer no_utilisateur, Model model) {
-
-        Utilisateurs user = utilisateurService.findById(no_utilisateur);
-        model.addAttribute("utilisateurs",user);
-        return "Admin/detailUserAdmin";
-    }*/
 
     @GetMapping("/acquisition")
     public String acquisition() {

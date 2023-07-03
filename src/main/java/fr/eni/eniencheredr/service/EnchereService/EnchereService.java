@@ -15,7 +15,7 @@ public interface EnchereService {
 
     Encheres findById(Integer no_article);
 
-    void updateUtilisateur(Encheres encheres);
+    void updateEnchere(Encheres encheres);
 
-    void deleteUtilisateur(Encheres encheres);
+    void deleteEnchere(Encheres encheres);
 }
