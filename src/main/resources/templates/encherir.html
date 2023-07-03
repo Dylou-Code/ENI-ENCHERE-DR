@@ -31,7 +31,7 @@
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Description</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci assumenda consequatur
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci assumenda consequatur
                 culpa deleniti error excepturi fugit, illum impedit iste iusto minima optio porro quaerat reiciendis rem tempora voluptate voluptates</dd>
             </div>
 
@@ -48,7 +48,7 @@
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Mise à prix</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">test@test.com</dd>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_initial}">/dd>
             </div>
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -57,8 +57,8 @@
             </div>
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Vendeur</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Dylan le Goat</dd>
+              <dt class="text-sm font-medium leading-6 text-gray-900" >Vendeur</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.utilisateurs.pseudo}"></dd>
             </div>
 
             <!--  Condition à mettre -->
