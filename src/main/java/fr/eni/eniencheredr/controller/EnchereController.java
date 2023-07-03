@@ -2,18 +2,18 @@ package fr.eni.eniencheredr.controller;
 
 import fr.eni.eniencheredr.bo.Articles_Vendus;
 import fr.eni.eniencheredr.bo.Categories;
+import fr.eni.eniencheredr.bo.Encheres;
 import fr.eni.eniencheredr.bo.Utilisateurs;
 import fr.eni.eniencheredr.dal.UtilisateurDAO.UtilisateurDAO;
 import fr.eni.eniencheredr.service.ArticleService.ArticleService;
 import fr.eni.eniencheredr.service.CategorieService.CategorieService;
 import fr.eni.eniencheredr.service.EnchereService.EnchereService;
-import fr.eni.eniencheredr.service.UtilisateurService.UtilisateurService;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
-import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -76,10 +76,29 @@ public class EnchereController {
 
     @GetMapping("/vente")
     public String enchere(@RequestParam(name="no_article") Integer no_article, Model modeleArticle) {
-
-        Articles_Vendus article= articleService.findArticleById(no_article);
+        Articles_Vendus article = articleService.findArticleById(no_article);
         modeleArticle.addAttribute("articles", article);
         return "encherir";
+    }
+
+    @PostMapping("/auction")
+    public String encherir(Encheres encheres, @ModelAttribute("articles") Articles_Vendus articlesVendus,
+                           Authentication authentication) {
+        System.out.println(encheres.getNo_article());
+        Date date = new Date();
+        if (authentication.isAuthenticated()){
+            String name = authentication.getName();
+            Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
+            Encheres auction = new Encheres();
+            auction.setNo_utilisateur(user1);
+            auction.setNo_article(articlesVendus);
+            auction.setDate_enchere(date);
+
+        }else  {
+            return "redirect:/403";
+        }
+        //articleService.updateArticle();
+        return "redirect:/vente?no_article=" + encheres.getNo_article();
     }
 
   /*  @GetMapping("/detail-user")

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
-    private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
     private final UtilisateurDAO utilisateurDAO;
 

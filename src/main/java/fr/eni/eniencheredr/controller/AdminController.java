@@ -3,26 +3,21 @@ package fr.eni.eniencheredr.controller;
 import fr.eni.eniencheredr.bo.Utilisateurs;
 import fr.eni.eniencheredr.service.UtilisateurService.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    private UtilisateurService utilisateurService;
+    private final UtilisateurService utilisateurService;
 
     @Autowired
-    public AdminController( UtilisateurService utilisateurService) {
+    public AdminController(UtilisateurService utilisateurService) {
         this.utilisateurService = utilisateurService;
     }
 
