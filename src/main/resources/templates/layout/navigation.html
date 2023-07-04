@@ -103,8 +103,8 @@
                           <span class=" mt-2 block text-medium font-normal text-gray-900 dark:text-white" th:text ="${#authentication.getName()}">Bonnie Green</span>
                           <!--<span class="block text-sm  text-gray-500 truncate dark:text-gray-400" data-th-text="${emailUser}"></span>-->
                       </div>
-                      <ul data-th-each="item : ${utilisateurs}"  class="py-2" aria-labelledby="user-menu-button">
-                          <span hidden="hidden" data-th-text="${item.no_utilisateur}"></span>
+                      <ul class="py-2" aria-labelledby="user-menu-button">
+                          <!--<span hidden="hidden" data-th-text="${utilisateurs.no_utilisateur}"></span>-->
                           <li>
                               <a th:href="@{/admin/dashboard}" sec:authorize="isAuthenticated()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
                           </li>
@@ -117,8 +117,8 @@
                               </a>-->
 
 
-                                  <a th:href="@{/user/profil(no_utilisateur=${item.no_utilisateur})}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profil</a>
-
+                                  <!--<a th:href="@{/user/profil(no_utilisateur=${utilisateurs.no_utilisateur})}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profil</a>-->
+                              <a th:href="@{/user/profil}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profil</a>
                           </li>
                           <li>
                               <a  th:href="@{/404}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Crédit</a>

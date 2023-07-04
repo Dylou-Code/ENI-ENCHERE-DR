@@ -33,9 +33,14 @@ public class EnchereController {
         this.utilisateurDAO = utilisateurDAO;
     }
     @GetMapping
-    public String homePage(Model modele) {
+    public String homePage(Model modele, Authentication authentication) {
         List<Categories> categories =  categorieService.getCategories();
         List<Articles_Vendus> articles =  articleService.findAllArticles();
+        if (authentication != null && authentication.isAuthenticated()){
+            String name = authentication.getName();
+            Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
+            modele.addAttribute("utilisateurs", user);
+        }
         modele.addAttribute("categories", categories);
         modele.addAttribute("articles", articles);
         return "index";

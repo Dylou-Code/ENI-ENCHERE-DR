@@ -43,21 +43,26 @@ public class UserController {
         return "layout/navigation";
     }
 
-    @GetMapping("/mon-profil")
-    public String monprofil() {
-        return "monProfil";
-    }
-
-    @GetMapping("/profil")
-    public String detailProfil(@RequestParam(name="no_utilisateur") Integer no_utilisateur, Model model) {
-        Utilisateurs user = utilisateurService.findById(no_utilisateur);
-        model.addAttribute("utilisateurs",user);
-        return "profil";
-    }
-
     @GetMapping("/edit-profil")
-    public String updateProfil() {
+    public String modifierProfil(@ModelAttribute("utilisateurs") Utilisateurs utilisateurs) {
         return "modifierProfil";
     }
 
+    @GetMapping("/profil")
+    public String detailProfil(Model userAuthenticated,
+                               Authentication authentication) {
+        String name = authentication.getName();
+        Utilisateurs user = utilisateurService.findByPseudo(name);
+        userAuthenticated.addAttribute("utilisateurs", user);
+
+        return "profil";
+    }
+
+    @GetMapping("/delete")
+    public String deleteUser(@ModelAttribute("utilisateurs") Utilisateurs utilisateurs, Authentication authentication) {
+        String name = authentication.getName();
+        Utilisateurs user = utilisateurService.findByPseudo(name);
+        utilisateurService.deleteUtilisateur(user);
+        return "redirect:/logout";
+    }
 }

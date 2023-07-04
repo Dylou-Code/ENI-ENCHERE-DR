@@ -9,13 +9,13 @@
 
   <div class="container mx-auto">
     <h1>Modification du profil</h1>
-   <!--<div class="formRegister">
+   <div class="formRegister">
 
-     &lt;!&ndash; &lt;!&ndash; <input type="text" th:field="*{annee}" id="anneeInput" />
+      <!-- <input type="text" th:field="*{annee}" id="anneeInput" />
        <span class="error-text" th:if="${#fields.hasErrors('annee')}">
-                     <span class="error-text" th:each="erreur: ${#fields.errors('annee')}" th:text="${erreur}"></span>&ndash;&gt;
+                     <span class="error-text" th:each="erreur: ${#fields.errors('annee')}" th:text="${erreur}"></span>-->
 
-      &lt;!&ndash;Formulaire d'inscription&ndash;&gt;
+      <!--Formulaire d'inscription-->
 
       <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -59,9 +59,9 @@
                 <div class="mt-5">
                   <div class="flex items-center justify-between">
                     <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Mot de passe</label>
-                    &lt;!&ndash; <div class="text-sm">
+                    <!-- <div class="text-sm">
                        <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Mot de passe oublié</a>
-                     </div>&ndash;&gt;
+                     </div>-->
                   </div>
                   <div class="mt-2">
                     <input th:field="*{mot_de_passe}" id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -99,7 +99,7 @@
                   </div>
                 </div>
 
-                &lt;!&ndash;<div class="mt-5">
+                <!--<div class="mt-5">
                   <div class="flex items-center justify-between">
                     <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Confirmation</label>
 
@@ -109,25 +109,29 @@
                     </div>&ndash;&gt;
                   </div>
                   <div class="mt-2">
-                    &lt;!&ndash;Th-field pour la gestion de la vérification du MDP&ndash;&gt;
-                    <input th:field="*{confirmPassword}" id="confirmPassword" name="confirm-password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    &lt;!&ndash;Th-field pour la gestion de la vérification du MDP-->
+                    <!--<input th:field="*{confirmPassword}" id="confirmPassword" name="confirm-password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
-                </div>&ndash;&gt;
+                </div>-->
 
 
               </div>
             </div>
             <div>
-              <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Modifier</button>
+              <button type="submit" class="flex w-1/4 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Modifier</button>
+              <a th:href="@{/user/delete}" class="flex w-1/4 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Supprimer mon compte
+              </a>
             </div>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" hidden="hidden" name="no_utilisateur" th:value="${utilisateurs.no_utilisateur}">
           </form>
 
         </div>
 
       </div>
 
-    </div>-->
+    </div>
 
   </div>
 </main>

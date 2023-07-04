@@ -39,7 +39,7 @@ public class AdminController {
     }
 
     @PostMapping("/save")
-    public String ajouterFilm(@ModelAttribute("utilisateurs") Utilisateurs utilisateur) {
+    public String ajouterUtilisateur(@ModelAttribute("utilisateurs") Utilisateurs utilisateur) {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/

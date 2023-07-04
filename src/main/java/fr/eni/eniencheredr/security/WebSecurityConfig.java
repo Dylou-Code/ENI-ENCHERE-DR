@@ -52,16 +52,17 @@ public class WebSecurityConfig {
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
-                .logout(Customizer.withDefaults())
-                /*.logout((logout) -> logout
+                //.logout(Customizer.withDefaults())
+                .logout((logout) -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
-                        //.invalidateHttpSession(true)
-                        //.deleteCookies("JSESSIONID")
-                )*/
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                )
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/encheres", "/register", "registerUser").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("admin")
+                        .requestMatchers("/favicon.ico", "/resources/**", "/error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling().accessDeniedPage("/403")
