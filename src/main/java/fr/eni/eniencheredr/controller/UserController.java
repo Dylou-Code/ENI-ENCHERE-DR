@@ -31,11 +31,12 @@ public class UserController {
    }
 
     @GetMapping("/")
-    public String navigation(@RequestParam(name="no_utilisateur") Integer user, Model model, Authentication authentication) {
+    public String navigation(@RequestParam(name="no_utilisateur") Integer no_utilisateur, Model model, Authentication authentication) {
         String name = authentication.getName();
         Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
         String email = user1.getEmail();
         System.out.println(email);
+        Utilisateurs user = utilisateurService.findById(no_utilisateur);
         /*Utilisateurs user = utilisateurService.findById(no_utilisateur);*/
         model.addAttribute("utilisateurs",user);
         model.addAttribute("emailUser",email);
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/profil")
-    public String detailUser(@RequestParam(name="no_utilisateur") Integer no_utilisateur, Model model) {
+    public String detailProfil(@RequestParam(name="no_utilisateur") Integer no_utilisateur, Model model) {
         Utilisateurs user = utilisateurService.findById(no_utilisateur);
         model.addAttribute("utilisateurs",user);
         return "profil";

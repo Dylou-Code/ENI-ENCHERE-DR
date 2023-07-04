@@ -115,6 +115,7 @@
                 <div class="grid grid-cols-4 gap-4">
                     <!--Récupération des encheres-->
                     <div class="card__article"  data-th-each="article : ${articles}">
+                        <!--data-th-href="@{/admin/detail-user(no_utilisateur=${item.no_utilisateur})}"-->
                        <span hidden="hidden" data-th-text="${article.no_article}"></span>
                         <a th:href="@{/vente(no_article=${article.no_article})}" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" data-th-text="${article.nom_article}"></h5>
