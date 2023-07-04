@@ -37,12 +37,13 @@ public class ArticleDAOImpl implements ArticleDAO {
             "INNER JOIN CATEGORIES c ON c.no_categorie = ARTICLES_VENDUS.no_categorie " +
             "WHERE no_article= ?";
 
-    private final static String SELECT_BY_NOM = "select nom_article, description, date_debut_encheres, date_fin_encheres, \n" +
-            "\t\tprix_initial, prix_vente, UTILISATEURS.no_utilisateur, CATEGORIES.no_categorie \n" +
-            "\tFROM ARTICLES_VENDUS\n" +
-            "\tINNER JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_article\n" +
-            "\tINNER JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_article" +
-            "WHERE nom_article = :nom_article";
+    private final static String SELECT_BY_NOM = "SELECT nom_article, description, date_debut_encheres, date_fin_encheres, " +
+            "prix_initial, prix_vente, u.no_utilisateur, c.no_categorie " +
+            "FROM ARTICLES_VENDUS " +
+            "INNER JOIN UTILISATEURS u ON u.no_utilisateur = ARTICLES_VENDUS.no_article " +
+            "INNER JOIN CATEGORIES c ON c.no_categorie = ARTICLES_VENDUS.no_article " +
+            "nom_article LIKE '%:nom_article%'";
+
 
     private final static String INSERT = "INSERT INTO ARTICLES_VENDUS " +
             "(nom_article, description, prix_initial,date_debut_encheres, date_fin_encheres, no_utilisateur, no_categorie) " +
