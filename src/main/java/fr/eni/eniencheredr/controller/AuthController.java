@@ -39,10 +39,8 @@ public class AuthController {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/
+        System.out.println(utilisateur);
         utilisateurService.addUtilisateur(utilisateur);
-        /*int genreId = Integer.parseInt(film.getGenre().getId());*/
-
-        System.out.println("Mon user ajouter" + utilisateur);
         return "redirect:/encheres";
     }
 

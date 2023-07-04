@@ -60,7 +60,7 @@ public class WebSecurityConfig {
                         //.deleteCookies("JSESSIONID")
                 )*/
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/encheres", "/register").permitAll()
+                        .requestMatchers("/", "/encheres", "/register", "registerUser").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("admin")
                         .anyRequest().authenticated()
                 )

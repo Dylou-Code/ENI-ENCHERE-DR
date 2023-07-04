@@ -38,7 +38,6 @@ public class EnchereController {
         List<Articles_Vendus> articles =  articleService.findAllArticles();
         modele.addAttribute("categories", categories);
         modele.addAttribute("articles", articles);
-        System.out.println(articles);
         return "index";
     }
 
