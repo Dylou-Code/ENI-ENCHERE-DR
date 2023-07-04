@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -50,6 +52,12 @@ public class ArticleDAOImpl implements ArticleDAO {
             ":nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :prix_vente,:no_categorie " +
             "WHERE no_article= ?";
 
+    private static final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET nom_article = :nom_article, description = :description,  " +
+            "date_debut_encheres = :date_debut_encheres, date_fin_encheres = :date_fin_encheres, prix_initial = :prix_initial, prix_vente = :prix_vente " +
+            "WHERE no_article = :no_article ";
+
+    private static final String ENCHERIR_ARTICLE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prix_vente WHERE no_article = :no_article";
+
 
 
     @Autowired
@@ -80,36 +88,18 @@ public class ArticleDAOImpl implements ArticleDAO {
             a.setDate_debut_encheres(rs.getDate(4));
             a.setDate_fin_encheres(rs.getDate(5));
             a.setPrix_initial(rs.getInt(6));
-            //a.setPrix_vente(rs.getInt(7));
+            a.setPrix_vente(rs.getInt(7));
             //a.setUtilisateurs(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
             a.setUtilisateurs(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
             a.setCategories(categorieDAO.findCategoryById(rs.getInt("no_categorie")));
-
-           /* Utilisateurs utilisateurs = null;
-            try {
-                utilisateurs = utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur"));
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            a.setUtilisateurs(utilisateurs);*/
-
-
-            /*film.setGenre(genre);*/
             return a;
         }
     }
 
     @Override
     public List<Articles_Vendus> findAllArticles() {
-        /*List<Film> films;
-        films = namedParameterJdbcTemplate.query(SELECT_ALL, new FilmRowMapper());
-        System.out.println(films);
-        return films;*/
         List<Articles_Vendus> articles;
         articles = namedParameterJdbcTemplate.query(SELECT_ALL, new ArticleRowMapper());
-        System.out.println(articles);
         return articles;
     }
     @Override
@@ -135,8 +125,7 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
     @Override
     public void saveArticle(Articles_Vendus article) {
-        System.out.println(article);
-        Map<String, Object> map = new HashMap<>();
+        /*Map<String, Object> map = new HashMap<>();
         map.put("nom_article", article.getNom_article());
         map.put("description", article.getDescription());
         map.put("date_debut_encheres", article.getDate_debut_encheres());
@@ -144,21 +133,30 @@ public class ArticleDAOImpl implements ArticleDAO {
         map.put("prix_initial", article.getPrix_initial());
         map.put("prix_vente", article.getPrix_vente());
         map.put("no_utilisateur", article.getUtilisateurs().getNo_utilisateur());
-        map.put("no_categorie", article.getCategories().getNo_categorie());
+        map.put("no_categorie", article.getCategories().getNo_categorie());*/
         /*map.put("no_utilisateur",article.getUtilisateurs()==null?null:article.getUtilisateurs().getNo_utilisateur());
         map.put("no_categorie", article.getCategories()==null?null:article.getCategories().getNo_categorie());*/
-        namedParameterJdbcTemplate.update(INSERT, map);
 
-       /* MapSqlParameterSource paramSrc = new MapSqlParameterSource("titre", film.getTitre() );
-        paramSrc.addValue("annee", film.getAnnee());
-        paramSrc.addValue("duree", 0);
-        paramSrc.addValue("synopsis", film.getSynopsis());
-        paramSrc.addValue("lien_image", film.getLienImage());
-        paramSrc.addValue("genre_id", film.getGenre()==null?null:film.getGenre().getId());
-        *//* paramSrc.addValue("realisateur_id", film.getRealisateur()==null?null:film.getRealisateur().getId());*//*
+        System.out.println(article);
 
-        namedParameterJdbcTemplate.update(INSERT, paramSrc);*/
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
+        SqlParameterSource params = new MapSqlParameterSource()
+                //.addValue("no_article", article.getNo_article())
+                .addValue("nom_article", article.getNom_article())
+                .addValue("description", article.getDescription())
+                .addValue("date_debut_encheres", article.getDate_debut_encheres())
+                .addValue("date_fin_encheres", article.getDate_fin_encheres())
+                .addValue("prix_initial", article.getPrix_initial())
+                .addValue("prix_vente", article.getPrix_vente())
+                .addValue("no_utilisateur", article.getUtilisateurs().getNo_utilisateur())
+                .addValue("no_categorie", article.getCategories().getNo_categorie());
+        namedParameterJdbcTemplate.update(INSERT, params, keyHolder);
+
+        if (keyHolder.getKey() != null) {
+            // Mise à jour de l'identifiant du film auto-généré par la base
+            article.setNo_article(keyHolder.getKey().intValue());
+        }
     }
     @Override
     public void updateArticle(Articles_Vendus article) {
@@ -170,12 +168,22 @@ public class ArticleDAOImpl implements ArticleDAO {
                 .addValue("date_fin_encheres", article.getDate_fin_encheres())
                 .addValue("prix_initial", article.getPrix_initial())
                 .addValue("prix_vente", article.getPrix_vente())
-                .addValue("no_utilisateur", article.getUtilisateurs().getNo_utilisateur())
+                .addValue("no_utilisateur", article.getUtilisateurs())
                 .addValue("no_categorie", article.getCategories().getNo_categorie());
-        namedParameterJdbcTemplate.update(UPDATE, params);
+        namedParameterJdbcTemplate.update(UPDATE_ARTICLE, params);
     }
     @Override
     public void deleteArticle(Articles_Vendus article) {
 
+    }
+
+    @Override
+    public void encherirArticle(Articles_Vendus article) {
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("prix_vente", article.getPrix_vente())
+                .addValue("no_article", article.getNo_article());
+
+        namedParameterJdbcTemplate.update(ENCHERIR_ARTICLE, params);
+        System.out.println(article.getDate_debut_encheres());
     }
 }

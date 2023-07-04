@@ -42,12 +42,13 @@
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Mise à prix</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_initial}">/dd>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_initial} + '€'">/dd>
             </div>
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900" >Meilleur offre</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_initial}">215 points</dd>
+              <!--th:text="${articles.prix_vente == null} ? ${articles.prix_vente} : 'Pas d\'offre en cours'"-->
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_vente} + '€'" ></dd>
             </div>
 
             <!--  Condition à mettre pour un autre utilisateur qui à gagné la vente-->
@@ -78,14 +79,19 @@
               <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">0603304400</dd>
             </div>
 
-            <div class="sm:col-span-4">
-              <label for="prix" class="block text-sm font-medium leading-6 text-gray-900">Proposition</label>
-              <div class="mt-2">
-                <input th:field="*{articles.prix_initial}" type="number" name="first-name" id="prix" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-              </div>
-            </div>
+
+
             <form class="space-y-6 " th:object="${articles}" th:action="@{/auction}" method="POST">
               <input type="text" hidden="hidden" th:field="${articles.no_article}">
+              <input type="text" hidden="hidden" th:field="${articles.categories.no_categorie}">
+              <input type="text" hidden="hidden" th:field="${articles}">
+              <div class="sm:col-span-4">
+                <label for="prix" class="block text-sm font-medium leading-6 text-gray-900">Proposition</label>
+                <div class="mt-2">
+                  <input th:field="${articles.prix_vente}" type="number" name="first-name" id="prix" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
+
               <a th:href="@{/vente(no_article=${articles.no_article})}">
                 <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Encherir</button>
               </a>

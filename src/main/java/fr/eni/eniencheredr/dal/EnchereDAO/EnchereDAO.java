@@ -9,6 +9,8 @@ public interface EnchereDAO {
 
     Encheres findEncheresById(Integer id);
 
+    void saveEnchere(Encheres enchere);
+
     void updateEnchere(Encheres enchere);
 
     void deleteEnchere(Encheres enchere);

@@ -59,18 +59,19 @@ public class EnchereController {
         //Récupère le nom de l'utilisateur, fait une requete par nom et passe l'id de la caregorie et de l'utilisateur associé a l'article
         if (authentication.isAuthenticated()){
             String name = authentication.getName();
+            Date date = new Date();
             Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
             Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
+
             articlesVendus.setUtilisateurs(user1);
             articlesVendus.setCategories(cat1);
             articleService.saveArticle(articlesVendus);
 
+            Encheres ench = new Encheres(user1.getNo_utilisateur(), articlesVendus.getNo_article(), date, 0);
+            enchereService.addEnchere(ench);
         }else  {
             return "redirect:/403";
         }
-        /*int genreId = Integer.parseInt(film.getGenre().getId());*/
-
-        System.out.println("Mon article ajouter" + articlesVendus);
         return "redirect:/";
     }
 
@@ -84,13 +85,29 @@ public class EnchereController {
     @PostMapping("/auction")
     public String encherir(@ModelAttribute("articles") Articles_Vendus articlesVendus,
                            Authentication authentication) {
-        System.out.println(articlesVendus.getNo_article());
         Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(authentication.getName());
-        System.out.println(user);
-        System.out.println(articlesVendus.getPrix_vente());
         Date date = new Date();
+
+/*        System.out.println(user);
+        System.out.println(articlesVendus.getPrix_vente());
+        System.out.println(articlesVendus.getNo_article());
+*/
+        //Récupère le nom de l'utilisateur, fait une requete par nom et passe l'id de la categorie et de l'utilisateur associé a l'article
+        String name = authentication.getName();
+        Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
+        Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
+        articlesVendus.setUtilisateurs(user1);
+        articlesVendus.setCategories(cat1);
+
+        //Fonction enchérir
+/*
+        modeleEnchere.addAttribute("encheres", enchereService.findById(articlesVendus.getNo_article()));
+*/
+
         Encheres offre = new Encheres(user.getNo_utilisateur(), articlesVendus.getNo_article(), date, articlesVendus.getPrix_vente());
+        System.out.println(offre);
         enchereService.updateEnchere(offre);
+        articleService.encherirArticle(articlesVendus);
         return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
     }
 

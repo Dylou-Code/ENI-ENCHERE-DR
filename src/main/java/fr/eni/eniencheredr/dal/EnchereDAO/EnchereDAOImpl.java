@@ -19,7 +19,6 @@ import java.util.Map;
 
 @Repository
 public class EnchereDAOImpl implements EnchereDAO{
-
     /*Trouver toutes les encheres d'un utilisateurs*/
     private static final String SELECT_USER_ENCHERE = "SELECT ench.date_enchere, ench.montant_enchere, u1.no_utilisateur as enchNo_utilisateur, "
             + "u1.pseudo as enchPseudo, u1.nom as enchNom, u1.prenom as enchPrenom, "
@@ -43,10 +42,9 @@ public class EnchereDAOImpl implements EnchereDAO{
             + "inner join UTILISATEURS u2 on u2.no_utilisateur = a.no_utilisateur\n"
             + "inner join UTILISATEURS u1 on u1.no_utilisateur = ench.no_utilisateur\n"
             + "where ench.no_article = ?\n";
-
-    private static final String INSERT = "INSERT INTO ENCHERES no_utilisateur, no_article, date_enchere,montant_enchere VALUES :no_utilisateur, :no_article, :date_enchere, :montant_enchere";
+    private static final String INSERT = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere,montant_enchere) VALUES (:no_utilisateur, :no_article, :date_enchere, :montant_enchere)";
     /*private static final String UPDATE = "update ENCHERES set no_utilisateur = ?, no_Article = ?, date_enchere = ?, montant_enchere = ? where no_article = ?";*/
-    private static final String UPDATE = "UPDATE ENCHERES SET no_utilisateur, no_article, date_enchere, montant_enchere = :no_utilisateur, :no_article, :date_enchere, :montant_enchere WHERE no_article = :no_article";
+    //private static final String UPDATE = "UPDATE ENCHERES SET no_utilisateur, no_article, date_enchere, montant_enchere = :no_utilisateur, :no_article, :date_enchere, :montant_enchere WHERE no_article = :no_article";
     private static final String UPDATE_ENCHERE = "UPDATE ENCHERES SET no_utilisateur = :no_utilisateur, no_article = :no_article,  " +
             "date_enchere = :date_enchere, montant_enchere = :montant_enchere " +
             "WHERE no_article = :no_article ";
@@ -96,6 +94,18 @@ public class EnchereDAOImpl implements EnchereDAO{
     }
 
     @Override
+    public void saveEnchere(Encheres enchere) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("no_utilisateur", enchere.getNo_utilisateur());
+        map.put("no_article", enchere.getNo_article());
+        map.put("date_enchere", enchere.getDate_enchere());
+        map.put("montant_enchere", enchere.getMontant_enchere());
+        /*map.put("no_utilisateur",article.getUtilisateurs()==null?null:article.getUtilisateurs().getNo_utilisateur());
+        map.put("no_categorie", article.getCategories()==null?null:article.getCategories().getNo_categorie());*/
+        npjt.update(INSERT, map);
+    }
+
+    @Override
     public void updateEnchere(Encheres enchere) {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("no_utilisateur", enchere.getNo_utilisateur())
@@ -103,6 +113,7 @@ public class EnchereDAOImpl implements EnchereDAO{
                 .addValue("date_enchere", enchere.getDate_enchere())
                 .addValue("montant_enchere", enchere.getMontant_enchere());
         npjt.update(UPDATE_ENCHERE, params);
+        System.out.println(enchere.getDate_enchere());
     }
 
     @Override

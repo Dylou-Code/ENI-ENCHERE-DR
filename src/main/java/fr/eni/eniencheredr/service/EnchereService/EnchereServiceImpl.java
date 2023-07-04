@@ -1,18 +1,19 @@
 package fr.eni.eniencheredr.service.EnchereService;
 
+import fr.eni.eniencheredr.bo.Articles_Vendus;
 import fr.eni.eniencheredr.bo.Encheres;
+import fr.eni.eniencheredr.dal.ArticleDAO.ArticleDAO;
 import fr.eni.eniencheredr.dal.EnchereDAO.EnchereDAO;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service("enchereService")
 public class EnchereServiceImpl implements EnchereService{
-    private EnchereDAO enchereDAO;
-
-    EnchereServiceImpl(EnchereDAO enchereDAO) {
+    private final EnchereDAO enchereDAO;
+    private final ArticleDAO articleDAO;
+    EnchereServiceImpl(EnchereDAO enchereDAO, ArticleDAO articleDAO) {
         this.enchereDAO = enchereDAO;
+        this.articleDAO = articleDAO;
     }
 
     @Override
@@ -27,6 +28,7 @@ public class EnchereServiceImpl implements EnchereService{
 
     @Override
     public void addEnchere(Encheres encheres) {
+        enchereDAO.saveEnchere(encheres);
     }
 
     @Override

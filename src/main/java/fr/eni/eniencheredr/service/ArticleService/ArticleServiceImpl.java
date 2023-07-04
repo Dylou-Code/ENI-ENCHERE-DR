@@ -30,13 +30,18 @@ public class ArticleServiceImpl implements ArticleService{
         articleDAO.saveArticle(article);
     }
 
-   /*@Override
+   @Override
     public void updateArticle(Articles_Vendus article) {
-        articleDAO.updateArticle(articleDAO.updateArticle(article));
-    }*/
+        articleDAO.updateArticle(article);
+    }
 
     @Override
     public void deleteArticle(Articles_Vendus article) {
         articleDAO.deleteArticle(article);
+    }
+
+    @Override
+    public void encherirArticle(Articles_Vendus article) {
+        articleDAO.encherirArticle(article);
     }
 }

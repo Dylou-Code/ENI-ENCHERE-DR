@@ -17,4 +17,6 @@ public interface ArticleDAO {
     void updateArticle(Articles_Vendus article);
 
     void deleteArticle(Articles_Vendus article);
+
+    void encherirArticle(Articles_Vendus article);
 }
