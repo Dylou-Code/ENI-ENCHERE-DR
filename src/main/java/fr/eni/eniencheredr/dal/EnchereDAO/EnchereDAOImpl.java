@@ -1,8 +1,7 @@
 package fr.eni.eniencheredr.dal.EnchereDAO;
 
 import fr.eni.eniencheredr.bo.Encheres;
-import fr.eni.eniencheredr.dal.ArticleDAO.ArticleDAO;
-import fr.eni.eniencheredr.dal.UtilisateurDAO.UtilisateurDAO;
+import fr.eni.eniencheredr.exception.EmptyResultDataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -42,9 +41,9 @@ public class EnchereDAOImpl implements EnchereDAO{
             + "inner join UTILISATEURS u2 on u2.no_utilisateur = a.no_utilisateur\n"
             + "inner join UTILISATEURS u1 on u1.no_utilisateur = ench.no_utilisateur\n"
             + "where ench.no_article = ?\n";
+
+    private static final String FIND_BY_ID = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM ENCHERES WHERE no_article = :no_article";
     private static final String INSERT = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere,montant_enchere) VALUES (:no_utilisateur, :no_article, :date_enchere, :montant_enchere)";
-    /*private static final String UPDATE = "update ENCHERES set no_utilisateur = ?, no_Article = ?, date_enchere = ?, montant_enchere = ? where no_article = ?";*/
-    //private static final String UPDATE = "UPDATE ENCHERES SET no_utilisateur, no_article, date_enchere, montant_enchere = :no_utilisateur, :no_article, :date_enchere, :montant_enchere WHERE no_article = :no_article";
     private static final String UPDATE_ENCHERE = "UPDATE ENCHERES SET no_utilisateur = :no_utilisateur, no_article = :no_article,  " +
             "date_enchere = :date_enchere, montant_enchere = :montant_enchere " +
             "WHERE no_article = :no_article ";
@@ -81,17 +80,23 @@ public class EnchereDAOImpl implements EnchereDAO{
     }
 
     @Override
-    public Encheres findEncheresById(Integer no_utilisateur) {
+    public Encheres findEncheresById(Integer no_article) {
         Map<String, Object> params = new HashMap<>();
-        params.put("id",no_utilisateur);
+        params.put("no_article",no_article);
         Encheres enchere = null;
         enchere = npjt.getJdbcOperations().queryForObject(
                 SELECT_BY_ID,
                 new EnchereRowMapper(),
-                no_utilisateur
+                no_article
         );
         return enchere;
     }
+
+    @Override
+    public Encheres getEnchere(Integer no_article) {
+        return npjt.queryForObject(FIND_BY_ID, new MapSqlParameterSource("no_article", no_article), new EnchereRowMapper());
+    }
+
 
     @Override
     public void saveEnchere(Encheres enchere) {
@@ -100,8 +105,10 @@ public class EnchereDAOImpl implements EnchereDAO{
         map.put("no_article", enchere.getNo_article());
         map.put("date_enchere", enchere.getDate_enchere());
         map.put("montant_enchere", enchere.getMontant_enchere());
-        /*map.put("no_utilisateur",article.getUtilisateurs()==null?null:article.getUtilisateurs().getNo_utilisateur());
-        map.put("no_categorie", article.getCategories()==null?null:article.getCategories().getNo_categorie());*/
+        /*
+            map.put("no_utilisateur",article.getUtilisateurs()==null?null:article.getUtilisateurs().getNo_utilisateur());
+            map.put("no_categorie", article.getCategories()==null?null:article.getCategories().getNo_categorie());
+        */
         npjt.update(INSERT, map);
     }
 
@@ -118,6 +125,7 @@ public class EnchereDAOImpl implements EnchereDAO{
 
     @Override
     public void deleteEnchere(Encheres enchere) {
+        //SqlParameterSource paramSource = new MapSqlParameterSource("no_article", no_article);
         npjt.update(DELETE, new BeanPropertySqlParameterSource(enchere));
     }
 }

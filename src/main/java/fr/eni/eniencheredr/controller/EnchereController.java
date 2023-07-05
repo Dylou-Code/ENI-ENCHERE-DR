@@ -5,6 +5,7 @@ import fr.eni.eniencheredr.bo.Categories;
 import fr.eni.eniencheredr.bo.Encheres;
 import fr.eni.eniencheredr.bo.Utilisateurs;
 import fr.eni.eniencheredr.dal.UtilisateurDAO.UtilisateurDAO;
+import fr.eni.eniencheredr.exception.UserNotFoundException;
 import fr.eni.eniencheredr.service.ArticleService.ArticleService;
 import fr.eni.eniencheredr.service.CategorieService.CategorieService;
 import fr.eni.eniencheredr.service.EnchereService.EnchereService;
@@ -34,12 +35,15 @@ public class EnchereController {
         this.utilisateurDAO = utilisateurDAO;
     }
     @GetMapping
-    public String homePage(Model modele, Authentication authentication) {
+    public String homePage(Model modele, Authentication authentication) throws UserNotFoundException {
         List<Categories> categories =  categorieService.getCategories();
         List<Articles_Vendus> articles =  articleService.findAllArticles();
         if (authentication != null && authentication.isAuthenticated()){
             String name = authentication.getName();
             Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
+            if (user == null) {
+                throw new UserNotFoundException("Utilisateur connecté non trouvée");
+            }
             modele.addAttribute("utilisateurs", user);
         }
 
@@ -68,7 +72,7 @@ public class EnchereController {
     }
 
     @PostMapping("/save")
-    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, Authentication authentication) {
+    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, Authentication authentication) throws UserNotFoundException {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/
@@ -78,6 +82,9 @@ public class EnchereController {
             String name = authentication.getName();
             Date date = new Date();
             Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
+            if (user1 == null) {
+                throw new UserNotFoundException("Utilisateur connecté non trouvée");
+            }
             Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
 
             articlesVendus.setUtilisateurs(user1);
@@ -93,16 +100,29 @@ public class EnchereController {
     }
 
     @GetMapping("/vente")
-    public String enchere(@RequestParam(name="no_article") Integer no_article, Model modeleArticle) {
+    public String enchere(@RequestParam(name="no_article") Integer no_article, Model modeleArticle, Model modeleUser,
+                          Authentication authentication) throws UserNotFoundException {
         Articles_Vendus article = articleService.findArticleById(no_article);
         modeleArticle.addAttribute("articles", article);
+
+        if (authentication != null && authentication.isAuthenticated()){
+            String name = authentication.getName();
+            Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
+            if (user == null) {
+                throw new UserNotFoundException("Utilisateur connecté non trouvée");
+            }
+            modeleUser.addAttribute("utilisateur", user);
+        }
         return "encherir";
     }
 
     @PostMapping("/auction")
     public String encherir(@ModelAttribute("articles") Articles_Vendus articlesVendus,
-                           Authentication authentication) {
+                           Authentication authentication) throws UserNotFoundException {
         Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(authentication.getName());
+        if (user == null) {
+            throw new UserNotFoundException("Utilisateur connecté non trouvée");
+        }
         Date date = new Date();
 
 /*        System.out.println(user);
@@ -126,6 +146,23 @@ public class EnchereController {
         enchereService.updateEnchere(offre);
         articleService.encherirArticle(articlesVendus);
         return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
+    }
+
+    @GetMapping("/delete")
+    public String deleteEnchere(@ModelAttribute("articles") Articles_Vendus articles, Authentication authentication) throws UserNotFoundException {
+        if (authentication != null && authentication.isAuthenticated()){
+            String name = authentication.getName();
+            Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
+            if (user == null) {
+                throw new UserNotFoundException("Utilisateur connecté non trouvée");
+            }
+            Encheres ench = enchereService.findById(articles.getNo_article());
+            //Articles_Vendus article = articleService.findArticleById(articles.getNo_article());
+            System.out.println(ench);
+            enchereService.deleteEnchere(ench);
+            articleService.deleteArticle(articles);
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/acquisition")

@@ -22,18 +22,13 @@ public class EnchereServiceImpl implements EnchereService{
     }
 
     @Override
-    public Encheres getEnchere(Integer no_article) {
-        return null;
-    }
-
-    @Override
     public void addEnchere(Encheres encheres) {
         enchereDAO.saveEnchere(encheres);
     }
 
     @Override
     public Encheres findById(Integer no_article) {
-        return null;
+        return enchereDAO.findEncheresById(no_article);
     }
 
     @Override
@@ -42,7 +37,7 @@ public class EnchereServiceImpl implements EnchereService{
     }
 
     @Override
-    public void deleteEnchere(Encheres encheres) {
-
+    public void deleteEnchere(Encheres enchere) {
+        enchereDAO.deleteEnchere(enchere);
     }
 }
