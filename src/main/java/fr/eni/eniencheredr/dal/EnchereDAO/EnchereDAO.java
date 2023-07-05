@@ -8,6 +8,7 @@ public interface EnchereDAO {
     List<Encheres> findAllEncheres();
 
     Encheres findEncheresById(Integer id);
+    Encheres getEnchere(Integer no_article);
 
     void saveEnchere(Encheres enchere);
 

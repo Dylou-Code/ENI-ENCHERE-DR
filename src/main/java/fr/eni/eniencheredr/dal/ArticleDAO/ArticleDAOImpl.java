@@ -7,6 +7,7 @@ import fr.eni.eniencheredr.dal.CategorieDAO.CategorieDAO;
 import fr.eni.eniencheredr.dal.UtilisateurDAO.UtilisateurDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -59,6 +60,7 @@ public class ArticleDAOImpl implements ArticleDAO {
 
     private static final String ENCHERIR_ARTICLE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prix_vente WHERE no_article = :no_article";
 
+    private final static String DELETE = "DELETE ARTICLES_VENDUS WHERE no_article = :no_article";
 
 
     @Autowired
@@ -175,7 +177,7 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
     @Override
     public void deleteArticle(Articles_Vendus article) {
-
+        namedParameterJdbcTemplate.update(DELETE, new BeanPropertySqlParameterSource(article));
     }
 
     @Override

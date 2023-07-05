@@ -60,9 +60,9 @@ public class WebSecurityConfig {
                         .deleteCookies("JSESSIONID")
                 )
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/encheres", "/register", "registerUser").permitAll()
+                        .requestMatchers("/", "/encheres", "/register", "registerUser", "delete").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("admin")
-                        .requestMatchers("/favicon.ico", "/resources/**", "/error").permitAll()
+                        .requestMatchers("/favicon.ico", "/resources/**", "/error", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling().accessDeniedPage("/403")
