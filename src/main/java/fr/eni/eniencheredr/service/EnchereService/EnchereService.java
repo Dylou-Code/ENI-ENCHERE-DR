@@ -15,7 +15,6 @@ public interface EnchereService {
     void addEnchere(Encheres encheres);
 
     Encheres findById(Integer no_article);
-
     void updateEnchere(Encheres encheres);
 
     void deleteEnchere(Encheres encheres);

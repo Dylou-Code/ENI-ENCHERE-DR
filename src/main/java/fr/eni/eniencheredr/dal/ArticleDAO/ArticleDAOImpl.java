@@ -37,12 +37,14 @@ public class ArticleDAOImpl implements ArticleDAO {
             "INNER JOIN CATEGORIES c ON c.no_categorie = ARTICLES_VENDUS.no_categorie " +
             "WHERE no_article= ?";
 
-    private final static String SELECT_BY_NOM = "SELECT nom_article, description, date_debut_encheres, date_fin_encheres, " +
+    private final static String SELECT_BY_NOM = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, " +
             "prix_initial, prix_vente, u.no_utilisateur, c.no_categorie " +
             "FROM ARTICLES_VENDUS " +
             "INNER JOIN UTILISATEURS u ON u.no_utilisateur = ARTICLES_VENDUS.no_article " +
             "INNER JOIN CATEGORIES c ON c.no_categorie = ARTICLES_VENDUS.no_article " +
-            "nom_article LIKE '%:nom_article%'";
+            "WHERE nom_article LIKE '%' + :nom_article + '%'";
+
+
 
 
     private final static String INSERT = "INSERT INTO ARTICLES_VENDUS " +
@@ -117,12 +119,20 @@ public class ArticleDAOImpl implements ArticleDAO {
         return article;
     }
     @Override
-    public Articles_Vendus findArticleByLibelle(String nom_article) {
-        return namedParameterJdbcTemplate.queryForObject(
+    public List<Articles_Vendus> findArticleByName(String nom_article) {
+      /*  return namedParameterJdbcTemplate.queryForObject(
                 SELECT_BY_NOM,
                 new MapSqlParameterSource("nom_article", nom_article),
                 new ArticleRowMapper()
-        );
+        );*/
+
+       /* List<Articles_Vendus> articles;
+        articles = namedParameterJdbcTemplate.query(SELECT_BY_NOM, new ArticleRowMapper());
+        return articles;*/
+
+        SqlParameterSource parameters = new MapSqlParameterSource("nom_article", "%" + nom_article + "%");
+        List<Articles_Vendus> articles = namedParameterJdbcTemplate.query(SELECT_BY_NOM, parameters, new ArticleRowMapper());
+        return articles;
     }
     @Override
     public void saveArticle(Articles_Vendus article) {
@@ -186,5 +196,101 @@ public class ArticleDAOImpl implements ArticleDAO {
 
         namedParameterJdbcTemplate.update(ENCHERIR_ARTICLE, params);
         System.out.println(article.getDate_debut_encheres());
+    }
+
+
+    public List<Articles_Vendus> articleByFilter(Integer filtre, boolean encheresOuvertes, boolean encheresEnCours,
+                                              boolean encheresRemportees, boolean ventesEnCours, boolean ventesNonDebutees, boolean ventesTerminees, int userId) {
+
+        StringBuilder requete = new StringBuilder();
+        List<Articles_Vendus> listArticle;
+
+
+        System.out.println("dans la DAL TEMP méthode ArticleByfilter");
+
+        if (filtre == 1) {
+            System.out.println("Mes achats");
+
+            if (!encheresOuvertes && !encheresEnCours && !encheresRemportees) {
+                requete.append(SELECT_ALL);
+            } else {
+                requete.append(
+                        "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, ARTICLES_VENDUS.no_utilisateur, ARTICLES_VENDUS.no_categorie\r\n"
+                                + "FROM ARTICLES_VENDUS INNER JOIN ENCHERES\r\n"
+                                + "ON (ARTICLES_VENDUS.no_article = ENCHERES.no_article) ");
+                if (encheresOuvertes) {
+                    requete.append("WHERE ARTICLES_VENDUS.date_fin_encheres >= GETDATE() ");
+                }
+                if (encheresEnCours) {
+                    if (requete.toString().contains("WHERE")) {
+                        requete.append("OR ");
+                    } else {
+                        requete.append("WHERE ");
+                    }
+                    requete.append("ARTICLES_VENDUS.date_fin_encheres >= GETDATE() AND  ENCHERES.no_utilisateur = :id ");
+                }
+
+                if (encheresRemportees) {
+                    if (requete.toString().contains("WHERE")) {
+                        requete.append("OR ");
+                    } else {
+                        requete.append("WHERE ");
+                    }
+                    requete.append(
+                            "ENCHERES.no_utilisateur = :id AND ARTICLES_VENDUS.date_fin_encheres <= GETDATE() AND montant_enchere = ARTICLES_VENDUS.prix_vente");
+                }
+            }
+
+        } else if (filtre == 2) {
+
+            System.out.println("Mes ventes");
+            if (ventesEnCours == false && ventesNonDebutees == false && ventesTerminees == false) {
+                requete.append(SELECT_ALL);
+            } else {
+                requete.append(
+                        "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, ARTICLES_VENDUS.no_utilisateur, ARTICLES_VENDUS.no_categorie "
+                                + "FROM ARTICLES_VENDUS ");
+                if (ventesEnCours == true) {
+                    requete.append(
+                            "WHERE ARTICLES_VENDUS.no_utilisateur = :id AND ARTICLES_VENDUS.date_debut_encheres <= GETDATE() AND ARTICLES_VENDUS.date_fin_encheres > GETDATE() ");
+                }
+
+                if (ventesNonDebutees == true) {
+                    if (requete.toString().contains("WHERE")) {
+                        requete.append("OR ");
+
+                    } else {
+                        requete.append("WHERE ");
+                    }
+
+                    requete.append(
+                            "ARTICLES_VENDUS.no_utilisateur = :id AND ARTICLES_VENDUS.date_debut_encheres >= GETDATE() ");
+                }
+
+                if (ventesTerminees == true) {
+                    if (requete.toString().contains("WHERE")) {
+                        requete.append("OR ");
+                    } else {
+                        requete.append("WHERE ");
+                    }
+                    requete.append(
+                            "ARTICLES_VENDUS.no_utilisateur = :id AND ARTICLES_VENDUS.date_fin_encheres <= GETDATE()");
+                }
+            }
+        }
+        System.out.println("!!!!!!!!!!!" + requete);
+
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id",userId);
+
+       /* listArticle = namedParameterJdbcTemplate.query(requete.toString(), params,
+                new ArticleRowMapper(utilisateurDAO, encheresCategoriesDAO));*/
+
+      /*  System.out.println("liste articles = " + listArticle.toString());*/
+
+//      listArticle = null;
+
+        return null;
     }
 }

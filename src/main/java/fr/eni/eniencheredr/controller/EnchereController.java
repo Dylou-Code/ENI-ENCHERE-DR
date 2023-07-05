@@ -10,6 +10,7 @@ import fr.eni.eniencheredr.service.CategorieService.CategorieService;
 import fr.eni.eniencheredr.service.EnchereService.EnchereService;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
@@ -41,10 +42,22 @@ public class EnchereController {
             Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
             modele.addAttribute("utilisateurs", user);
         }
+
         modele.addAttribute("categories", categories);
         modele.addAttribute("articles", articles);
+        modele.addAttribute("articleSearch", new Articles_Vendus());
         return "index";
     }
+
+
+    @PostMapping("/search")
+    public String searchArticle(Model model, @ModelAttribute("articles") Articles_Vendus articles){
+        List<Articles_Vendus> resultList = articleService.findByName(articles.getNom_article());
+        model.addAttribute("articleSearch", new Articles_Vendus());
+        model.addAttribute("articles", resultList);
+        return "index";
+    }
+
 
     @GetMapping("/addArticle")
     public String addArticle(Model model) {

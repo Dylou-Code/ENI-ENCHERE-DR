@@ -10,7 +10,7 @@ public interface ArticleDAO {
 
     Articles_Vendus findArticleById(Integer no_article);
 
-    Articles_Vendus findArticleByLibelle(String libelle);
+    List<Articles_Vendus> findArticleByName(String nom_article);
 
     void saveArticle(Articles_Vendus article);
 

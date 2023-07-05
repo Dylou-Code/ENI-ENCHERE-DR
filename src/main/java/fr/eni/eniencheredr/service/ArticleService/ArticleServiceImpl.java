@@ -1,6 +1,7 @@
 package fr.eni.eniencheredr.service.ArticleService;
 
 import fr.eni.eniencheredr.bo.Articles_Vendus;
+import fr.eni.eniencheredr.bo.Encheres;
 import fr.eni.eniencheredr.dal.ArticleDAO.ArticleDAO;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,17 @@ public class ArticleServiceImpl implements ArticleService{
     @Override
     public void deleteArticle(Articles_Vendus article) {
         articleDAO.deleteArticle(article);
+    }
+
+    @Override
+    public List<Articles_Vendus> findByName(String nom_article) {
+
+        return articleDAO.findArticleByName(nom_article);
+    }
+
+    @Override
+    public List<Articles_Vendus> articleByFilter(Integer filtre, boolean encheresOuvertes, boolean encheresEnCours, boolean encheresRemportees, boolean ventesEnCours, boolean ventesNonDebutees, boolean ventesTerminees, int userId) {
+        return null;
     }
 
     @Override

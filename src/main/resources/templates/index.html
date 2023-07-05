@@ -13,8 +13,6 @@
         &copy; 2016 The Static Templates
     </div>-->
 
-
-
     <main layout:fragment="main">
 
         <div class="container mx-auto">
@@ -33,11 +31,11 @@
                 <div class="filter">
                     <div class="filter__search">
                         <p class="text-normal">Filtre : </p>
-                        <form th:action="@{/search}">
+                        <form th:action="@{/search}" th:object="${articleSearch}" modelAttribute="loginModel" method="POST">
                             <div class=" flex ">
-                                <!-- <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Rechercher</label>-->
+                                <!-- <label  class="block text-sm font-medium leading-6 text-gray-900">Rechercher</label>-->
                                 <div class="relative mt-2 rounded-md shadow-sm">
-                                    <input type="text" name="search" id="price" class="block w-full rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Ex: Audi A3"/>
+                                    <input type="text" name="search" id="search" th:field="*{nom_article}"  class="block w-full rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Ex: Audi A3"/>
                                 </div>
                                 <button type="submit" class=" ml-1 text-blue-700 text-sm border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-1 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -112,6 +110,9 @@
 
 
             <div class="article mt-8">
+                <div th:if="${#lists.isEmpty(articles)}">
+                    <h2 class="text-center text-normal text-xl font-bold text-gray-500">Aucun article trouvé.</h2>
+                </div>
                 <div class="grid grid-cols-4 gap-4">
                     <!--Récupération des encheres-->
                     <div class="card__article"  data-th-each="article : ${articles}">
