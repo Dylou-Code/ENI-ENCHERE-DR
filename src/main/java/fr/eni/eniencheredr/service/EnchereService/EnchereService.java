@@ -8,11 +8,14 @@ import fr.eni.eniencheredr.bo.Utilisateurs;
 import java.util.List;
 
 public interface EnchereService {
-    List<Encheres> getEncheres();
+    List<Encheres> getEncheres(Integer no_utilisateur);
 
     void addEnchere(Encheres encheres);
 
     Encheres findById(Integer no_article);
+
+    //Trouver mes encheres
+    List<Encheres> findMyEncheres();
     void updateEnchere(Encheres encheres);
 
     void deleteEnchere(Encheres enchere);

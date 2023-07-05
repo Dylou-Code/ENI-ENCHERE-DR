@@ -1,6 +1,7 @@
 package fr.eni.eniencheredr.dal.EnchereDAO;
 
 import fr.eni.eniencheredr.bo.Encheres;
+import fr.eni.eniencheredr.bo.Utilisateurs;
 import fr.eni.eniencheredr.exception.EmptyResultDataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,12 +24,14 @@ public class EnchereDAOImpl implements EnchereDAO{
             + "u1.pseudo as enchPseudo, u1.nom as enchNom, u1.prenom as enchPrenom, "
             + "u1.email as enchMail, u1.telephone as enchTelephone, u1.rue as enchRue, u1.code_postal as enchCodePostal,"
             + "u1.ville as enchVille, u1.mot_de_passe as enchPassword, u1.credit as enchCredit, u1.administrateur as enchAdministrateur,\n"
-            + "a.*, c.*, u2.* from ENCHERES ench\n"
-            + "inner join ARTICLES_VENDUS a on a.no_article = ench.no_article\n"
+            + "a.*, c.*, u2.* from ENCHERES ench "
+            + "inner join ARTICLES_VENDUS a on a.no_article = ench.no_article "
             + "inner join CATEGORIES c on c.no_categorie = a.no_categorie\n"
             + "inner join UTILISATEURS u2 on u2.no_utilisateur = a.no_utilisateur\n"
             + "inner join UTILISATEURS u1 on u1.no_utilisateur = ench.no_utilisateur\n"
-            + "where ench.no_utilisateur = ?\n";
+            + "where ench.no_utilisateur = ?";
+
+    private static final String SELECT_ALL_ENCHERES = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM ENCHERES WHERE no_utilisateur= :no_utilisateur";
 
     /*Trouver une enchere par son ID*/
     private static final String SELECT_BY_ID = "SELECT ench.date_enchere, ench.montant_enchere, u1.no_utilisateur as enchNo_utilisateur, "
@@ -73,11 +76,31 @@ public class EnchereDAOImpl implements EnchereDAO{
 
   /**/
     @Override
-    public List<Encheres> findAllEncheres() {
-        return npjt.query( SELECT_USER_ENCHERE,
+    public List<Encheres> findAllEncheres(Integer no_utilisateur) {
+      /*  Map<String, Object> params = new HashMap<>();
+        params.put("no_utilisateur",no_utilisateur);
+
+
+
+        Utilisateurs utilisateurs = null;*/
+      /*  SqlParameterSource parameters = new MapSqlParameterSource("no_utilisateur", no_utilisateur);*/
+       /* return npjt.getJdbcOperations().query( SELECT_ALL_ENCHERES,
+                new EnchereRowMapper()
+        );*/
+
+        return npjt.query(
+                SELECT_ALL_ENCHERES,
+                new MapSqlParameterSource("no_utilisateur", no_utilisateur),
+                new EnchereRowMapper());
+    }
+
+    @Override
+    public List<Encheres> findMyenchere() {
+        return npjt.query(SELECT_ALL_ENCHERES,
                 new EnchereRowMapper()
         );
     }
+
 
     @Override
     public Encheres findEncheresById(Integer no_article) {

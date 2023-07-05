@@ -62,7 +62,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/encheres", "/register", "registerUser").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("admin")
-                        .requestMatchers("/favicon.ico", "/resources/**", "/error","/search","/js/**").permitAll()
+                        .requestMatchers("/favicon.ico", "/resources/**", "/error","/search","/js/**", "/searchFilter").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling().accessDeniedPage("/403")
