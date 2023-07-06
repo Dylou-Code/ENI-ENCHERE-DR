@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
@@ -42,6 +43,12 @@ public class WebSecurityConfig {
     }
     private final PasswordEncoder passwordEncoder  = new BCryptPasswordEncoder() ;
 
+    @Bean
+    public PersistentTokenRepository tokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl=new JdbcTokenRepositoryImpl();
+        jdbcTokenRepositoryImpl.setDataSource(dataSource);
+        return jdbcTokenRepositoryImpl;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -61,7 +68,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/encheres", "/register", "/registerUser", "/delete").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("admin")
-                        .requestMatchers("/favicon.ico", "/resources/**", "/error","/search","/js/**", "/searchFilter").permitAll()
+                        .requestMatchers("/favicon.ico", "/resources/**", "/error", "/search", "/js/**", "/searchFilter").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling().accessDeniedPage("/403")
