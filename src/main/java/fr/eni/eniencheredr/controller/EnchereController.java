@@ -9,17 +9,15 @@ import fr.eni.eniencheredr.exception.UserNotFoundException;
 import fr.eni.eniencheredr.service.ArticleService.ArticleService;
 import fr.eni.eniencheredr.service.CategorieService.CategorieService;
 import fr.eni.eniencheredr.service.EnchereService.EnchereService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping({"/", "/encheres"})
@@ -123,18 +121,18 @@ public class EnchereController {
 
         //Récupère le nom de l'utilisateur, fait une requete par nom et passe l'id de la caregorie et de l'utilisateur associé a l'article
         if (authentication.isAuthenticated()){
-            String name = authentication.getName();
-            Date date = new Date();
-            Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
-            if (user1 == null) {
-                throw new UserNotFoundException("Utilisateur connecté non trouvée");
-            }
-            Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
 
+            /*if (user1 == null) {
+                throw new UserNotFoundException("Utilisateur connecté non trouvée");
+            }*/
+            String name = authentication.getName();
+            Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
             articlesVendus.setUtilisateurs(user1);
+            Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
             articlesVendus.setCategories(cat1);
             articleService.saveArticle(articlesVendus);
-
+            Date date = new Date();
+            System.out.println(date);
             Encheres ench = new Encheres(user1.getNo_utilisateur(), articlesVendus.getNo_article(), date, 0);
             enchereService.addEnchere(ench);
         }else  {
@@ -199,17 +197,25 @@ public class EnchereController {
         articlesVendus.setUtilisateurs(user);
         articlesVendus.setCategories(cat1);
 
-        //Verification du montant
+        // ----------------------------------------- Verification du montant -----------------------------------------
         // Si le prix est supérieure à la meilleur offre
-        if (articlesVendus.getPrix_vente() < articlePage.getPrix_vente()){
-            System.out.println("Inférieur a la meilleur offre : " + articlesVendus.getPrix_vente());
+        if (articlesVendus.getPrix_vente() < articlePage.getPrix_vente() && articlesVendus.getPrix_vente() < Integer.MAX_VALUE){
+            //System.out.println("Inférieur a la meilleur offre : " + articlesVendus.getPrix_vente());
             return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
         }
 
         //Si le prix est supérieure au prix initial
         if (articlesVendus.getPrix_vente() < articlePage.getPrix_initial()){
-            System.out.println("Inférieur au prix initial" + articlePage.getPrix_initial());
+            //System.out.println("Inférieur au prix initial" + articlePage.getPrix_initial());
             return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
+        }
+
+        // ----------------------------------------- Verificationde la date -----------------------------------------
+        System.out.println("true" + date);
+        if ((articlePage.getDate_debut_encheres() != null) && (articlePage.getDate_fin_encheres() != null)){
+            if (date.before(articlePage.getDate_debut_encheres()) || date.after(articlePage.getDate_fin_encheres())){
+                return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
+            }
         }
 
         //Fonction ecnherir

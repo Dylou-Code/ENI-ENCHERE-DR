@@ -1,6 +1,6 @@
 package fr.eni.eniencheredr.bo;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Articles_Vendus {
     private Integer no_article;

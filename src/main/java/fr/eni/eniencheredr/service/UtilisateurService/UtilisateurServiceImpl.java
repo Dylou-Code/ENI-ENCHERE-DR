@@ -26,7 +26,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public void addUtilisateur(Utilisateurs utilisateurs) {
         utilisateurs.setMot_de_passe(bcrypt.encode(utilisateurs.getMot_de_passe()));
-        System.out.println(utilisateurs);
             try {
                 utilisateurDAO.saveUtilisateur(utilisateurs);
                 System.out.println("Utilisateur ajouté");

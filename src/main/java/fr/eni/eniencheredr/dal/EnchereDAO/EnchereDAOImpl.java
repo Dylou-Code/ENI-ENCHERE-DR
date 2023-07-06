@@ -146,7 +146,6 @@ public class EnchereDAOImpl implements EnchereDAO{
                 .addValue("date_enchere", enchere.getDate_enchere())
                 .addValue("montant_enchere", enchere.getMontant_enchere());
         npjt.update(UPDATE_ENCHERE, params);
-        System.out.println(enchere.getDate_enchere());
     }
 
     @Override

@@ -95,7 +95,6 @@
             <form class="space-y-6 " th:object="${articles}" th:action="@{/auction}" method="POST">
               <input type="text" hidden="hidden" th:field="${articles.no_article}">
               <input type="text" hidden="hidden" th:field="${articles.categories.no_categorie}">
-              <input type="text" hidden="hidden" th:field="${articles}">
               <div class="sm:col-span-4">
                 <label for="prix" class="block text-sm font-medium leading-6 text-gray-900">Proposition</label>
                 <div class="mt-2">

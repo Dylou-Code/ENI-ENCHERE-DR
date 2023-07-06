@@ -150,7 +150,6 @@ public class ArticleDAOImpl implements ArticleDAO {
         /*map.put("no_utilisateur",article.getUtilisateurs()==null?null:article.getUtilisateurs().getNo_utilisateur());
         map.put("no_categorie", article.getCategories()==null?null:article.getCategories().getNo_categorie());*/
 
-        System.out.println(article);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -197,7 +196,6 @@ public class ArticleDAOImpl implements ArticleDAO {
                 .addValue("no_article", article.getNo_article());
 
         namedParameterJdbcTemplate.update(ENCHERIR_ARTICLE, params);
-        System.out.println(article.getDate_debut_encheres());
     }
 
 
