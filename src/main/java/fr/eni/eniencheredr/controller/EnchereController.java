@@ -179,7 +179,7 @@ public class EnchereController {
                     // Enregistrer le lien de l'image dans la base de données
                     String imageLink = "/images/" + fileName;
                    /* String imageLink = converter.convert(imageFile);*/
-                    articlesVendus.setImageLink(imageLink);
+                    articlesVendus.setImage(imageLink);
                     // ... autres logiques de création d'article ...
                 } catch (IOException e) {
                     // Gérer les erreurs lors du téléchargement et de l'enregistrement de l'image
@@ -190,6 +190,7 @@ public class EnchereController {
 
             articlesVendus.setUtilisateurs(user1);
             articlesVendus.setCategories(cat1);
+            System.out.println(articlesVendus);
             articleService.saveArticle(articlesVendus);
 
             Encheres ench = new Encheres(user1.getNo_utilisateur(), articlesVendus.getNo_article(), date, 0);

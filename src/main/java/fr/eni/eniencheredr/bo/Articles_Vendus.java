@@ -13,7 +13,7 @@ public class Articles_Vendus {
     private Utilisateurs utilisateurs;
     private Categories categories;
 
-    private String imageLink;
+    private String image;
 
     public Articles_Vendus() {}
 
@@ -39,6 +39,22 @@ public class Articles_Vendus {
         this.categories = categories;
 
     }
+
+    public Articles_Vendus(Integer no_article, String nom_article, String description, Date date_debut_encheres, Date date_fin_encheres, Integer prix_vente, Integer prix_initial,  String image ,Utilisateurs utilisateurs, Categories categories) {
+        this.no_article = no_article;
+        this.nom_article = nom_article;
+        this.description = description;
+        this.date_debut_encheres = date_debut_encheres;
+        this.date_fin_encheres = date_fin_encheres;
+        this.prix_initial = prix_initial;
+        this.prix_vente = prix_vente;
+        this.image = image;
+        this.utilisateurs = utilisateurs;
+        this.categories = categories;
+
+    }
+
+
 
     public Integer getNo_article() {
         return no_article;
@@ -92,13 +108,7 @@ public class Articles_Vendus {
         return prix_vente;
     }
 
-    public String getImageLink() {
-        return imageLink;
-    }
 
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
-    }
 
     public void setPrix_vente(Integer prix_vente) {
         this.prix_vente = prix_vente;
@@ -137,6 +147,15 @@ public class Articles_Vendus {
         this.no_categorie = no_categorie;
     }*/
 
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Articles_Vendus{" +
@@ -149,7 +168,7 @@ public class Articles_Vendus {
                 ", prix_vente=" + prix_vente +
                 ", utilisateurs=" + utilisateurs +
                 ", categories=" + categories +
-                ", imageLink='" + imageLink + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

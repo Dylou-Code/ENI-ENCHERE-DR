@@ -119,8 +119,7 @@ public class ArticleDAOImpl implements ArticleDAO {
             a.setDate_fin_encheres(rs.getDate(5));
             a.setPrix_initial(rs.getInt(6));
             a.setPrix_vente(rs.getInt(7));
-            a.setImageLink(rs.getString(8));
-            //a.setUtilisateurs(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
+            a.setImage(rs.getString(8));
             a.setUtilisateurs(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
             a.setCategories(categorieDAO.findCategoryById(rs.getInt("no_categorie")));
             return a;
@@ -189,7 +188,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                 .addValue("date_fin_encheres", article.getDate_fin_encheres())
                 .addValue("prix_initial", article.getPrix_initial())
                 .addValue("prix_vente", article.getPrix_vente())
-                .addValue("IMAGE", article.getImageLink())
+                .addValue("image", article.getImage())
                 .addValue("no_utilisateur", article.getUtilisateurs().getNo_utilisateur())
                 .addValue("no_categorie", article.getCategories().getNo_categorie());
         namedParameterJdbcTemplate.update(INSERT, params, keyHolder);
