@@ -1,10 +1,7 @@
 package fr.eni.eniencheredr.dal.UtilisateurDAO;
 
-import fr.eni.eniencheredr.bo.Categories;
 import fr.eni.eniencheredr.bo.Utilisateurs;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -31,7 +28,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
     private final static String UPDATE = "UPDATE Utilisateurs SET pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit = " +
             ":pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit " +
-            "WHERE no_utilisateur= ?";
+            "WHERE no_utilisateur= :no_utilisateur";
     private final static String DELETE = "DELETE Utilisateurs WHERE no_utilisateur= :no_utilisateur";
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

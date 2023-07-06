@@ -94,7 +94,10 @@ public class EnchereDAOImpl implements EnchereDAO{
 
     @Override
     public Encheres getEnchere(Integer no_article) {
-        return npjt.queryForObject(FIND_BY_ID, new MapSqlParameterSource("no_article", no_article), new EnchereRowMapper());
+        return npjt.queryForObject(
+                FIND_BY_ID,
+                new MapSqlParameterSource("no_article", no_article),
+                new EnchereRowMapper());
     }
 
 

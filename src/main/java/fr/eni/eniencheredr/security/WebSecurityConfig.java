@@ -4,7 +4,6 @@ package fr.eni.eniencheredr.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -52,7 +51,6 @@ public class WebSecurityConfig {
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
-                //.logout(Customizer.withDefaults())
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
@@ -60,7 +58,7 @@ public class WebSecurityConfig {
                         .deleteCookies("JSESSIONID")
                 )
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/encheres", "/register", "registerUser").permitAll()
+                        .requestMatchers("/", "/encheres", "/register", "/registerUser", "/delete").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("admin")
                         .requestMatchers("/favicon.ico", "/resources/**", "/error","/search","/js/**").permitAll()
                         .anyRequest().authenticated()

@@ -9,6 +9,7 @@ import fr.eni.eniencheredr.exception.UserNotFoundException;
 import fr.eni.eniencheredr.service.ArticleService.ArticleService;
 import fr.eni.eniencheredr.service.CategorieService.CategorieService;
 import fr.eni.eniencheredr.service.EnchereService.EnchereService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping({"/", "/encheres"})
@@ -101,10 +103,14 @@ public class EnchereController {
 
     @GetMapping("/vente")
     public String enchere(@RequestParam(name="no_article") Integer no_article, Model modeleArticle, Model modeleUser,
+                          Model myAuction,
                           Authentication authentication) throws UserNotFoundException {
         Articles_Vendus article = articleService.findArticleById(no_article);
         modeleArticle.addAttribute("articles", article);
+        Boolean monEnchere = false;
+        Boolean encherir = true;
 
+        //Récupère l'utilisateur connecté
         if (authentication != null && authentication.isAuthenticated()){
             String name = authentication.getName();
             Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
@@ -112,7 +118,27 @@ public class EnchereController {
                 throw new UserNotFoundException("Utilisateur connecté non trouvée");
             }
             modeleUser.addAttribute("utilisateur", user);
+
+            //Récupère l'enchère concerné
+            Encheres ench = enchereService.findById(article.getNo_article());
+
+            //Compare l'id utilisateur et l'id de l'enchère
+            // Utilisateur peux encherir mais pas annuler
+            if (user.getNo_utilisateur().equals(ench.getNo_utilisateur())){
+                monEnchere = true;
+                encherir = false;
+            }
+
+            // Utilisateur peut annuler la vente
+            if (user.getNo_utilisateur() != ench.getNo_utilisateur()) {
+                encherir = true;
+                monEnchere = false;
+            }
+            myAuction.addAttribute("monEnchere", monEnchere);
+            myAuction.addAttribute("peutEncherir", encherir);
         }
+
+
         return "encherir";
     }
 
@@ -149,19 +175,26 @@ public class EnchereController {
     }
 
     @GetMapping("/delete")
-    public String deleteEnchere(@ModelAttribute("articles") Articles_Vendus articles, Authentication authentication) throws UserNotFoundException {
-        if (authentication != null && authentication.isAuthenticated()){
-            String name = authentication.getName();
-            Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
-            if (user == null) {
-                throw new UserNotFoundException("Utilisateur connecté non trouvée");
-            }
-            Encheres ench = enchereService.findById(articles.getNo_article());
-            //Articles_Vendus article = articleService.findArticleById(articles.getNo_article());
-            System.out.println(ench);
-            enchereService.deleteEnchere(ench);
-            articleService.deleteArticle(articles);
+    public String deleteEnchere(@ModelAttribute("articles") Articles_Vendus articles,
+                                Authentication authentication) throws UserNotFoundException {
+        Boolean monEnchere = false;
+        // Récupère l'utilisateur
+        String name = authentication.getName();
+        Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
+
+        //Verifie si il est trouvé
+        if (user == null) {
+            throw new UserNotFoundException("Utilisateur connecté non trouvée");
         }
+
+        //Récupère l'article'
+        Encheres ench = enchereService.findById(articles.getNo_article());
+
+        //Supprimer l'enchère et l'article
+        enchereService.deleteEnchere(ench);
+        articleService.deleteArticle(articles);
+
+
         return "redirect:/";
     }
 
