@@ -44,7 +44,7 @@ function rechercher() {
 
     let venteEnCours = document.getElementById("venteEnCours").checked;
     let venteNonDebute = document.getElementById("venteNonDebuté").checked;
-    let venteNonTermine = document.getElementById("venteNonTerminé").checked;
+    let venteTermine = document.getElementById("venteTerminé").checked;
 
     let searchActionUrl = document.getElementById("searchActionUrl").value;
 
@@ -60,6 +60,7 @@ function rechercher() {
 
     if (enchEnCours) {
         // Effectuer la requête pour les enchères en cours
+
         window.location.href = searchActionUrl + "?type=enchEnCours";
     }
 
@@ -76,7 +77,7 @@ function rechercher() {
         window.location.href = searchActionUrl + "?type=venteNonDebute";
     }
 
-    if (venteNonTermine) {
-        window.location.href = searchActionUrl + "?type=venteEnCours";
+    if (venteTermine) {
+        window.location.href = searchActionUrl + "?type=venteTerminé";
     }
 }

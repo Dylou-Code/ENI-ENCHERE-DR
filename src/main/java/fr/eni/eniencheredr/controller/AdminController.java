@@ -52,7 +52,6 @@ public class AdminController {
 
     @GetMapping("/detail-user")
     public String detailUser(@RequestParam(name="no_utilisateur") Integer no_utilisateur, Model model) {
-
         Utilisateurs user = utilisateurService.findById(no_utilisateur);
         model.addAttribute("utilisateurs",user);
         return "Admin/detailUserAdmin";

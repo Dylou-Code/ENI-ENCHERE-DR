@@ -13,6 +13,8 @@ public class Articles_Vendus {
     private Utilisateurs utilisateurs;
     private Categories categories;
 
+    private String imageLink;
+
     public Articles_Vendus() {}
 
     public Articles_Vendus(Integer no_article, String nom_article, String description, Date date_debut_encheres, Date date_fin_encheres,Integer prix_initial , Integer prix_vente) {
@@ -90,6 +92,14 @@ public class Articles_Vendus {
         return prix_vente;
     }
 
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
     public void setPrix_vente(Integer prix_vente) {
         this.prix_vente = prix_vente;
     }
@@ -139,6 +149,7 @@ public class Articles_Vendus {
                 ", prix_vente=" + prix_vente +
                 ", utilisateurs=" + utilisateurs +
                 ", categories=" + categories +
+                ", imageLink='" + imageLink + '\'' +
                 '}';
     }
 }

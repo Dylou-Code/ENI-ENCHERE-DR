@@ -44,9 +44,24 @@ public class UserController {
     }
 
     @GetMapping("/edit-profil")
-    public String modifierProfil(@ModelAttribute("utilisateurs") Utilisateurs utilisateurs) {
-        return "modifierProfil";
+    public String modifierProfil(Model userAuthenticated, Authentication authentication) {
+        String name = authentication.getName();
+        Utilisateurs user = utilisateurService.findByPseudo(name);
+        System.out.println(user);
+        userAuthenticated.addAttribute("utilisateurs", user);
+       return "modifierProfil";
     }
+
+    @PostMapping("/edit")
+    public String updateProfil(Model userAuthenticated,@ModelAttribute("utilisateurs") Utilisateurs utilisateurs, Authentication authentication) {
+        String name = authentication.getName();
+        Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
+        userAuthenticated.addAttribute("utilisateurs", user);
+        utilisateurService.updateUtilisateur(user);
+
+        return "redirect:/";
+    }
+
 
     @GetMapping("/profil")
     public String detailProfil(Model userAuthenticated,
@@ -54,7 +69,6 @@ public class UserController {
         String name = authentication.getName();
         Utilisateurs user = utilisateurService.findByPseudo(name);
         userAuthenticated.addAttribute("utilisateurs", user);
-
         return "profil";
     }
 
