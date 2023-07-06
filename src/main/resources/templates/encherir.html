@@ -18,6 +18,8 @@
           </div>-->
         <div class="px-4 sm:px-0">
             <h3 class="text-base text-center text-xl font-semibold leading-7 text-gray-900">Detail vente</h3>
+            <span hidden="hidden" data-th-text="${articles.nom_article}"></span>
+          <span hidden="hidden" data-th-text="${articles.prix_initial}"></span>
         </div>
 
         <div class="mt-6 border-t border-gray-100">
@@ -31,14 +33,23 @@
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Description</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci assumenda consequatur
-                culpa deleniti error excepturi fugit, illum impedit iste iusto minima optio porro quaerat reiciendis rem tempora voluptate voluptates</dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Catégorie</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.categories.libelle}">Apple MacBook Pro M2</dd>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.description}"></dd>
             </div>
 
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Catégorie</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.categories.libelle}"></dd>
+            </div>
+
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Date de début</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.date_debut_encheres}"></dd>
+            </div>
+
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">Date de fin</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.date_fin_encheres}"></dd>
+            </div>
 
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Mise à prix</dt>

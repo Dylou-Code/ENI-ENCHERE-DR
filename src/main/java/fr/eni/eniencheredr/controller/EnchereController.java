@@ -187,30 +187,34 @@ public class EnchereController {
     @PostMapping("/auction")
     public String encherir(@ModelAttribute("articles") Articles_Vendus articlesVendus,
                            Authentication authentication) throws UserNotFoundException {
+        //Récupère le nom de l'utilisateur, fait une requete par nom et passe l'id de la categorie et de l'utilisateur associé a l'article
         Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(authentication.getName());
         if (user == null) {
             throw new UserNotFoundException("Utilisateur connecté non trouvée");
         }
         Date date = new Date();
+        Articles_Vendus articlePage = articleService.findArticleById(articlesVendus.getNo_article());
 
-/*        System.out.println(user);
-        System.out.println(articlesVendus.getPrix_vente());
-        System.out.println(articlesVendus.getNo_article());
-*/
-        //Récupère le nom de l'utilisateur, fait une requete par nom et passe l'id de la categorie et de l'utilisateur associé a l'article
-        String name = authentication.getName();
-        Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
         Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
-        articlesVendus.setUtilisateurs(user1);
+        articlesVendus.setUtilisateurs(user);
         articlesVendus.setCategories(cat1);
 
-        //Fonction enchérir
-/*
-        modeleEnchere.addAttribute("encheres", enchereService.findById(articlesVendus.getNo_article()));
-*/
+        //Verification du montant
+        // Si le prix est supérieure à la meilleur offre
+        if (articlesVendus.getPrix_vente() < articlePage.getPrix_vente()){
+            System.out.println("Inférieur a la meilleur offre : " + articlesVendus.getPrix_vente());
+            return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
+        }
 
+        //Si le prix est supérieure au prix initial
+        if (articlesVendus.getPrix_vente() < articlePage.getPrix_initial()){
+            System.out.println("Inférieur au prix initial" + articlePage.getPrix_initial());
+            return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
+        }
+
+        //Fonction ecnherir
         Encheres offre = new Encheres(user.getNo_utilisateur(), articlesVendus.getNo_article(), date, articlesVendus.getPrix_vente());
-        System.out.println(offre);
+
         enchereService.updateEnchere(offre);
         articleService.encherirArticle(articlesVendus);
         return "redirect:/vente?no_article=" + articlesVendus.getNo_article();

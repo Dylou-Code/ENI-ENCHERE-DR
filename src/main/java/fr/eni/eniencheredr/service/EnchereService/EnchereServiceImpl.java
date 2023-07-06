@@ -1,6 +1,5 @@
 package fr.eni.eniencheredr.service.EnchereService;
 
-import fr.eni.eniencheredr.bo.Articles_Vendus;
 import fr.eni.eniencheredr.bo.Encheres;
 import fr.eni.eniencheredr.dal.ArticleDAO.ArticleDAO;
 import fr.eni.eniencheredr.dal.EnchereDAO.EnchereDAO;
@@ -43,7 +42,11 @@ public class EnchereServiceImpl implements EnchereService{
 */
     @Override
     public void updateEnchere(Encheres encheres) {
-        enchereDAO.updateEnchere(encheres);
+        try {
+            enchereDAO.updateEnchere(encheres);
+        }catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
