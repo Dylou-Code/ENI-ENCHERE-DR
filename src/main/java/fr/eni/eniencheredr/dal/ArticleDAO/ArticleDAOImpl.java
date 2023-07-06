@@ -1,8 +1,6 @@
 package fr.eni.eniencheredr.dal.ArticleDAO;
 
 import fr.eni.eniencheredr.bo.Articles_Vendus;
-import fr.eni.eniencheredr.bo.Categories;
-import fr.eni.eniencheredr.bo.Utilisateurs;
 import fr.eni.eniencheredr.dal.CategorieDAO.CategorieDAO;
 import fr.eni.eniencheredr.dal.UtilisateurDAO.UtilisateurDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +61,35 @@ public class ArticleDAOImpl implements ArticleDAO {
     private static final String ENCHERIR_ARTICLE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prix_vente WHERE no_article = :no_article";
 
     private final static String DELETE = "DELETE ARTICLES_VENDUS WHERE no_article = :no_article";
+
+    private final static String SELECT_ALL_DATEINF = "SELECT a.*,  e.date_enchere FROM ARTICLES_VENDUS a " +
+            "INNER JOIN ENCHERES e ON e.no_article = a.no_article " +
+            "WHERE e.no_utilisateur = :no_utilisateur " +
+            "AND e.date_enchere >= GETDATE()";
+
+    /*Toutes mes ventes*/
+    private final static String SELECT_MES_VENTES = "SELECT a.* FROM ARTICLES_VENDUS a " +
+            "WHERE a.no_utilisateur = :no_utilisateur";
+
+
+    /*Toutes mes enchères en cours*/
+    private final static String SELECT_MY_AUCTION = "SELECT a.* FROM ARTICLES_VENDUS a " +
+            "INNER JOIN ENCHERES e ON e.no_article = a.no_article " +
+            "WHERE e.no_utilisateur = :no_utilisateur ";
+
+    /*private static final String SELECT_ALL_ENCHERES =  "SELECT * FROM ENCHERES e " +
+            "INNER JOIN ARTICLES_VENDUS A ON a.no_article = e.no_article\n" +
+            "WHERE e.no_utilisateur = :no_utilisateur";*/
+
+
+
+    /**/
+    /*private final static String SELECT_MY_AUCTION_DATE_SUP = "SELECT a.* FROM ARTICLES_VENDUS a " +
+            "INNER JOIN ENCHERES e ON e.no_article = a.no_article " +
+            "WHERE e.no_utilisateur = :no_utilisateur " +
+            "AND e.date_enchere >= GETDATE()";
+*/
+
 
 
     @Autowired
@@ -136,6 +163,7 @@ public class ArticleDAOImpl implements ArticleDAO {
         List<Articles_Vendus> articles = namedParameterJdbcTemplate.query(SELECT_BY_NOM, parameters, new ArticleRowMapper());
         return articles;
     }
+
     @Override
     public void saveArticle(Articles_Vendus article) {
         /*Map<String, Object> map = new HashMap<>();
@@ -200,99 +228,34 @@ public class ArticleDAOImpl implements ArticleDAO {
         System.out.println(article.getDate_debut_encheres());
     }
 
+    /*                FILTRE                */
 
-    public List<Articles_Vendus> articleByFilter(Integer filtre, boolean encheresOuvertes, boolean encheresEnCours,
-                                              boolean encheresRemportees, boolean ventesEnCours, boolean ventesNonDebutees, boolean ventesTerminees, int userId) {
-
-        StringBuilder requete = new StringBuilder();
-        List<Articles_Vendus> listArticle;
-
-
-        System.out.println("dans la DAL TEMP méthode ArticleByfilter");
-
-        if (filtre == 1) {
-            System.out.println("Mes achats");
-
-            if (!encheresOuvertes && !encheresEnCours && !encheresRemportees) {
-                requete.append(SELECT_ALL);
-            } else {
-                requete.append(
-                        "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, ARTICLES_VENDUS.no_utilisateur, ARTICLES_VENDUS.no_categorie\r\n"
-                                + "FROM ARTICLES_VENDUS INNER JOIN ENCHERES\r\n"
-                                + "ON (ARTICLES_VENDUS.no_article = ENCHERES.no_article) ");
-                if (encheresOuvertes) {
-                    requete.append("WHERE ARTICLES_VENDUS.date_fin_encheres >= GETDATE() ");
-                }
-                if (encheresEnCours) {
-                    if (requete.toString().contains("WHERE")) {
-                        requete.append("OR ");
-                    } else {
-                        requete.append("WHERE ");
-                    }
-                    requete.append("ARTICLES_VENDUS.date_fin_encheres >= GETDATE() AND  ENCHERES.no_utilisateur = :id ");
-                }
-
-                if (encheresRemportees) {
-                    if (requete.toString().contains("WHERE")) {
-                        requete.append("OR ");
-                    } else {
-                        requete.append("WHERE ");
-                    }
-                    requete.append(
-                            "ENCHERES.no_utilisateur = :id AND ARTICLES_VENDUS.date_fin_encheres <= GETDATE() AND montant_enchere = ARTICLES_VENDUS.prix_vente");
-                }
-            }
-
-        } else if (filtre == 2) {
-
-            System.out.println("Mes ventes");
-            if (ventesEnCours == false && ventesNonDebutees == false && ventesTerminees == false) {
-                requete.append(SELECT_ALL);
-            } else {
-                requete.append(
-                        "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, ARTICLES_VENDUS.no_utilisateur, ARTICLES_VENDUS.no_categorie "
-                                + "FROM ARTICLES_VENDUS ");
-                if (ventesEnCours == true) {
-                    requete.append(
-                            "WHERE ARTICLES_VENDUS.no_utilisateur = :id AND ARTICLES_VENDUS.date_debut_encheres <= GETDATE() AND ARTICLES_VENDUS.date_fin_encheres > GETDATE() ");
-                }
-
-                if (ventesNonDebutees == true) {
-                    if (requete.toString().contains("WHERE")) {
-                        requete.append("OR ");
-
-                    } else {
-                        requete.append("WHERE ");
-                    }
-
-                    requete.append(
-                            "ARTICLES_VENDUS.no_utilisateur = :id AND ARTICLES_VENDUS.date_debut_encheres >= GETDATE() ");
-                }
-
-                if (ventesTerminees == true) {
-                    if (requete.toString().contains("WHERE")) {
-                        requete.append("OR ");
-                    } else {
-                        requete.append("WHERE ");
-                    }
-                    requete.append(
-                            "ARTICLES_VENDUS.no_utilisateur = :id AND ARTICLES_VENDUS.date_fin_encheres <= GETDATE()");
-                }
-            }
-        }
-        System.out.println("!!!!!!!!!!!" + requete);
-
-
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id",userId);
-
-       /* listArticle = namedParameterJdbcTemplate.query(requete.toString(), params,
-                new ArticleRowMapper(utilisateurDAO, encheresCategoriesDAO));*/
-
-      /*  System.out.println("liste articles = " + listArticle.toString());*/
-
-//      listArticle = null;
-
-        return null;
+    @Override
+    public List<Articles_Vendus> articleByUserDateEnchereInf(Integer no_utilisateur) {
+        return namedParameterJdbcTemplate.query(
+                SELECT_ALL_DATEINF,
+                new MapSqlParameterSource("no_utilisateur", no_utilisateur),
+                new ArticleRowMapper()
+        );
     }
+
+    @Override
+    public List<Articles_Vendus> findMyArticles(Integer no_utilisateur) {
+        return namedParameterJdbcTemplate.query(
+                SELECT_MES_VENTES,
+                new MapSqlParameterSource("no_utilisateur", no_utilisateur),
+                new ArticleRowMapper()
+        );
+    }
+
+    @Override
+    public List<Articles_Vendus> findMyAuction(Integer no_utilisateur) {
+        return namedParameterJdbcTemplate.query(
+                SELECT_MY_AUCTION,
+                new MapSqlParameterSource("no_utilisateur", no_utilisateur),
+                new ArticleRowMapper()
+        );
+    }
+
+
 }

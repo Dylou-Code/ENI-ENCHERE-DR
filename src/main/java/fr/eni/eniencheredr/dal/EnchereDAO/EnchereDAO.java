@@ -7,7 +7,7 @@ import java.util.List;
 public interface EnchereDAO {
     List<Encheres> findAllEncheres(Integer no_utilisateur);
 
-    List<Encheres> findMyenchere();
+    List<Encheres> findMyEnchere(Integer no_utilisateur);
 
     Encheres findEncheresById(Integer id);
     Encheres getEnchere(Integer no_article);

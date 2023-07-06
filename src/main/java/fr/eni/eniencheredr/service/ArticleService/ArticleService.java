@@ -11,10 +11,13 @@ public interface ArticleService {
     void saveArticle(Articles_Vendus article);
     void updateArticle(Articles_Vendus article);
     void deleteArticle(Articles_Vendus article);
-
-    List<Articles_Vendus> findByName(String nom_article);
-    List<Articles_Vendus> articleByFilter(Integer filtre, boolean encheresOuvertes, boolean encheresEnCours,
-                                          boolean encheresRemportees, boolean ventesEnCours, boolean ventesNonDebutees, boolean ventesTerminees, int userId);
-
     void encherirArticle(Articles_Vendus article);
+
+    /*filtre*/
+    List<Articles_Vendus> findByName(String nom_article);
+
+    List<Articles_Vendus> findByDateInf(Integer no_utilisateur);
+
+    List<Articles_Vendus> findMyArticles(Integer no_utilisateur);
+    List<Articles_Vendus> findMyAuction(Integer no_utilisateur);
 }

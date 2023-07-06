@@ -56,6 +56,8 @@ public class EnchereController {
     }
 
 
+
+
     @PostMapping("/search")
     public String searchArticle(Model model, @ModelAttribute("articles") Articles_Vendus articles){
         List<Articles_Vendus> resultList = articleService.findByName(articles.getNom_article());
@@ -66,20 +68,39 @@ public class EnchereController {
 
     //filtre des checkbox
     @RequestMapping ("/searchFilter")
-    public String searchFilter(@RequestParam("type") String type, Model model ,Authentication authentication ) throws UserNotFoundException {
+    public String searchFilter(@RequestParam("type") String type, Model model ,Authentication authentication) throws UserNotFoundException {
         if (authentication != null && authentication.isAuthenticated()){
             String name = authentication.getName();
             Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
             if (user == null) {
                 throw new UserNotFoundException("Utilisateur connecté non trouvée");
             }
-            List<Encheres> enchere = new ArrayList<>();
 
-            if ("enchOuverte".equals(type)) {
-                enchere = enchereService.getEncheres(user.getNo_utilisateur());
+            /*Appel des filtres*/
+            /*Ventes terminé*/
+            if ("venteTerminé".equals(type)) {
+                List<Articles_Vendus> articles =  articleService.findByDateInf(user.getNo_utilisateur());
+                model.addAttribute("articles", articles);
+
+                System.out.println(articles);
             }
+
+            /*Toutes mes ventes*/
+            if ("venteEnCours".equals(type)) {
+                List<Articles_Vendus> articles =  articleService.findMyArticles(user.getNo_utilisateur());
+                model.addAttribute("articles", articles);
+                System.out.println(articles);
+            }
+
+            /*Toutes mes encheres*/
+            if ("enchEnCours".equals(type)) {
+                List<Articles_Vendus> articles =  articleService.findMyAuction(user.getNo_utilisateur());
+                model.addAttribute("articles", articles);
+                System.out.println(articles);
+            }
+
             model.addAttribute("utilisateurs", user);
-            model.addAttribute("encheres", enchere);
+
         }
         /*List<Articles_Vendus> articles = new ArrayList<>();*/
 

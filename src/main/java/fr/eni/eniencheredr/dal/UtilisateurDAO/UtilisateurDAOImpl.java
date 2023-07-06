@@ -29,9 +29,9 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     private final static String CREATE = "INSERT INTO Utilisateurs " +
             "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe) " +
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
-    private final static String UPDATE = "UPDATE Utilisateurs SET pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit = " +
-            ":pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit " +
-            "WHERE no_utilisateur= ?";
+    private final static String UPDATE = "UPDATE Utilisateurs SET pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe = " +
+            ":pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe " +
+            "WHERE no_utilisateur= :no_utilisateur";
     private final static String DELETE = "DELETE Utilisateurs WHERE no_utilisateur= :no_utilisateur";
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

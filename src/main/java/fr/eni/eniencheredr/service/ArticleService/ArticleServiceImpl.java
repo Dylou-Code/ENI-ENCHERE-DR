@@ -48,9 +48,20 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public List<Articles_Vendus> articleByFilter(Integer filtre, boolean encheresOuvertes, boolean encheresEnCours, boolean encheresRemportees, boolean ventesEnCours, boolean ventesNonDebutees, boolean ventesTerminees, int userId) {
-        return null;
+    public List<Articles_Vendus> findByDateInf(Integer no_utilisateur) {
+        return articleDAO.articleByUserDateEnchereInf(no_utilisateur);
     }
+
+    @Override
+    public List<Articles_Vendus> findMyArticles(Integer no_utilisateur) {
+        return  articleDAO.findMyArticles(no_utilisateur);
+    }
+
+    @Override
+    public List<Articles_Vendus> findMyAuction(Integer no_utilisateur) {
+        return articleDAO.findMyAuction(no_utilisateur);
+    }
+
 
     @Override
     public void encherirArticle(Articles_Vendus article) {
