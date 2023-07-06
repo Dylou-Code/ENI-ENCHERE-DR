@@ -30,7 +30,7 @@ public class ArticleDAOImpl implements ArticleDAO {
     INNER JOIN UTILISATEURS U ON U.no_utilisateur = AV.no_utilisateur
     INNER JOIN CATEGORIES C ON C.no_categorie = AV.no_categorie*/
     private final static String SELECT_BY_ID = "select no_article, nom_article, description, date_debut_encheres, date_fin_encheres, " +
-            "prix_initial, prix_vente, u.no_utilisateur, c.no_categorie " +
+            "prix_initial, prix_vente, image, u.no_utilisateur, c.no_categorie " +
             "FROM ARTICLES_VENDUS " +
             "INNER JOIN UTILISATEURS u ON u.no_utilisateur = ARTICLES_VENDUS.no_utilisateur " +
             "INNER JOIN CATEGORIES c ON c.no_categorie = ARTICLES_VENDUS.no_categorie " +
@@ -44,11 +44,9 @@ public class ArticleDAOImpl implements ArticleDAO {
             "WHERE nom_article LIKE '%' + :nom_article + '%'";
 
 
-
-
     private final static String INSERT = "INSERT INTO ARTICLES_VENDUS " +
-            "(nom_article, description, prix_initial,date_debut_encheres, date_fin_encheres, no_utilisateur, no_categorie) " +
-            "VALUES (:nom_article, :description, :prix_initial, :date_debut_encheres, :date_fin_encheres, :no_utilisateur, :no_categorie)";
+            "(nom_article, description, prix_initial,date_debut_encheres, date_fin_encheres,  image, no_utilisateur, no_categorie) " +
+            "VALUES (:nom_article, :description, :prix_initial, :date_debut_encheres, :date_fin_encheres, :image, :no_utilisateur, :no_categorie )";
 
     private final static String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente,no_categorie = " +
             ":nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :prix_vente,:no_categorie " +
@@ -121,6 +119,7 @@ public class ArticleDAOImpl implements ArticleDAO {
             a.setDate_fin_encheres(rs.getDate(5));
             a.setPrix_initial(rs.getInt(6));
             a.setPrix_vente(rs.getInt(7));
+            a.setImageLink(rs.getString(8));
             //a.setUtilisateurs(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
             a.setUtilisateurs(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
             a.setCategories(categorieDAO.findCategoryById(rs.getInt("no_categorie")));
@@ -190,6 +189,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                 .addValue("date_fin_encheres", article.getDate_fin_encheres())
                 .addValue("prix_initial", article.getPrix_initial())
                 .addValue("prix_vente", article.getPrix_vente())
+                .addValue("IMAGE", article.getImageLink())
                 .addValue("no_utilisateur", article.getUtilisateurs().getNo_utilisateur())
                 .addValue("no_categorie", article.getCategories().getNo_categorie());
         namedParameterJdbcTemplate.update(INSERT, params, keyHolder);

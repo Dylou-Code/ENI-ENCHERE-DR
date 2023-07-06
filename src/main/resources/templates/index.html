@@ -31,9 +31,9 @@
                 <div class="filter">
                     <div class="filter__search">
                         <p class="text-normal">Filtre : </p>
-                    <!--    <form th:action="@{/search}" th:object="${articleSearch}" method="POST">
+                        <form th:action="@{/search}" th:object="${articleSearch}" method="POST">
                             <div class=" flex ">
-                                &lt;!&ndash; <label  class="block text-sm font-medium leading-6 text-gray-900">Rechercher</label>&ndash;&gt;
+                               <!--<label  class="block text-sm font-medium leading-6 text-gray-900">Rechercher</label>-->
                                 <div class="relative mt-2 rounded-md shadow-sm">
                                     <input type="text" name="search" id="search" th:field="*{nom_article}"  class="block w-full rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Ex: Audi A3"/>
                                 </div>
@@ -46,7 +46,7 @@
                                 </button>
 
                             </div>
-                        </form>-->
+                        </form>
 
                     </div>
                     <div class="filter__categories" sec:authorize="isAuthenticated()">

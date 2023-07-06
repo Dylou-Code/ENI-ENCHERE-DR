@@ -9,12 +9,21 @@ import fr.eni.eniencheredr.exception.UserNotFoundException;
 import fr.eni.eniencheredr.service.ArticleService.ArticleService;
 import fr.eni.eniencheredr.service.CategorieService.CategorieService;
 import fr.eni.eniencheredr.service.EnchereService.EnchereService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +36,7 @@ public class EnchereController {
 
     private ArticleService articleService;
     private UtilisateurDAO utilisateurDAO;
+
 
 
     public EnchereController(EnchereService enchereService, CategorieService categorieService, ArticleService articleService, UtilisateurDAO utilisateurDAO) {
@@ -135,7 +145,7 @@ public class EnchereController {
     }
 
     @PostMapping("/save")
-    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, Authentication authentication) throws UserNotFoundException {
+    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, @RequestParam("image") MultipartFile imageFile, Authentication authentication) throws UserNotFoundException {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/
@@ -149,6 +159,34 @@ public class EnchereController {
                 throw new UserNotFoundException("Utilisateur connecté non trouvée");
             }
             Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
+
+
+            /*ajout image*/
+            if (!imageFile.isEmpty()) {
+                try {
+                    // Générer un nom de fichier unique basé sur l'heure actuelle
+                    String fileName = StringUtils.cleanPath(new Date().getTime() + "-" + StringUtils.getFilename(imageFile.getOriginalFilename()));
+                    String uploadDir = "./src/main/resources/static/images";
+
+                    // Copier le fichier dans le dossier d'images statiques
+                    java.nio.file.Path uploadPath = Paths.get(uploadDir);
+                    if (!Files.exists(uploadPath)) {
+                        Files.createDirectories(uploadPath);
+                    }
+                    Path filePath = uploadPath.resolve(fileName);
+                    Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                    // Enregistrer le lien de l'image dans la base de données
+                    String imageLink = "/images/" + fileName;
+                   /* String imageLink = converter.convert(imageFile);*/
+                    articlesVendus.setImageLink(imageLink);
+                    // ... autres logiques de création d'article ...
+                } catch (IOException e) {
+                    // Gérer les erreurs lors du téléchargement et de l'enregistrement de l'image
+                    e.printStackTrace();
+                }
+            }
+
 
             articlesVendus.setUtilisateurs(user1);
             articlesVendus.setCategories(cat1);
