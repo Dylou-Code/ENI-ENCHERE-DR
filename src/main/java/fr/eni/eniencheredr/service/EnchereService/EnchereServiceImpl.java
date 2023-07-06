@@ -17,8 +17,8 @@ public class EnchereServiceImpl implements EnchereService{
     }
 
     @Override
-    public List<Encheres> getEncheres() {
-        return enchereDAO.findAllEncheres();
+    public List<Encheres> getEncheres(Integer no_utilisateur) {
+        return enchereDAO.findAllEncheres(no_utilisateur);
     }
 
     @Override
@@ -31,6 +31,16 @@ public class EnchereServiceImpl implements EnchereService{
         return enchereDAO.findEncheresById(no_article);
     }
 
+    @Override
+    public List<Encheres> findMyEncheres() {
+        return null;
+    }
+
+    /*@Override
+    public List<Encheres> findMyEncheres() {
+        return enchereDAO.findAllEncheres();
+    }
+*/
     @Override
     public void updateEnchere(Encheres encheres) {
         enchereDAO.updateEnchere(encheres);

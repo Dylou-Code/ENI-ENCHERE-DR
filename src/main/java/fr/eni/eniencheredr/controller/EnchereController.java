@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -40,6 +41,7 @@ public class EnchereController {
     public String homePage(Model modele, Authentication authentication) throws UserNotFoundException {
         List<Categories> categories =  categorieService.getCategories();
         List<Articles_Vendus> articles =  articleService.findAllArticles();
+
         if (authentication != null && authentication.isAuthenticated()){
             String name = authentication.getName();
             Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
@@ -61,6 +63,46 @@ public class EnchereController {
         List<Articles_Vendus> resultList = articleService.findByName(articles.getNom_article());
         model.addAttribute("articleSearch", new Articles_Vendus());
         model.addAttribute("articles", resultList);
+        return "index";
+    }
+
+    //filtre des checkbox
+    @RequestMapping ("/searchFilter")
+    public String searchFilter(@RequestParam("type") String type, Model model ,Authentication authentication ) throws UserNotFoundException {
+        if (authentication != null && authentication.isAuthenticated()){
+            String name = authentication.getName();
+            Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
+            if (user == null) {
+                throw new UserNotFoundException("Utilisateur connecté non trouvée");
+            }
+            List<Encheres> enchere = new ArrayList<>();
+
+            if ("enchOuverte".equals(type)) {
+                enchere = enchereService.getEncheres(user.getNo_utilisateur());
+            }
+            model.addAttribute("utilisateurs", user);
+            model.addAttribute("encheres", enchere);
+        }
+        /*List<Articles_Vendus> articles = new ArrayList<>();*/
+
+
+       /* if ("achat".equals(type)) {
+            articles = articleService.findArticlesAchat();
+        } */
+
+
+
+        /*else if ("enchOuverte".equals(type)) {
+            articles = articleService.findArticlesEnchOuverte();
+        } else if ("enchEnCours".equals(type)) {
+            articles = articleService.findArticlesEnchEnCours();
+        } else if ("enchRemporte".equals(type)) {
+            articles = articleService.findArticlesEnchRemporte();
+        }*/
+
+        /*model.addAttribute("articles", articles);*/
+
+
         return "index";
     }
 

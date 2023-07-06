@@ -31,9 +31,9 @@
                 <div class="filter">
                     <div class="filter__search">
                         <p class="text-normal">Filtre : </p>
-                        <form th:action="@{/search}" th:object="${articleSearch}" modelAttribute="loginModel" method="POST">
+                    <!--    <form th:action="@{/search}" th:object="${articleSearch}" method="POST">
                             <div class=" flex ">
-                                <!-- <label  class="block text-sm font-medium leading-6 text-gray-900">Rechercher</label>-->
+                                &lt;!&ndash; <label  class="block text-sm font-medium leading-6 text-gray-900">Rechercher</label>&ndash;&gt;
                                 <div class="relative mt-2 rounded-md shadow-sm">
                                     <input type="text" name="search" id="search" th:field="*{nom_article}"  class="block w-full rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Ex: Audi A3"/>
                                 </div>
@@ -46,28 +46,26 @@
                                 </button>
 
                             </div>
-                        </form>
+                        </form>-->
 
                     </div>
                     <div class="filter__categories" sec:authorize="isAuthenticated()">
                         <div class="grid grid-cols-2 mt-5" >
                             <div class="flex flex-col ">
-                                <div class="filter__categories-group">
-
-                                </div>
+                                <input type="hidden" id="searchActionUrl" th:value="@{/searchFilter}" />
                                 <label class="inline-flex items-center mt-3">
                                     <input type="radio" name="filtre" class="form-radio h-5 w-5 text-gray-400" id="achat-btn"><span class="ml-2 text-gray-700">Achat</span>
                                 </label>
 
                                 <div class="filter_categories-item flex flex-col ml-5" id="check1">
                                     <label class="inline-flex items-center mt-3">
-                                        <input type="checkbox" id="enchOuverte" class="form-checkbox h-5 w-5 " ><span class="ml-2 text-gray-700">Enchères ouvertes</span>
+                                        <input type="checkbox" id="enchOuverte" onchange="rechercher()" class="form-checkbox h-5 w-5 " ><span class="ml-2 text-gray-700">Enchères ouvertes</span>
                                     </label>
                                     <label class="inline-flex items-center mt-3">
-                                        <input type="checkbox" id="enchEnCours" class="form-checkbox h-5 w-5 " ><span class="ml-2 text-gray-700">Mes enchères en cours</span>
+                                        <input type="checkbox" id="enchEnCours" onchange="rechercher()" class="form-checkbox h-5 w-5 " ><span class="ml-2 text-gray-700">Mes enchères en cours</span>
                                     </label>
                                     <label class="inline-flex items-center mt-3">
-                                        <input type="checkbox" id="enchRemporte" class="form-checkbox h-5 w-5 " ><span class="ml-2 text-gray-700">Mes enchères remportés</span>
+                                        <input type="checkbox" id="enchRemporte" onchange="rechercher()" class="form-checkbox h-5 w-5 " ><span class="ml-2 text-gray-700">Mes enchères remportés</span>
                                     </label>
                                 </div>
                             </div>
@@ -82,13 +80,13 @@
 
                                 <div class="filter_categories-item flex flex-col ml-5"  >
                                     <label class="inline-flex items-center mt-3">
-                                        <input type="checkbox" id="venteEnCours" class="form-checkbox h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Mes ventes en cours</span>
+                                        <input type="checkbox" id="venteEnCours" onchange="rechercher()" class="form-checkbox h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Mes ventes en cours</span>
                                     </label>
                                     <label class="inline-flex items-center mt-3">
-                                        <input type="checkbox"  id="venteNonDebuté" class="check2 form-checkbox h-5 w-5 text-orange-600" ><span class="ml-2 text-gray-700">ventes non débutés</span>
+                                        <input type="checkbox"  id="venteNonDebuté" onchange="rechercher()" class="check2 form-checkbox h-5 w-5 text-orange-600" ><span class="ml-2 text-gray-700">ventes non débutés</span>
                                     </label>
                                     <label class="inline-flex items-center mt-3">
-                                        <input type="checkbox"  id="venteNonTerminé" class="check2 form-checkbox h-5 w-5 text-red-600"  ><span class="ml-2 text-gray-700">ventes terminées</span>
+                                        <input type="checkbox"  id="venteNonTerminé" onchange="rechercher()" class="check2 form-checkbox h-5 w-5 text-red-600"  ><span class="ml-2 text-gray-700">ventes terminées</span>
                                     </label>
                                 </div>
                             </div>
