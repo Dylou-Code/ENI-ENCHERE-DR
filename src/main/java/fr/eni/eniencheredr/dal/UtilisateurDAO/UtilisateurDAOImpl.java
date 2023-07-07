@@ -26,8 +26,12 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     private final static String CREATE = "INSERT INTO Utilisateurs " +
             "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe) " +
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
-    private final static String UPDATE = "UPDATE Utilisateurs SET pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit = " +
+    /*private final static String UPDATE = "UPDATE Utilisateurs SET pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit = " +
             ":pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit " +
+            "WHERE no_utilisateur= :no_utilisateur";*/
+
+    private final static String UPDATE = "UPDATE Utilisateurs SET pseudo = :pseudo, nom = :nom, prenom = :prenom, email = :email, telephone = :telephone, " +
+            "rue = :rue, code_postal =:code_postal, ville = :ville, mot_de_passe = :mot_de_passe, credit = :credit " +
             "WHERE no_utilisateur= :no_utilisateur";
     private final static String DELETE = "DELETE Utilisateurs WHERE no_utilisateur= :no_utilisateur";
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -41,18 +45,18 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         @Override
         public Utilisateurs mapRow(ResultSet rs, int row) throws SQLException {
             Utilisateurs u = new Utilisateurs();
-            u.setNo_utilisateur(rs.getInt(1));
-            u.setPseudo(rs.getString(2));
-            u.setNom(rs.getString(3));
-            u.setPrenom(rs.getString(4));
-            u.setEmail(rs.getString(5));
-            u.setTelephone(rs.getString(6));
-            u.setRue(rs.getString(7));
-            u.setCode_postal(rs.getString(8));
-            u.setVille(rs.getString(9));
-            u.setMot_de_passe(rs.getString(10));
-            u.setCredit(rs.getInt(11));
-            u.setAdministrateur(rs.getBoolean(12));
+            u.setNo_utilisateur(rs.getInt("no_utilisateur"));
+            u.setPseudo(rs.getString("pseudo"));
+            u.setNom(rs.getString("nom"));
+            u.setPrenom(rs.getString("prenom"));
+            u.setEmail(rs.getString("email"));
+            u.setTelephone(rs.getString("telephone"));
+            u.setRue(rs.getString("rue"));
+            u.setCode_postal(rs.getString("code_postal"));
+            u.setVille(rs.getString("ville"));
+            u.setMot_de_passe(rs.getString("mot_de_passe"));
+            u.setCredit(rs.getInt("credit"));
+            u.setAdministrateur(rs.getBoolean("administrateur"));
 
             return u;
         }
@@ -113,7 +117,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     @Override
     public void updateUtilisateur(Utilisateurs utilisateur) {
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("no_utillisateur", utilisateur.getNo_utilisateur())
+                .addValue("no_utilisateur", utilisateur.getNo_utilisateur())
                 .addValue("pseudo", utilisateur.getPseudo())
                 .addValue("nom", utilisateur.getNom())
                 .addValue("prenom", utilisateur.getPrenom())
@@ -123,8 +127,10 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
                 .addValue("code_postal", utilisateur.getCode_postal())
                 .addValue("ville", utilisateur.getVille())
                 .addValue("mot_de_passe", utilisateur.getMot_de_passe())
-                .addValue("credit", utilisateur.getCredit())
+                .addValue("credit", utilisateur.getCredit());
+/*
                 .addValue("administrateur", utilisateur.isAdministrateur());
+*/
         namedParameterJdbcTemplate.update(UPDATE, params);
     }
 

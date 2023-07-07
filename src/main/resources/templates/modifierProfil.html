@@ -24,35 +24,35 @@
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm w-10/12">
-          <form class="space-y-6 " th:object="${utilisateurs}" th:action="@{/user/save}" method="POST">
+          <form class="space-y-6 " th:object="${utilisateurs}" th:action="@{/user/edit}" method="POST">
             <div class="grid grid-cols-2 gap-8 ">
               <div class="form__left">
                 <div class="mt-5">
                   <label for="pseudo"  class="block text-sm font-medium leading-6 text-gray-900">Pseudo</label>
 
                   <div class="mt-2">
-                    <input th:field="*{pseudo}" id="pseudo" name="pseudo" type="text" autocomplete="pseudo" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input th:field="*{pseudo}" id="pseudo" name="pseudo" type="text" autocomplete="pseudo"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
                 </div>
 
                 <div class="mt-5">
                   <label for="nom" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
                   <div class="mt-2">
-                    <input th:field="*{nom}" id="nom" name="nom" type="text" autocomplete="nom" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input th:field="*{nom}" id="nom" name="nom" type="text" autocomplete="nom" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
                 </div>
 
                 <div class="mt-5">
                   <label for="prenom" class="block text-sm font-medium leading-6 text-gray-900">Prenom</label>
                   <div class="mt-2">
-                    <input th:field="*{prenom}" id="prenom" name="prenom" type="text" autocomplete="prenom" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input th:field="*{prenom}" id="prenom" name="prenom" type="text" autocomplete="prenom"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
                 </div>
 
                 <div class="mt-5">
                   <label for="numberPhone" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
                   <div class="mt-2">
-                    <input th:field="*{email}" id="email" name="email" type="text" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input th:field="*{email}" id="email" name="email" type="text" autocomplete="email"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
                 </div>
 
@@ -64,7 +64,7 @@
                      </div>-->
                   </div>
                   <div class="mt-2">
-                    <input th:field="*{mot_de_passe}" id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input th:field="*{mot_de_passe}" id="password" name="password" type="password" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
                 </div>
               </div>
@@ -74,28 +74,28 @@
                 <div class="mt-5">
                   <label for="numberPhone" class="block text-sm font-medium leading-6 text-gray-900">Telephone</label>
                   <div class="mt-2">
-                    <input th:field="*{telephone}" id="numberPhone" name="telephone" type="text" autocomplete="telephone" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input th:field="*{telephone}" id="numberPhone" name="telephone" type="text" autocomplete="telephone"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
                 </div>
 
                 <div class="mt-5">
                   <label for="codePostal" class="block text-sm font-medium leading-6 text-gray-900">Code postal</label>
                   <div class="mt-2">
-                    <input th:field="*{code_postal}" id="codePostal" name="code_postal" type="text" autocomplete="code postal" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input th:field="*{code_postal}" id="codePostal" name="code_postal" type="text" autocomplete="code postal"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
                 </div>
 
                 <div class="mt-5">
                   <label for="rue" class="block text-sm font-medium leading-6 text-gray-900">Rue</label>
                   <div class="mt-2">
-                    <input th:field="*{rue}" id="rue" name="rue" type="text" autocomplete="rue" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input th:field="*{rue}" id="rue" name="rue" type="text" autocomplete="rue"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
                 </div>
 
                 <div class="mt-5">
                   <label for="ville" class="block text-sm font-medium leading-6 text-gray-900">Ville</label>
                   <div class="mt-2">
-                    <input th:field="*{ville}" id="ville" name="email" type="text" autocomplete="ville" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input th:field="*{ville}" id="ville" name="email" type="text" autocomplete="ville"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
                 </div>
 

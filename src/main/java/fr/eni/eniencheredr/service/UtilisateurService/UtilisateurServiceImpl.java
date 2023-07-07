@@ -46,6 +46,20 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public void updateUtilisateur(Utilisateurs utilisateurs) {
+        System.out.println(utilisateurs);
+        utilisateurs.setCredit(0);
+        Utilisateurs user = utilisateurDAO.findUtilisateurById(utilisateurs.getNo_utilisateur());
+
+        if (utilisateurs.getMot_de_passe() == null || utilisateurs.getMot_de_passe() == ""){
+            System.out.println("mot de passe vide");
+
+            utilisateurs.setMot_de_passe(user.getMot_de_passe());
+
+        }else {
+            System.out.println(user);
+            utilisateurs.setMot_de_passe(bcrypt.encode(utilisateurs.getMot_de_passe()));
+
+        }
         utilisateurDAO.updateUtilisateur(utilisateurs);
     }
 

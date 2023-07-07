@@ -4,6 +4,7 @@ package fr.eni.eniencheredr.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,11 +16,11 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import javax.sql.DataSource;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-
-
     private final DataSource dataSource;
 
     public WebSecurityConfig(DataSource dataSource) {
@@ -37,8 +38,6 @@ public class WebSecurityConfig {
                 .passwordEncoder( passwordEncoder )
                 .usersByUsernameQuery( " SELECT pseudo, mot_de_passe, 1 FROM Utilisateurs WHERE ? IN  ( pseudo , email ) " )
                 .authoritiesByUsernameQuery( " SELECT pseudo, ( CASE WHEN administrateur = 1 THEN 'admin' ELSE  'user' END ) FROM Utilisateurs WHERE ? IN  ( pseudo , email ) " )
-                //.usersByUsernameQuery( " SELECT pseudo, mot_de_passe, 1 FROM Utilisateurs WHERE ? IN  ( pseudo , email ) " )
-                //.authoritiesByUsernameQuery( " SELECT pseudo, 'admin' FROM Utilisateurs WHERE ? IN  ( pseudo , email ) " )
         ;
     }
     private final PasswordEncoder passwordEncoder  = new BCryptPasswordEncoder() ;
@@ -71,6 +70,13 @@ public class WebSecurityConfig {
                         .requestMatchers("/favicon.ico", "/resources/**", "/error", "/search", "/js/**", "/searchFilter").permitAll()
                         .anyRequest().authenticated()
                 )
+                .rememberMe(withDefaults())
+                /*.tokenRepository(tokenRepository())
+                .key("AppKey")
+                .alwaysRemember(true)
+                .rememberMeParameter("rememberMe")
+                .rememberMeCookieName("javasampleapproach-remember-me")
+                .tokenValiditySeconds(24 * 60 * 60)*/
                 .exceptionHandling().accessDeniedPage("/403")
                 ;
 

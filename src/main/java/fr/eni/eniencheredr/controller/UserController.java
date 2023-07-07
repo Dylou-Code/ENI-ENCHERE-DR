@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -44,8 +45,19 @@ public class UserController {
     }
 
     @GetMapping("/edit-profil")
-    public String modifierProfil(@ModelAttribute("utilisateurs") Utilisateurs utilisateurs) {
+    public String modifierProfil(Model userAuthenticated, Authentication authentication) {
+        String name = authentication.getName();
+        Utilisateurs user = utilisateurService.findByPseudo(name);
+        //System.out.println(user);
+        userAuthenticated.addAttribute("utilisateurs", user);
         return "modifierProfil";
+    }
+
+    @PostMapping("/edit")
+    public String updateProfil(@ModelAttribute("utilisateurs") Utilisateurs utilisateurs) {
+        utilisateurService.updateUtilisateur(utilisateurs);
+
+        return "redirect:/logout";
     }
 
     @GetMapping("/profil")
