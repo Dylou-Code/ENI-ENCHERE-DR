@@ -37,7 +37,7 @@ public class ArticleDAOImpl implements ArticleDAO {
             "WHERE no_article= ?";
 
     private final static String SELECT_BY_NOM = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, " +
-            "prix_initial, prix_vente, u.no_utilisateur, c.no_categorie " +
+            "prix_initial, prix_vente, image, u.no_utilisateur, c.no_categorie " +
             "FROM ARTICLES_VENDUS " +
             "INNER JOIN UTILISATEURS u ON u.no_utilisateur = ARTICLES_VENDUS.no_article " +
             "INNER JOIN CATEGORIES c ON c.no_categorie = ARTICLES_VENDUS.no_article " +
@@ -53,7 +53,7 @@ public class ArticleDAOImpl implements ArticleDAO {
             "WHERE no_article= ?";
 
     private static final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET nom_article = :nom_article, description = :description,  " +
-            "date_debut_encheres = :date_debut_encheres, date_fin_encheres = :date_fin_encheres, prix_initial = :prix_initial, prix_vente = :prix_vente " +
+            "date_debut_encheres = :date_debut_encheres, date_fin_encheres = :date_fin_encheres, prix_initial = :prix_initial, prix_vente = :prix_vente, image = :image " +
             "WHERE no_article = :no_article ";
 
     private static final String ENCHERIR_ARTICLE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prix_vente WHERE no_article = :no_article";
@@ -119,7 +119,7 @@ public class ArticleDAOImpl implements ArticleDAO {
             a.setDate_fin_encheres(rs.getDate(5));
             a.setPrix_initial(rs.getInt(6));
             a.setPrix_vente(rs.getInt(7));
-            a.setImage(rs.getString(8));
+            a.setImage(rs.getString("image"));
             a.setUtilisateurs(utilisateurDAO.findUtilisateurById(rs.getInt("no_utilisateur")));
             a.setCategories(categorieDAO.findCategoryById(rs.getInt("no_categorie")));
             return a;
@@ -192,6 +192,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                 .addValue("no_utilisateur", article.getUtilisateurs().getNo_utilisateur())
                 .addValue("no_categorie", article.getCategories().getNo_categorie());
         namedParameterJdbcTemplate.update(INSERT, params, keyHolder);
+        System.out.println(params);
 
         if (keyHolder.getKey() != null) {
             // Mise à jour de l'identifiant du film auto-généré par la base
