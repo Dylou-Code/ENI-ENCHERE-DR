@@ -12,6 +12,16 @@ public interface ArticleDAO {
 
     List<Articles_Vendus> findArticleByName(String nom_article);
 
+    List<Articles_Vendus> articleByUserDateEnchereInf(Integer no_utilisateur);
+
+    List<Articles_Vendus> findMyArticles(Integer no_utilisateur);
+
+    List<Articles_Vendus> findMyAuction(Integer no_utilisateur);
+
+
+
+
+
     void saveArticle(Articles_Vendus article);
 
     void updateArticle(Articles_Vendus article);

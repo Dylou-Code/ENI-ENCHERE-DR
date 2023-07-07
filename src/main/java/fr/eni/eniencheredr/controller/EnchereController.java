@@ -9,12 +9,21 @@ import fr.eni.eniencheredr.exception.UserNotFoundException;
 import fr.eni.eniencheredr.service.ArticleService.ArticleService;
 import fr.eni.eniencheredr.service.CategorieService.CategorieService;
 import fr.eni.eniencheredr.service.EnchereService.EnchereService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.text.SimpleDateFormat;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +36,7 @@ public class EnchereController {
 
     private ArticleService articleService;
     private UtilisateurDAO utilisateurDAO;
+
 
 
     public EnchereController(EnchereService enchereService, CategorieService categorieService, ArticleService articleService, UtilisateurDAO utilisateurDAO) {
@@ -56,6 +66,8 @@ public class EnchereController {
     }
 
 
+
+
     @PostMapping("/search")
     public String searchArticle(Model model, @ModelAttribute("articles") Articles_Vendus articles){
         List<Articles_Vendus> resultList = articleService.findByName(articles.getNom_article());
@@ -66,20 +78,39 @@ public class EnchereController {
 
     //filtre des checkbox
     @RequestMapping ("/searchFilter")
-    public String searchFilter(@RequestParam("type") String type, Model model ,Authentication authentication ) throws UserNotFoundException {
+    public String searchFilter(@RequestParam("type") String type, Model model ,Authentication authentication) throws UserNotFoundException {
         if (authentication != null && authentication.isAuthenticated()){
             String name = authentication.getName();
             Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
             if (user == null) {
                 throw new UserNotFoundException("Utilisateur connecté non trouvée");
             }
-            List<Encheres> enchere = new ArrayList<>();
 
-            if ("enchOuverte".equals(type)) {
-                enchere = enchereService.getEncheres(user.getNo_utilisateur());
+            /*Appel des filtres*/
+            /*Ventes terminé*/
+            if ("venteTerminé".equals(type)) {
+                List<Articles_Vendus> articles =  articleService.findByDateInf(user.getNo_utilisateur());
+                model.addAttribute("articles", articles);
+
+                System.out.println(articles);
             }
+
+            /*Toutes mes ventes*/
+            if ("venteEnCours".equals(type)) {
+                List<Articles_Vendus> articles =  articleService.findMyArticles(user.getNo_utilisateur());
+                model.addAttribute("articles", articles);
+                System.out.println(articles);
+            }
+
+            /*Toutes mes encheres*/
+            if ("enchEnCours".equals(type)) {
+                List<Articles_Vendus> articles =  articleService.findMyAuction(user.getNo_utilisateur());
+                model.addAttribute("articles", articles);
+                System.out.println(articles);
+            }
+
             model.addAttribute("utilisateurs", user);
-            model.addAttribute("encheres", enchere);
+
         }
         /*List<Articles_Vendus> articles = new ArrayList<>();*/
 
@@ -114,25 +145,53 @@ public class EnchereController {
     }
 
     @PostMapping("/save")
-    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, Authentication authentication) throws UserNotFoundException {
+    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, @RequestParam("image") MultipartFile imageFile, Authentication authentication) throws UserNotFoundException {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/
 
         //Récupère le nom de l'utilisateur, fait une requete par nom et passe l'id de la caregorie et de l'utilisateur associé a l'article
         if (authentication.isAuthenticated()){
-
-            /*if (user1 == null) {
-                throw new UserNotFoundException("Utilisateur connecté non trouvée");
-            }*/
             String name = authentication.getName();
+            Date date = new Date();
             Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
-            articlesVendus.setUtilisateurs(user1);
+            if (user1 == null) {
+                throw new UserNotFoundException("Utilisateur connecté non trouvée");
+            }
             Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
+
+
+            /*ajout image*/
+            if (!imageFile.isEmpty()) {
+                try {
+                    // Générer un nom de fichier unique basé sur l'heure actuelle
+                    String fileName = StringUtils.cleanPath(new Date().getTime() + "-" + StringUtils.getFilename(imageFile.getOriginalFilename()));
+                    String uploadDir = "./src/main/resources/static/images";
+
+                    // Copier le fichier dans le dossier d'images statiques
+                    java.nio.file.Path uploadPath = Paths.get(uploadDir);
+                    if (!Files.exists(uploadPath)) {
+                        Files.createDirectories(uploadPath);
+                    }
+                    Path filePath = uploadPath.resolve(fileName);
+                    Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                    // Enregistrer le lien de l'image dans la base de données
+                    String imageLink = "/images/" + fileName;
+                   /* String imageLink = converter.convert(imageFile);*/
+                    articlesVendus.setImageLink(imageLink);
+                    // ... autres logiques de création d'article ...
+                } catch (IOException e) {
+                    // Gérer les erreurs lors du téléchargement et de l'enregistrement de l'image
+                    e.printStackTrace();
+                }
+            }
+
+
+            articlesVendus.setUtilisateurs(user1);
             articlesVendus.setCategories(cat1);
             articleService.saveArticle(articlesVendus);
-            Date date = new Date();
-            System.out.println(date);
+
             Encheres ench = new Encheres(user1.getNo_utilisateur(), articlesVendus.getNo_article(), date, 0);
             enchereService.addEnchere(ench);
         }else  {
@@ -143,14 +202,10 @@ public class EnchereController {
 
     @GetMapping("/vente")
     public String enchere(@RequestParam(name="no_article") Integer no_article, Model modeleArticle, Model modeleUser,
-                          Model myAuction,
                           Authentication authentication) throws UserNotFoundException {
         Articles_Vendus article = articleService.findArticleById(no_article);
         modeleArticle.addAttribute("articles", article);
-        Boolean monEnchere = false;
-        Boolean encherir = true;
 
-        //Récupère l'utilisateur connecté
         if (authentication != null && authentication.isAuthenticated()){
             String name = authentication.getName();
             Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
@@ -158,95 +213,56 @@ public class EnchereController {
                 throw new UserNotFoundException("Utilisateur connecté non trouvée");
             }
             modeleUser.addAttribute("utilisateur", user);
-
-            //Récupère l'enchère concerné
-            Encheres ench = enchereService.findById(article.getNo_article());
-
-            //Compare l'id utilisateur et l'id de l'enchère
-            // Utilisateur peux encherir mais pas annuler
-            if (user.getNo_utilisateur().equals(ench.getNo_utilisateur())){
-                monEnchere = true;
-                encherir = false;
-            }
-
-            // Utilisateur peut annuler la vente
-            if (user.getNo_utilisateur() != ench.getNo_utilisateur()) {
-                encherir = true;
-                monEnchere = false;
-            }
-            myAuction.addAttribute("monEnchere", monEnchere);
-            myAuction.addAttribute("peutEncherir", encherir);
         }
-
-
         return "encherir";
     }
 
     @PostMapping("/auction")
     public String encherir(@ModelAttribute("articles") Articles_Vendus articlesVendus,
                            Authentication authentication) throws UserNotFoundException {
-        //Récupère le nom de l'utilisateur, fait une requete par nom et passe l'id de la categorie et de l'utilisateur associé a l'article
         Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(authentication.getName());
         if (user == null) {
             throw new UserNotFoundException("Utilisateur connecté non trouvée");
         }
         Date date = new Date();
-        Articles_Vendus articlePage = articleService.findArticleById(articlesVendus.getNo_article());
 
+/*        System.out.println(user);
+        System.out.println(articlesVendus.getPrix_vente());
+        System.out.println(articlesVendus.getNo_article());
+*/
+        //Récupère le nom de l'utilisateur, fait une requete par nom et passe l'id de la categorie et de l'utilisateur associé a l'article
+        String name = authentication.getName();
+        Utilisateurs user1 = utilisateurDAO.findUtilisateurByPseudo(name);
         Categories cat1 = categorieService.getCategory(articlesVendus.getCategories().getNo_categorie());
-        articlesVendus.setUtilisateurs(user);
+        articlesVendus.setUtilisateurs(user1);
         articlesVendus.setCategories(cat1);
 
-        // ----------------------------------------- Verification du montant -----------------------------------------
-        // Si le prix est supérieure à la meilleur offre
-        if (articlesVendus.getPrix_vente() < articlePage.getPrix_vente() && articlesVendus.getPrix_vente() < Integer.MAX_VALUE){
-            //System.out.println("Inférieur a la meilleur offre : " + articlesVendus.getPrix_vente());
-            return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
-        }
+        //Fonction enchérir
+/*
+        modeleEnchere.addAttribute("encheres", enchereService.findById(articlesVendus.getNo_article()));
+*/
 
-        //Si le prix est supérieure au prix initial
-        if (articlesVendus.getPrix_vente() < articlePage.getPrix_initial()){
-            //System.out.println("Inférieur au prix initial" + articlePage.getPrix_initial());
-            return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
-        }
-
-        // ----------------------------------------- Verificationde la date -----------------------------------------
-        System.out.println("true" + date);
-        if ((articlePage.getDate_debut_encheres() != null) && (articlePage.getDate_fin_encheres() != null)){
-            if (date.before(articlePage.getDate_debut_encheres()) || date.after(articlePage.getDate_fin_encheres())){
-                return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
-            }
-        }
-
-        //Fonction ecnherir
         Encheres offre = new Encheres(user.getNo_utilisateur(), articlesVendus.getNo_article(), date, articlesVendus.getPrix_vente());
-
+        System.out.println(offre);
         enchereService.updateEnchere(offre);
         articleService.encherirArticle(articlesVendus);
         return "redirect:/vente?no_article=" + articlesVendus.getNo_article();
     }
 
     @GetMapping("/delete")
-    public String deleteEnchere(@ModelAttribute("articles") Articles_Vendus articles,
-                                Authentication authentication) throws UserNotFoundException {
-        Boolean monEnchere = false;
-        // Récupère l'utilisateur
-        String name = authentication.getName();
-        Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
-
-        //Verifie si il est trouvé
-        if (user == null) {
-            throw new UserNotFoundException("Utilisateur connecté non trouvée");
+    public String deleteEnchere(@ModelAttribute("articles") Articles_Vendus articles, Authentication authentication) throws UserNotFoundException {
+        if (authentication != null && authentication.isAuthenticated()){
+            String name = authentication.getName();
+            Utilisateurs user = utilisateurDAO.findUtilisateurByPseudo(name);
+            if (user == null) {
+                throw new UserNotFoundException("Utilisateur connecté non trouvée");
+            }
+            Encheres ench = enchereService.findById(articles.getNo_article());
+            //Articles_Vendus article = articleService.findArticleById(articles.getNo_article());
+            System.out.println(ench);
+            enchereService.deleteEnchere(ench);
+            articleService.deleteArticle(articles);
         }
-
-        //Récupère l'article'
-        Encheres ench = enchereService.findById(articles.getNo_article());
-
-        //Supprimer l'enchère et l'article
-        enchereService.deleteEnchere(ench);
-        articleService.deleteArticle(articles);
-
-
         return "redirect:/";
     }
 
