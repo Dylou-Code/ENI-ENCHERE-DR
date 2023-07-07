@@ -90,6 +90,7 @@ public class EnchereController {
             /*Ventes terminé*/
             if ("venteTerminé".equals(type)) {
                 List<Articles_Vendus> articles =  articleService.findByDateInf(user.getNo_utilisateur());
+                model.addAttribute("articleSearch", new Articles_Vendus());
                 model.addAttribute("articles", articles);
 
                 System.out.println(articles);
@@ -98,6 +99,7 @@ public class EnchereController {
             /*Toutes mes ventes*/
             if ("venteEnCours".equals(type)) {
                 List<Articles_Vendus> articles =  articleService.findMyArticles(user.getNo_utilisateur());
+                model.addAttribute("articleSearch", new Articles_Vendus());
                 model.addAttribute("articles", articles);
                 System.out.println(articles);
             }
@@ -105,6 +107,14 @@ public class EnchereController {
             /*Toutes mes encheres*/
             if ("enchEnCours".equals(type)) {
                 List<Articles_Vendus> articles =  articleService.findMyAuction(user.getNo_utilisateur());
+                model.addAttribute("articleSearch", new Articles_Vendus());
+                model.addAttribute("articles", articles);
+                System.out.println(articles);
+            }
+
+            if ("venteNonDebute".equals(type)) {
+                List<Articles_Vendus> articles =  articleService.findMyArticles(user.getNo_utilisateur());
+                model.addAttribute("articleSearch", new Articles_Vendus());
                 model.addAttribute("articles", articles);
                 System.out.println(articles);
             }
@@ -145,7 +155,7 @@ public class EnchereController {
     }
 
     @PostMapping("/save")
-    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, @RequestParam("image") MultipartFile imageFile, Authentication authentication) throws UserNotFoundException {
+    public String saveArticle(@ModelAttribute("articles") Articles_Vendus articlesVendus, @RequestParam("image") MultipartFile imageFile, Authentication authentication, Model model) throws UserNotFoundException {
        /* if(validationResult.hasErrors()) {
             return "form";
         }*/
@@ -177,19 +187,24 @@ public class EnchereController {
                     Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
                     // Enregistrer le lien de l'image dans la base de données
-                    String imageLink = "/images/" + fileName;
+                    String imageLink = fileName;
+                    /*System.out.println(fileName);
+                    System.out.println(imageLink);*/
                    /* String imageLink = converter.convert(imageFile);*/
-                    articlesVendus.setImageLink(imageLink);
-                    // ... autres logiques de création d'article ...
+                    articlesVendus.setImage(imageLink);
+
+                    model.addAttribute("image", articlesVendus);
+
+
                 } catch (IOException e) {
                     // Gérer les erreurs lors du téléchargement et de l'enregistrement de l'image
                     e.printStackTrace();
                 }
             }
 
-
             articlesVendus.setUtilisateurs(user1);
             articlesVendus.setCategories(cat1);
+            System.out.println(articlesVendus);
             articleService.saveArticle(articlesVendus);
 
             Encheres ench = new Encheres(user1.getNo_utilisateur(), articlesVendus.getNo_article(), date, 0);

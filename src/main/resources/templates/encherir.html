@@ -9,117 +9,122 @@
 <body>
 <main layout:fragment="main">
   <div class="container mx-auto">
-    <div class="profil mt-8 w-6/12 mx-auto" >
-      <div class="profil_detail">
+
+    <div class="profil mt-8 w-10/12 mx-auto" >
+      <div class="profil_detail grid grid-cols-2 gap-24">
+        <div class="img-detail mt-14 ">
+          <img th:src="${'/images/'+ articles.image}" class="rounded-md" />
+         <!-- <img width="500px" src="/images/1688653175428-james-harrison-vpOeXr5wmR4-unsplash.jpg"/>-->
+        </div>
 
         <!-----------------  Condition thymleaf à ajouter pour l'affichage en fonctin du user ---------------->
         <!--  <div class="px-4 sm:px-0">
             <h3 class="text-base text-center text-xl font-semibold leading-7 text-gray-900">Jojo 44 à remporter la vente</h3>
           </div>-->
-        <div class="px-4 sm:px-0">
+        <div class="detail-vente">
+          <div class="px-4 sm:px-0">
             <h3 class="text-base text-center text-xl font-semibold leading-7 text-gray-900">Detail vente</h3>
-            <span hidden="hidden" data-th-text="${articles.nom_article}"></span>
-          <span hidden="hidden" data-th-text="${articles.prix_initial}"></span>
-        </div>
+          </div>
 
-        <div class="mt-6 border-t border-gray-100">
-         <!-- <span hidden="hidden" data-th-text="${articles.no_article}"></span>-->
-          <dl class="">
+          <div class="mt-6 border-t border-gray-100">
+            <!-- <span hidden="hidden" data-th-text="${articles.no_article}"></span>-->
+            <dl class="">
 
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Titre</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.nom_article}">Apple MacBook Pro M2</dd>
-            </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Titre</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.nom_article}">Apple MacBook Pro M2</dd>
+              </div>
 
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Description</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.description}"></dd>
-            </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Description</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci assumenda consequatur
+                  culpa deleniti error excepturi fugit, illum impedit iste iusto minima optio porro quaerat reiciendis rem tempora voluptate voluptates</dd>
+              </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Catégorie</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.categories.libelle}">Apple MacBook Pro M2</dd>
+              </div>
 
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Catégorie</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.categories.libelle}"></dd>
-            </div>
 
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Date de début</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.date_debut_encheres}"></dd>
-            </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Mise à prix</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_initial} + '€'">/dd>
+              </div>
 
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Date de fin</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.date_fin_encheres}"></dd>
-            </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900" >Meilleur offre</dt>
+                <!--th:text="${articles.prix_vente == null} ? ${articles.prix_vente} : 'Pas d\'offre en cours'"-->
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_vente} + '€'" ></dd>
+              </div>
 
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Mise à prix</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_initial} + '€'">/dd>
-            </div>
+              <!--  Condition à mettre pour un autre utilisateur qui à gagné la vente-->
+              <!--<div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Meilleur offre</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">215 points par User44</dd>
+              </div>-->
 
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900" >Meilleur offre</dt>
-              <!--th:text="${articles.prix_vente == null} ? ${articles.prix_vente} : 'Pas d\'offre en cours'"-->
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.prix_vente} + '€'" ></dd>
-            </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Retrait</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">2 Rue de Franklin 44000</dd>
+              </div>
 
-            <!--  Condition à mettre pour un autre utilisateur qui à gagné la vente-->
-            <!--<div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Meilleur offre</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">215 points par User44</dd>
-            </div>-->
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900" >Vendeur</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.utilisateurs.pseudo}"></dd>
+              </div>
 
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Retrait</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">2 Rue de Franklin 44000</dd>
-            </div>
+              <!--  Condition à mettre -->
+              <!-- <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                 <dt class="text-sm font-medium leading-6 text-gray-900">Fin de l'enchere</dt>
+                 <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">30/06/2023</dd>
+               </div>
+               -->
 
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900" >Vendeur</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" data-th-text="${articles.utilisateurs.pseudo}"></dd>
-            </div>
-
-            <!--  Condition à mettre -->
-            <!-- <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-               <dt class="text-sm font-medium leading-6 text-gray-900">Fin de l'enchere</dt>
-               <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">30/06/2023</dd>
-             </div>
-             -->
-
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Télephone</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">0603304400</dd>
-            </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Télephone</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">0603304400</dd>
+              </div>
 
 
 
-            <form class="space-y-6 " th:object="${articles}" th:action="@{/auction}" method="POST">
-              <input type="text" hidden="hidden" th:field="${articles.no_article}">
-              <input type="text" hidden="hidden" th:field="${articles.categories.no_categorie}">
-              <div class="sm:col-span-4">
-                <label for="prix" class="block text-sm font-medium leading-6 text-gray-900">Proposition</label>
-                <div class="mt-2">
-                  <input th:field="${articles.prix_vente}" type="number" name="first-name" id="prix" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <form class="space-y-6 " th:object="${articles}" th:action="@{/auction}" method="POST">
+                <input type="text" hidden="hidden" th:field="${articles.no_article}">
+                <input type="text" hidden="hidden" th:field="${articles.categories.no_categorie}">
+                <input type="text" hidden="hidden" th:field="${articles}">
+                <div class="sm:col-span-4">
+                  <label for="prix" class=" block text-sm font-medium leading-6 text-gray-900">Proposition</label>
+                  <div class="mt-2">
+                    <input th:field="${articles.prix_vente}" type="number" name="first-name" id="prix" autocomplete="given-name" class="block w-1/5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  </div>
                 </div>
-              </div>
 
-              <div th:if="${!monEnchere &&  peutEncherir}">
-                <a th:href="@{/vente(no_article=${articles.no_article})}">
-                  <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
-                    Encherir
-                  </button>
-                </a>
-              </div>
-            </form>
+                <div class="article__action mt-6 flex items-center justify-center gap-x-6">
 
-            <div th:if="${monEnchere}">
-              <a th:href="@{/delete(no_article=${articles.no_article})}">
-                <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
-                  Annuler enchère
-                </button>
-              </a>
-            </div>
-          </dl>
+                </div>
+                <div class="article__action mt-6 flex items-center justify-center gap-x-6">
+                  <a th:href="@{/vente(no_article=${articles.no_article})}">
+                    <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+                      Encherir
+                    </button>
+                  </a>
+
+                  <a th:href="@{/delete(no_article=${articles.no_article})}">
+                    <button class=" text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                      Annuler enchère
+                    </button>
+                  </a>
+                </div>
+              </form>
+              <!--<input type="hidden" name="id" th:value="${utilisateur.no_utilisateur}">
+              <input type="hidden" name="id" th:value="${articles.no_article}">-->
+
+
+
+
+            </dl>
+          </div>
         </div>
+
       </div>
 
       <!--Pour l'update-->
